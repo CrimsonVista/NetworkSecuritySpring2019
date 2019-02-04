@@ -202,7 +202,7 @@ class TestLegalCommands(unittest.TestCase):
         self.expected_output.player_inventory.append("hairpin")
         self.expected_output.time = self.game_time
         expected_output = self.expected_output.expected_unlock("chest", "hairpin")
-        game_output = self.execute_game_command("unlock chest hairpin")
+        game_output = self.execute_game_command("unlock chest with hairpin")
         self.assertEqual(game_output, expected_output)
         
         # open chest
@@ -218,7 +218,7 @@ class TestLegalCommands(unittest.TestCase):
         self.expected_output.chest_open = True
         self.expected_output.time = self.game_time
         expected_output = self.expected_output.expected_get("hammer", "chest")
-        game_output = self.execute_game_command("get hammer chest")
+        game_output = self.execute_game_command("get hammer from chest")
         self.assertEqual(game_output, expected_output)
         
         # look floor
@@ -238,8 +238,8 @@ class TestLegalCommands(unittest.TestCase):
         # We have the hammer
         self.expected_output.player_inventory.append("hammer")
         self.expected_output.time = self.game_time
-        expected_output = self.expected_output.expected_look("board")
-        game_output = self.execute_game_command("look board")
+        expected_output = self.expected_output.expected_pry("board", "hammer")
+        game_output = self.execute_game_command("pry board with hammer")
         self.assertEqual(game_output, expected_output)
         
         # get glasses from board
@@ -247,7 +247,7 @@ class TestLegalCommands(unittest.TestCase):
         self.expected_output.board_open = True
         self.expected_output.time = self.game_time
         expected_output = self.expected_output.expected_get("glasses", "board")
-        game_output = self.execute_game_command("get glasses board")
+        game_output = self.execute_game_command("get glasses from board")
         self.assertEqual(game_output, expected_output)
         
         # wear glasses
@@ -302,7 +302,7 @@ class TestLegalCommands(unittest.TestCase):
             self.expected_output.time = self.game_time
             
             # now execute the command to see if we succeeded
-            game_output = self.execute_game_command("unlock door {}".format(codeString))
+            game_output = self.execute_game_command("unlock door with {}".format(codeString))
             
             # the game will have one of two outputs. We don't know which one.
             # try both
