@@ -1,0 +1,48 @@
+Please read and answer the quiz questions below. You may not use your computer to search for answers, talk to neighbors, or otherwise use any materials. Although the problems are simple enough for hand calculations, you may use a simple calculator for the fragmentation problem.
+
+Write your answers directly into an email to the professor and the TA. The subject line MUST read:
+
+  20191 Network Security: Quiz 2 - IPv4
+
+The Body of the email MUST include:
+
+
+  NAME
+  DATE
+
+  I affirm that I have been honest in taking this 
+  exam and adhering to the highest ethics. I have 
+  not used any unauthorized materials.
+
+
+After this front matter, please answer the following questions.
+
+
+Questions 1-5 reference the IPv4 redacted header that is included with this quiz. Identify the names of the fields below:
+
+1.
+2.
+3.
+4.
+5.
+
+
+Assuming that you need to transmit 5000 bytes of data and your MTU is 1500, please write the values of "Fragment Offset" and  the "MF" flag for each of the following IPv4 packets (fragments). Assume that the header is always 20 bytes.
+
+6. Fragment 1:
+  Fragment Offset:
+  MF:
+
+7. Fragment 2:
+  Fragment Offset:
+  MF:
+
+8. Fragment 3:
+  Fragment Offset:
+  MF:
+
+9. Fragment 4:
+  Fragment Offset:
+  MF:
+
+
