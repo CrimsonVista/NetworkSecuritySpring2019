@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This P-RFC's is created by group Kronos Arcade for 
+    EN601.444/644 Network Security Spring 2019 -->
+<!-- This file can be used for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">Kronos Playground Request For Comments</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Beckett Browning, Vaikunth Dharwadkar, Prakhar Kaushik, Seungeon Lee, Mingxi Xu">
+     <organization>Kronos Arcade</organization>
+
+     <address>
+       <postal>
+         <street>Johns Hopkins University/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 123-456-7890</phone>
+
+       <email>kronos@jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+   in the current day and month for you. If the year is not the current one, it is 
+   necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+   purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+   specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>Playground Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+   If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PRFC</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+   
+     <t>This PRFC specifies the way in which we propose to implement the reliable layer of communications between sender and receiver over the Playground overlay network. Specifically, we detail session establishment, session termination, data transmission, error handling, packet descriptions, and state machines.</t>
+     
+   </abstract>
+ </front>
+
+    <middle>
+                
+        <section title="Purpose / Technical Background">
+        <t>
+         The purpose of this PRFC is to provide a reliable layer for network communications for the Network Security class of Spring 2019 on the Playground network (overlay network) developed by Professor Nielson. Our reliable layer is based heavily on TCP, with simplifications and modifications. The communications over the Playground network should be reliable so that the goods and services (as well as other assets or information) possessed or used by the members of the class are communicated when they are supposed to be, rather than having the loss of transmissions / communications.</t>
+        </section>
+        
+                
+        <section title="Packet descriptions">
+        
+<t>class RegisterUserPacket(PacketType):</t>
+<t>&#160;DEFINITION_IDENTIFIER = team.kronos.protocol_72</t>
+<t>&#160;DEFINITION_VERSION = 1.0:</t>
+<t>&#160;Header=[</t>
+<t>&#160;&#160;(Session Number, 16 bit INTEGER),</t>
+<t>&#160;&#160;(Packet Order Number, 16 bit INTEGER),</t>
+<t>&#160;&#160;(Length of Data, 32 bit INTEGER),</t>
+<t>&#160;&#160;(Flag 0 - SYN, 1 bit),</t>
+<t>&#160;&#160;(Flag 1 - ACK, 1 bit),</t>
+<t>&#160;&#160;(Flag 2 - FIN, 1 bit),</t>
+<t>&#160;&#160;(Flag 3 - SND, 1 bit),</t>
+<t>&#160;&#160;(Reserved, 12 bit),</t>
+<t>&#160;&#160;(Checksum, 16 bit)</t>
+<t>&#160;]</t>
+<t>&#160;BODY = [</t>
+<t>&#160;&#160;(Data, data)</t>
+<t>&#160;]</t>
+
+<t>
+
+-0&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;1&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;2&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;3
+&#160;-0&#160;1&#160;2&#160;3&#160;4&#160;5&#160;6&#160;7&#160;8&#160;9&#160;0&#160;1&#160;2&#160;3&#160;4&#160;5&#160;6&#160;7&#160;8&#160;9&#160;0&#160;1&#160;2&#160;3&#160;4&#160;5&#160;6&#160;7&#160;8&#160;9&#160;0&#160;1
+&#160;+---------------------------------------------------------------+
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Session&#160;Number&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;Packet&#160;Order&#160;Number&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;+---------------------------------------------------------------+
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Length&#160;of&#160;Data&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;+---------------------------------------------------------------+
+&#160;|S|A|F|S|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;|Y|C|I|N|&#160;&#160;&#160;&#160;&#160;&#160;&#160;Reserved&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Checksum&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;|N|K|N|D|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;+---------------------------------------------------------------+
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Data&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;|&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|
+&#160;+---------------------------------------------------------------+
+</t>
+
+<t><list style="symbols">
+<t>Session Number: Used to identify the session.</t>
+<t>Packet Order Number: Used to track the ordering of the packets.</t>
+<t>Length of Data: The size of the data sent in the packet.</t>
+<t>SYN flag: Used for sending packets.</t>
+<t>ACK flag: Used to acknowledge receivement of packets.</t>
+<t>FIN flag: Used to indicate the session is finished. </t>
+<t>SND flag: Used to indicate that data is being sent, this determines how the packet is processed.</t>
+<t>Reserved: Currently unused bits reserved for future use</t>
+<t>Checksum: Used to check for non-malicious errors in the packet header</t>
+<t>Data: The data being transmitted.</t>
+</list></t>
+        
+        </section>
+        
+        
+        <section title="Session Establishment">
+        
+    <t>Protocol 72 will be using a two-way handshake to establish a connection. At the requesting end, the &quot;client&quot; (meaning the user who initiates a session establishment) will be transmitting a Hello segment with a SYN flag set to 1, an Initial packet order Number (initialized as 0), as well as a SND flag set to indicate the packet is being sent, to the &quot;server&quot;. At the requested end, the &quot;server&quot; will be responding with a Accept segment consisting of a SYN flag, ACK flag, Packet Order Number, and the SND flag set to 1. This will complete the two-way handshake. Note that when the connection is opened, both ends of the connection must be ready to send and receive data.</t>
+
+    <t>When the &quot;client&quot; is sending the Hello segment with a SYN flag on, it chooses a session number that is not currently used by it and put it in the session number field in header. When the &quot;server&quot; receives a SYN segment, if the session number is not used, it sends back Accept Segment as described above and the session is successfully established; if the session number is used by the &quot;server&quot; in another session already, the &quot;server&quot; send a Reject Segment with the SYN flag, FIN flag and ACK flag on and the new session will not established (in this case the &quot;client&quot; might want to choose a different random number as the session number and resend a Hello Segment).</t>
+
+        </section>
+        
+        
+        <section title="Session Termination">
+        <t>A closed connection means that both the server and the client do not exchange packets anymore. Any packet that belongs to a closed session will be dropped upon arrival.  A session termination is a two way handshake that can be initiated by either end of the connection. The connection termination consists of a two way handshake.</t>
+         <t>Therefore, there are three cases for session terminations: 1) When the user initiates the connection termination, 2) when the user receives a close connection request, and 3) when both the user sends and receives the close connection request.</t>
+          <t>When the user wants to close the connection, the user will transmit ten FIN packets. The user waits for either a FIN + ACK or a FIN. When the user receives a FIN + ACK or a FIN, the session between the users will be closed, which means that both users cannot send or receive any packets. If the user does not receive the FIN + ACK within 2 seconds, the connection will be closed regardless.
+.</t>
+           <t>When the user receives a FIN, the user will send a FIN + ACK to the other user. At this point, the session is closed and the user should not send or receive any.</t>
+           <t>The session will also terminate when an user does not receive any packets under a timer. This timer can be any period of time between 2.5 ~ 1000 seconds: the user decides upon the time within the given min/max time limit. If no packet is received within this timer, the user may terminate the session.</t>
+           <t>The sender and the receiver buffer for each user can be determined the users themselves, which in turn can be lengthened if more packets arrive to the receiver.</t>
+        </section>
+        
+        
+        <section title="Data transmission">
+        
+        <t>For data transmission between a sender and receiver, we use the &rsquo;Packet Order Number (PON)&rsquo;defined in the header. Post handshake, when the data transmission begins, the sender sends the initialized PON in the packet to the receiver. On receiving the packet, the receiver sends an acknowledgment via a return packet with the same PON as the received packet and the sender flag(SND) off. The PONs are strictly incremental in nature for the duration of the connection. The above methods define the basic idea of one half of full-duplex communication.
+At each end (sender and receiver), we define a finite length message buffer which is used to keep track of non-received data and acknowledgment packets for the simplex part of the duplex communication. This means that each node (sender or receiver) will have two independent buffers (normal and acknowledgment) in the duplex communication case. This section explains the simplex part of the duplex communication (sender to receiver). We can consider the duplex case to be consisting of two independent instances of the simplex mechanism mentioned here.
+</t>
+        
+<t>At each end (sender and receiver), we define a finite length message buffer which is used to keep track of non-received data and acknowledgement packets for the simplex part of the duplex communication. This means that each node (sender or receiver) will have two buffers (normal and acknowledgement) in the duplex communication case. This section explains the simplex part of the duplex communication (sender to receiver). We can consider the duplex case to be consisting of two independent instances of the simplex mechanism mentioned here.</t>
+
+<t>Packet Dropping and Retransmission Mechanism
+In the case the receiver doesn&rsquo;t receive an incremental packet, or misses a packet, it stores the PON of the non-received packet and doesn&rsquo;t send its acknowledgement. For e.g. if PON 4 is received after PON 2, then the receiver notes PON 3 in its buffer. Also, the receiver does not send the acknowledgement unless it receives the correct PON packet. On the sender&rsquo;s side, in case it doesn&rsquo;t receive the incremental PON acknowledgement, it adds the PON in its buffer which stays in the buffer until its acknowledgement is received. In case the acknowledgement isn&rsquo;t received for 2 seconds, the sender sends the packet again. The retransmission wait period gets doubled after each try in case the acknowledgement is not received to avoid network congestion.</t>
+
+<t>Duplex Communication Mechanism
+The Session Number will remain the same irrespective of the manner of the node (whether its acting like a receiver or sender). The packets received at a node will be differentiated on the &rsquo;Sender&rsquo; (SND) flag. If its ON, then it is dealt as a normal packet (node is receiver). Otherwise, it&rsquo;s the Acknowledgement Packet (ACKP).</t>
+
+<t>Handling DDOS
+The buffers are of finite length (default 100), and if they are completely filled at an instant, then the protocol identifies this as a suspected DDOS attack and closes the connection. The buffer lengths are dynamic and are functions of the throughput of the network. The sender and receiver can change the buffer size (within the max-min limits) depending on the type of communication they&rsquo;re handling.</t>
+
+<t>(For, the following cases, the sender is referred to as S and receiver as R, acknowledgment buffer ACKB and the standard buffer is BUF, acknowledgment packet is ACKP)</t>
+
+<t>Case 1: Sender sends packet, Receiver receives (uncorrupted) packet, sends acknowledgement and Sender receives the (uncorrupted) acknowledgement packet.</t>
+
+<t>S sends a packet to R. The PON is added to ACKB at S. R receives the packet, checks if the PON is in BUF (and removes it if it&rsquo;s there). R sends the ACKP to S with the same PON. S receives ACKP and removes the PON received from ACKB</t>
+
+<t>Case 2: Sender sends packet, Receiver receives (corrupted) packet.</t>
+<t>S sends a packet to R. The PON is added to ACKB at S. R receives the packet, checks for corruption via CHECKSUM and drops the packet. No ACKP is sent. In case, a new packet with PON+k is received where k is a positive integer, all PONs between PON-1 and PON+k are added to the buffer. S doesn&rsquo;t receive the ACKP, and the PON isn&rsquo;t off the ACKB, in which case it resends the PON packet again after 2 seconds. This retransmission time gets doubled at each such iteration.</t>
+
+<t>Case 3: Sender sends packet, Receiver doesn&rsquo;t receive packet.</t>
+
+<t>S sends a packet to R. The PON is added to ACKB at S. R does not receive the packet. No ACKP is sent. In case, a new packet with PON+k is received where k is a positive integer, all PONs between PON-1 and PON+k are added to the buffer. S doesn&rsquo;t receive the ACKP, and the PON isn&rsquo;t off the ACKB, in which case, it resends the PON packet again after 2 seconds. This retransmission time gets doubled at each such iteration.</t>
+
+
+<t>Case 4: Sender sends packet, Receiver receives (uncorrupted) packet, sends acknowledgement and Sender doesn&rsquo;t receives the acknowledgement packet.</t>
+<t>S sends a packet to R. The PON is added to ACKB at S. R receives the packet, checks if the PON is in BUF (and removes it if it&rsquo;s there). R sends the ACKP to S with the same PON. S doesn&rsquo;t receive ACKP, and the PON remains in ACKB. After 2 seconds, S resends PON packet which is received with R, which checks the current PON+k number(last acknowledged PON sent) and the buffer and resends the ACKP with the missing PON.
+</t>
+
+<t>Case 4: Sender sends packet, Receiver receives (uncorrupted) packet, sends acknowledgement and Sender doesn&rsquo;t receives a corrupted acknowledgement packet.</t>
+
+
+<t>S sends a packet to R. The PON is added to ACKB at S. R receives the packet, checks if the PON is in BUF (and removes it if it&rsquo;s there). R sends the ACKP to S with the same PON. S doesn&rsquo;t receive ACKP, and the PON remains in ACKB. After 2 seconds, S resends PON packet which is received with R, which checks the current PON+k number(last acknowledged PON sent) and the buffer and resends the ACKP with the missing PON.</t>
+
+<t>Case 5: Sender sends a packet, Receiver receives the (uncorrupted) packet, sends acknowledgment and Sender receives a corrupted acknowledgment packet.</t>
+<t>S sends a packet to R. The PON is added to ACKB at S. R receives the packet, checks if the PON is in BUF (and removes it if it&rsquo;s there). R sends the ACKP to S with the same PON. S receives ACKP, checks it with CHECKSUM and drops it, and the PON remains in ACKB. After 2 seconds, S resends PON packet which is received with R, which checks the current PON+k number(last acknowledged PON sent) and the buffer and resends the ACKP with the missing PON.
+</t>
+
+<t>Case 6: Receiver receives duplicate packet.</t>
+<t>R checks the buffer and current PON. If the received packet&rsquo;s PON is less than current PON (last acknowledged PON) and it isn&rsquo;t in the buffer, it sends the ACKP with the repeating PON.</t>
+<t>Case 7: Sender receives duplicate acknowledgment packet. </t>
+<t>S receives the ACKP, checks the buffer and drops the packet.</t>
+        </section>
+        
+        
+        <section title="Error handling">
+          <t>The 16-bit checksum in the header detects any potential errors that might have occured in layer one and/or two. To compute the checksum, the user first splits the header into a list of 16-bit segments. There should be a total of seven 16-bit segments in the list. Then the user XORs these segments and the result is the 16-bit checksum. The receiver computes the checksum and compares the checksum value in the header to the value he/she computed. If the values are different, the receiver drops the packet. The receiver does not acknowledge the packet. This means that the receiver does not send an ACK packet for the corrupted data packet and the receiver drops the corrupted ACK packet and retransmit according to the retransmission protocol.</t>
+        </section>
+        
+        
+        <section title="Computational Algorithms">
+        
+        <t>The checksum algorithm has been described in the &quot;error handling&quot; section. There are no other computational algorithms in our reliable layer protocol that must be described.</t>
+        
+        </section>
+        
+        
+        <section title="State Machines">
+        
+        <t>A connection progresses through a series of states during its lifetime.  The states are:  LISTEN, SYN-SENT, SYN-RECEIVED, ESTABLISHED, FIN-SENT, FIN-RECEIVED, and the fictional state CLOSED. CLOSED is fictional because it represents the state when there is no connection. Briefly the meanings of the states are:</t>
+
+<t><list style="numbers">
+<t>LISTEN - represents waiting for a connection request. If the SYN is sent the next state becomes SYN-SENT. If the SYN is received the next state beomces SYN-RECEIVED.</t>
+<t>SYN-SENT - represents waiting for an acknowledgment of the connection request (SYN-ACK) after having sent a connection request. Once this is complete, the next state is ESTABLISHED.
+</t>
+<t>SYN-RECEIVED- represents that a SYN request has been received and that a SYN-ACK will now be sent in order to establish the connection. Once this is complete, the next state is ESTABLISHED.</t>
+<t>ESTABLISHED - represents a fully established connection; this is a normal state for the data transfer phase of the connection.  If the FIN is sent the next state becomes FIN-SENT. If the FIN is received the next state becomes FIN-RECEIVED.</t>
+<t>FIN-SENT - represents waiting for a FIN-ACK from the other user after sending a termination request (FIN). If the user receives FIN-ACK, the next state is CLOSED state</t>
+<t>FIN-RECEIVED - represents a state where the FIN has been received and the connection is closed after sending a FIN-ACK, in that case the next state is CLOSED. </t>
+<t>CLOSED - represents no connection state at all. The user will go back to LISTEN.</t>
+</list></t>
+        </section>
+       
+        
+    </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <!-- Change Log
+
+v00 2019-03-06    Initial version
+
+
+  03-06-2019 KRONOS PRFC 1
+  -->
+ </back>
+</rfc>
