@@ -1,0 +1,1218 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+    <!-- One method to get references from the online citation libraries.
+        There has to be one entity for each item to be referenced.
+        An alternate method (rfc include) is described in the references. -->
+    <!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+    <!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+    <!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+    <!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+    <!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+    ]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+    <!-- category values: std, bcp, info, exp, and historic
+        ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+           or pre5378Trust200902, playgroundWinter201501
+        you can add the attributes updates="NNNN" and obsoletes="NNNN"
+        they will automatically be output with "(if approved)" -->
+    <!-- ***** FRONT MATTER ***** -->
+    <front>
+        <!-- The abbreviated title is used in the page header - it is only necessary if the
+            full title is longer than 39 characters -->
+        <title abbrev="PRFC's">Playground TCP(PCP)</title>
+        <!-- add 'role="editor"' below for the editors if appropriate -->
+        <!-- Another author who claims to be an editor -->
+        <author fullname="Captcha" role="editor">
+            <organization>JHU Network Security Spring 2019</organization>
+            <address>
+                <postal>
+                    <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+                    <!-- Reorder these if your country does things differently -->
+                    <city>Baltimore</city>
+                    <region>MD</region>
+                    <code>21218</code>
+                    <country>USA</country>
+                </postal>
+                <!-- uri and facsimile elements may also be added -->
+            </address>
+        </author>
+        <date year="2019" />
+        <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
+            in the current day for you. If only the current year is specified, xml2rfc will fill
+            in the current day and month for you. If the year is not the current one, it is
+            necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
+            purpose of calculating the expiry date).  With drafts it is normally sufficient to
+            specify just the year. -->
+        <!-- Meta-data Declarations -->
+        <area>
+        General</area>
+        <workgroup>Playgroup TCP</workgroup>
+        <!-- WG name at the upperleft corner of the doc,
+            IETF is fine for individual submissions.
+            If this element is not present, the default is "Network Working Group",
+            which is used by the RFC Editor as a nod to the history of the IETF. -->
+        <keyword>PRFC</keyword>
+        <!-- Keywords will be incorporated into HTML output
+            files in a meta tag but they have no effect on text or nroff
+            output. If you submit your draft to the RFC Editor, the
+            keywords will be used for the search engine. -->
+    </front>
+    <middle>
+        <section title="INTRODUCTION">
+            PCP is short for Playgroup TCP protocol.
+        </section>
+        <section title="SPECIFICATION">
+            <section title="Header Format">
+                <figure>
+                    <artwork>
+0                   1                   2                   3  
+0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|          Source Port          |       Destination Port        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        Sequence Number                        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Acknowledgement Number                     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|           Checksum            |            Window             |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|A|R|S|F|                                                       |
+|C|S|Y|I|                     Padding                           |
+|K|T|N|N|                                                       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                             data                              |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                    </artwork>
+                </figure>
+                <t>FIELDS = [  ("Source Port", Uint({Bits:16})),
+                    ("Destination Port", Uint({Bits:16})),
+                    ("Sequence Number", Uint({Bits:32})), 
+                    ("Acknowledgement Number", Uint({Bits:32})),
+                    ("Checksum", Uint({Bits:16})),
+                    ("Window", Uint({Bits:16})),
+                    ("ACK", Uint({Bits:1})),
+                    ("RST", Uint({Bits:1})),
+                    ("SYN", Uint({Bits:1})),
+                    ("FIN", Uint({Bits:1})),
+                    ("Data", Uint)  ]
+                </t>
+                <t>Source Port: 16 bits</t>
+                <t>The source port number.</t>
+                <t>Destination Port: 16 bits</t>
+                <t>The destination port number.</t>
+                <t>Sequence Number: 32 bits</t>
+                <t><list>
+                    <t>If the SYN flag is set (1), then this is the initial sequence number. The sequence number of the actual first data byte and the acknowledged number in the corresponding ACK are then this sequence number plus 1.</t>
+                    <t>If the SYN flag is clear (0), then this is the accumulated sequence number of the first data byte of this segment for the current session.</t>
+                </list></t>
+                <t>Acknowledgement Number: 32 bits</t>
+                <t>If the ACK flag is set then the value of this field is the next sequence number that the sender of the ACK is expecting. This acknowledges receipt of all prior bytes &#40;if any&#41;. The first ACK sent by each end acknowledges the other end&#39;s initial sequence number itself, but no data.
+                </t>
+                <t>ACK: 1 bit</t>
+                <t>Indicates that the Acknowledgement field is significant. All packets after the initial SYN packet sent by the client should have this flag set.</t>
+                <t>SYN: 1 bit</t>
+                <t>Synchronize sequence numbers. Only the first packet sent from each end should have this flag set. Some other flags and fields change meaning based on this flag, and some are only valid when it is set, and others when it is clear.</t>
+                <t>FIN: 1 bit</t>
+                <t>Last packet from sender.</t>
+                <t>RST: 1 bit</t>
+                <t>Reset the connection.</t>
+                <t>Window: 16 bits</t>
+                <t>Window size</t>
+                <t>The size of the receive window, which specifies the number of window size units (bytes) that the sender of this segment is currently willing to receive.</t>
+                <t>Checksum: 16 bits</t>
+                <t>For error-checking of the header, the payload and a pseudo-header. The pseudo-header consists of the Source IP Address, the Destination IP address and the length of the TCP-header including payload(in bytes).</t>
+                <t>Padding: 28 bits</t>
+                <t>The TCP header padding is used to ensure that the TCP header ends, and data begins, on a 32 bit boundary. The padding is composed of zeros</t>
+            </section>
+            <section title="Sequence Number">
+            <t>
+              Every octet of data sent over a TCP connection has a sequence number and needs to be acknowledged. The acknowledgement mechanism employed is cumulative so that an acknowledgment of sequence number X indicates that all octets up to but not including X have been received. This mechanism allows for straight-forward duplicate detection in the presence of retransmission.  Numbering of octets within a segment is that the first data octet immediately following the header is the lowest numbered, and the following octets are numbered consecutively.
+            </t>
+            <t>
+              The typical kinds of sequence number comparisons which the TCP must perform include:
+            </t>
+            <t><list>
+              <t>
+                Determining that an acknowledgment refers to some sequence number sent but not yet acknowledged.
+              </t>
+              <t>
+                Determining that all sequence numbers occupied by a segment have been acknowledged (e.g., to remove the segment from a retransmission queue).
+              </t>
+              <t>
+                Determining that an incoming segment contains sequence numbers which are expected (i.e., that the segment "overlaps" the receive window).
+              </t>
+            </list></t>
+            <t>
+              In response to sending data the TCP will receive acknowledgments.  The following comparisons are needed to process the acknowledgments.
+            </t>
+            <t>
+              SND.UNA = oldest unacknowledged sequence number
+              SND.NXT = next sequence number to be sent
+              SEG.ACK = acknowledgment from the receiving TCP (next sequence number expected by the receiving TCP)
+              SEG.SEQ = first sequence number of a segment
+              SEG.LEN = the number of octets occupied by the data in the segment(counting SYN and FIN)
+              SEG.SEQ+SEG.LEN-1 = last sequence number of a segment
+            </t>
+            <t>
+              A new acknowledgment (called an "acceptable ack"), is one for which the inequality below holds:
+              SND.UNA &lt; SEG.ACK =&lt; SND.NXT
+            </t>
+            <t>
+              A segment on the retransmission queue is fully acknowledged if the sum of its sequence number and length is less or equal than the acknowledgment value in the incoming segment.
+            </t>
+            <t>
+              When data is received the following comparisons are needed:
+              RCV.NXT = next sequence number expected on an incoming segments, and is the left or lower edge of the receive window
+              RCV.NXT+RCV.WND-1 = last sequence number expected on an incoming segment, and is the right or upper edge of the receive window
+              SEG.SEQ = first sequence number occupied by the incoming segment
+              SEG.SEQ+SEG.LEN-1 = last sequence number occupied by the incoming segment
+            </t>
+            <t>
+              A segment is judged to occupy a portion of valid receive sequence space if RCV.NXT =&lt; SEG.SEQ &lt; RCV.NXT+RCV.WND or RCV.NXT =&lt; SEG.SEQ+SEG.LEN-1 &lt; RCV.NXT+RCV.WND
+            </t>
+            <t>
+              The first part of this test checks to see if the beginning of the segment falls in the window, the second part of the test checks to see if the end of the segment falls in the window; if the segment passes either part of the test it contains data in the window.
+            </t>
+            <t>
+              Actually, it is a little more complicated than this.  Due to zero windows and zero length segments, we have four cases for the acceptability of an incoming segment:
+            </t>
+            <figure>
+              <artwork>
+Segment  Receive  Test
+Length   Window
+-------  -------  -----------------------------------------
+0        0        SEG.SEQ = RCV.NXT
+0        &gt;0    RCV.NXT =&lt; SEG.SEQ &lt; RCV.NXT+RCV.WND
+&gt;0    0        not acceptable
+&gt;0    &gt;0    RCV.NXT =&lt; SEG.SEQ &lt; RCV.NXT+RCV.WND
+                  or RCV.NXT =&lt; SEG.SEQ+SEG.LEN-1 &lt; RCV&#46;NXT+RCV&#46;WN
+              </artwork>
+            </figure>
+            <t>
+              Note that when the receive window is zero no segments should be acceptable except ACK segments.  Thus, it is be possible for a TCP to maintain a zero receive window while transmitting data and receiving ACKs.  However, even when the receive window is zero, a TCP must process the RST and URG fields of all incoming segments.
+            </t>
+            <t>
+              We have taken advantage of the numbering scheme to protect certain control information as well.  This is achieved by implicitly including some control flags in the sequence space so they can be retransmitted and acknowledged without confusion (i.e., one and only one copy of the control will be acted upon).  Control information is not physically carried in the segment data space.  Consequently, we must adopt rules for implicitly assigning sequence numbers to control.  The SYN and FIN are the only controls requiring this protection, and these controls are used only at connection opening and closing.  For sequence number purposes, the SYN is considered to occur before the first actual data octet of the segment in which it occurs, while the FIN is considered to occur after the last actual data octet in a segment in which it occurs.  The segment length (SEG.LEN) includes both data and sequencespace occupying controls.  When a SYN is present then SEG.SEQ is the sequence number of the SYN.
+            </t>
+            <t>
+              Initial Sequence Number Selection
+            </t>
+            <t>
+              The protocol places no restriction on a particular connection being used over and over again.  A connection is defined by a pair of sockets.  New instances of a connection will be referred to as incarnations of the connection.  The problem that arises from this is-- "how does the TCP identify duplicate segments from previous incarnations of the connection?"  This problem becomes apparent if the connection is being opened and closed in quick succession, or if the connection breaks with loss of memory and is then reestablished.
+            </t>
+            <t>
+              To avoid confusion we must prevent segments from one incarnation of a
+          connection from being used while the same sequence numbers may still
+          be present in the network from an earlier incarnation.  We want to
+          assure this, even if a TCP crashes and loses all knowledge of the
+          sequence numbers it has been using.  When new connections are created,
+          an initial sequence number (ISN) generator is employed which selects a
+          new 32 bit ISN.  The generator is bound to a (possibly fictitious) 32
+          bit clock whose low order bit is incremented roughly every 4
+          microseconds.  Thus, the ISN cycles approximately every 4.55 hours.
+          Since we assume that segments will stay in the network no more than
+          the Maximum Segment Lifetime (MSL) and that the MSL is less than 4.55
+          hours we can reasonably assume that ISN's will be unique.
+            </t>
+            <t>
+              For each connection there is a send sequence number and a receive
+          sequence number.  The initial send sequence number (ISS) is chosen by
+          the data sending TCP, and the initial receive sequence number (IRS) is
+          learned during the connection establishing procedure.
+            </t>
+            <t>
+              For a connection to be established or initialized, the two TCPs must
+          synchronize on each other's initial sequence numbers.  This is done in
+          an exchange of connection establishing segments carrying a control bit
+          called "SYN" (for synchronize) and the initial sequence numbers.  As a
+          shorthand, segments carrying the SYN bit are also called "SYNs".
+          Hence, the solution requires a suitable mechanism for picking an
+          initial sequence number and a slightly involved handshake to exchange
+          the ISN's.
+            </t>
+            <t>
+              The synchronization requires each side to send it's own initial
+          sequence number and to receive a confirmation of it in acknowledgment
+          from the other side.  Each side must also receive the other side's
+          initial sequence number and send a confirming acknowledgment.
+            </t>
+            <t><list>
+              <t>
+                A --&gt; B  SYN my sequence number is X
+              </t>
+              <t>
+                A &lt;-- B  ACK your sequence number is X
+              </t>
+              <t>
+                A &lt;-- B  SYN my sequence number is Y
+              </t>
+              <t>
+                A --&gt; B  ACK your sequence number is Y
+              </t>
+            </list></t>
+            <t>
+              Because steps 2 and 3 can be combined in a single message this is
+          called the three way (or three message) handshake.
+            </t>
+            <t>
+              A three way handshake is necessary because sequence numbers are not
+          tied to a global clock in the network, and TCPs may have different
+          mechanisms for picking the ISN's.  The receiver of the first SYN has
+          no way of knowing whether the segment was an old delayed one or not,
+          unless it remembers the last sequence number used on the connection
+          (which is not always possible), and so it must ask the sender to
+          verify this SYN.
+            </t>
+            <t>
+              Knowing When to Keep Quiet
+            </t>
+            <t>
+              To be sure that a TCP does not create a segment that carries a
+          sequence number which may be duplicated by an old segment remaining in
+          the network, the TCP must keep quiet for a maximum segment lifetime
+          (MSL) before assigning any sequence numbers upon starting up or
+          recovering from a crash in which memory of sequence numbers in use was
+          lost.  For this specification the MSL is taken to be 2 minutes.  This
+          is an engineering choice, and may be changed if experience indicates
+          it is desirable to do so.  Note that if a TCP is reinitialized in some
+          sense, yet retains its memory of sequence numbers in use, then it need
+          not wait at all; it must only be sure to use sequence numbers larger
+          than those recently used.
+            </t>
+            <t>
+              The TCP Quiet Time Concept
+            </t>
+            <t>
+              This specification provides that hosts which "crash" without
+            retaining any knowledge of the last sequence numbers transmitted on
+            each active (i.e., not closed) connection shall delay emitting any
+            TCP segments for at least the agreed Maximum Segment Lifetime (MSL)
+            in the internet system of which the host is a part.  In the
+            paragraphs below, an explanation for this specification is given.
+            TCP implementors may violate the "quiet time" restriction, but only
+            at the risk of causing some old data to be accepted as new or new
+            data rejected as old duplicated by some receivers in the internet
+            system.
+            </t>
+            <t>
+              TCPs consume sequence number space each time a segment is formed and
+            entered into the network output queue at a source host. The
+            duplicate detection and sequencing algorithm in the TCP protocol
+            relies on the unique binding of segment data to sequence space to
+            the extent that sequence numbers will not cycle through all 2**32
+            values before the segment data bound to those sequence numbers has
+            been delivered and acknowledged by the receiver and all duplicate
+            copies of the segments have "drained" from the internet.  Without
+            such an assumption, two distinct TCP segments could conceivably be assigned the same or overlapping sequence numbers, causing confusion
+            at the receiver as to which data is new and which is old.  Remember
+            that each segment is bound to as many consecutive sequence numbers
+            as there are octets of data in the segment.
+            </t>
+            <t>
+              Under normal conditions, TCPs keep track of the next sequence number
+            to emit and the oldest awaiting acknowledgment so as to avoid
+            mistakenly using a sequence number over before its first use has
+            been acknowledged.  This alone does not guarantee that old duplicate
+            data is drained from the net, so the sequence space has been made
+            very large to reduce the probability that a wandering duplicate will
+            cause trouble upon arrival.  At 2 megabits/sec. it takes 4.5 hours
+            to use up 2**32 octets of sequence space.  Since the maximum segment
+            lifetime in the net is not likely to exceed a few tens of seconds,
+            this is deemed ample protection for foreseeable nets, even if data
+            rates escalate to l0's of megabits/sec.  At 100 megabits/sec, the
+            cycle time is 5.4 minutes which may be a little short, but still
+            within reason.
+            </t>
+            <t>
+              The basic duplicate detection and sequencing algorithm in TCP can be
+            defeated, however, if a source TCP does not have any memory of the
+            sequence numbers it last used on a given connection. For example, if
+            the TCP were to start all connections with sequence number 0, then
+            upon crashing and restarting, a TCP might re-form an earlier
+            connection (possibly after half-open connection resolution) and emit
+            packets with sequence numbers identical to or overlapping with
+            packets still in the network which were emitted on an earlier
+            incarnation of the same connection.  In the absence of knowledge
+            about the sequence numbers used on a particular connection, the TCP
+            specification recommends that the source delay for MSL seconds
+            before emitting segments on the connection, to allow time for
+            segments from the earlier connection incarnation to drain from the
+            system.
+            </t>
+            <t>
+              Even hosts which can remember the time of day and used it to select
+            initial sequence number values are not immune from this problem
+            (i.e., even if time of day is used to select an initial sequence
+            number for each new connection incarnation).
+            </t>
+            <t>
+              Suppose, for example, that a connection is opened starting with
+            sequence number S.  Suppose that this connection is not used much
+            and that eventually the initial sequence number function (ISN(t))
+            takes on a value equal to the sequence number, say S1, of the last
+            segment sent by this TCP on a particular connection.  Now suppose,
+            at this instant, the host crashes, recovers, and establishes a new
+            incarnation of the connection. The initial sequence number chosen is
+            S1 = ISN(t) -- last used sequence number on old incarnation of
+            connection!  If the recovery occurs quickly enough, any old duplicates in the net bearing sequence numbers in the neighborhood
+            of S1 may arrive and be treated as new packets by the receiver of
+            the new incarnation of the connection.
+            </t>
+            <t>
+              The problem is that the recovering host may not know for how long it
+            crashed nor does it know whether there are still old duplicates in
+            the system from earlier connection incarnations.
+            </t>
+            <t>
+              One way to deal with this problem is to deliberately delay emitting
+            segments for one MSL after recovery from a crash- this is the "quite
+            time" specification.  Hosts which prefer to avoid waiting are
+            willing to risk possible confusion of old and new packets at a given
+            destination may choose not to wait for the "quite time".
+            Implementors may provide TCP users with the ability to select on a
+            connection by connection basis whether to wait after a crash, or may
+            informally implement the "quite time" for all connections.
+            Obviously, even where a user selects to "wait," this is not
+            necessary after the host has been "up" for at least MSL seconds.
+            </t>
+            <t>
+              To summarize: every segment emitted occupies one or more sequence
+            numbers in the sequence space, the numbers occupied by a segment are
+            "busy" or "in use" until MSL seconds have passed, upon crashing a
+            block of space-time is occupied by the octets of the last emitted
+            segment, if a new connection is started too soon and uses any of the
+            sequence numbers in the space-time footprint of the last segment of
+            the previous connection incarnation, there is a potential sequence
+            number overlap area which could cause confusion at the receiver.
+            </t>
+           </section>
+            <section title="Establish Connection">
+                <section title="Normal flow">
+                    <t>Following TCP, PCP uses "three-way handshake".  It works as follows</t>
+                    <t>
+                        <list>
+                            <t>
+                                Host A started with a CLOSE state. Host B started with a LISTEN state.
+                            </t>
+                            <t>
+                                The host A sends the second host B a "synchronize" (SYN) message with its own sequence number x, which B receives.
+                                host A becoms SYNC-SENT state. host B becomes SYNC-RCVD. 
+                            </t>
+                            <t>
+                                Host B replies with a synchronize-acknowledgment (SYN-ACK) message with its own sequence number y and acknowledgement number x+1, which host A receives.
+                                After sending SYN-ACK, host B becoms SYNC-SENT. After receiving SYN-ACK, host A becoms ESTAB state and connection is estabilshed on host A.
+                            </t>
+                            <t>
+                                Host A replies with an acknowledgment (ACK) message with acknowledgement number y+1, which host B receives and to which he doesn't need to reply. After this, host B becoms ESTAB state and the connection is established on host B too.
+                            </t>
+                        </list>
+                    </t>
+                    <t>
+                        In this setup, the synchronize messages act as service requests from one server to the other, while the acknowledgement messages return to the requesting server to let it know the message was received. Upon completion of this process, the connection is created and the host and server can communicate.
+                    </t>
+                    <t>
+                        To store this information we imagine that there is a data structure called a Transmission Control Block (TCB).  One implementation strategy would have the local connection name be a pointer to the TCB for this connection.  The OPEN call also specifies whether the connection establishment is to be actively pursued, or to be passively waited for.
+                    </t>
+                    <!--     <t>Basic 3-Way Handshake for Connection Synchronization</t>
+                        <t>
+                            <list>
+                                <t>    TCP A                                               TCP B</t>
+                                <t>1.  CLOSED                                              LISTEN</t>
+                                <t>2.  SYN-SENT    -- [SEQ=100][CTL=SYN]                -- SYN-RECEIVED</t>
+                                <t>3.  ESTABLISHED -- [SEQ=300][ACK=101][CTL=SYN,ACK]   -- SYN-RECEIVED</t>
+                                <t>4.  ESTABLISHED -- [SEQ=101][ACK=301][CTL=ACK]       -- ESTABLISHED</t>
+                                <t>5.  ESTABLISHED -- [SEQ=101][ACK=301][CTL=ACK][DATA] -- ESTABLISHED</t> 
+                                
+                            </list>
+                        </t> -->
+                    <figure>
+                        <preamble/>
+                        <artwork>
+<![CDATA[
+TCP A                                                 TCP B
+1.  CLOSED                                               LISTEN
+2.  SYN-SENT    --> [SEQ=100][CTL=SYN]               --> SYN-RECEIVED
+3.  ESTABLISHED <-- [SEQ=300][ACK=101][CTL=SYN,ACK]  <-- SYN-RECEIVED
+4.  ESTABLISHED --> [SEQ=101][ACK=301][CTL=ACK]       --> ESTABLISHED
+5.  ESTABLISHED --> [SEQ=101][ACK=301][CTL=ACK][DATA] --> ESTABLISHED
+                  ]]>
+                        </artwork>
+                        <postamble/>
+                    </figure>
+                </section>
+                <section title='Anomalies Handling'>
+                    <t>Recovery from old duplicate SYN</t>
+                    <t>
+                        It is possible that server recieve multiple SYN requests from the same host, whereby one of the request is a out-dated. In this case, server responde normally with SYN and a new sequence number. Upon receiving the wrong sequence number, client detects that the ACK field is incorrect and returns a RST (reset) with its SEQ field selected to make the segment believable. 
+                    </t>
+                    <t>Half-Open Connections</t>
+                    <t>
+                        The term half-open refers to TCP connections whose state is out of synchronization between the two communicating hosts, possibly due to a crash of one side.  If at site A the connection no longer exists, then an attempt by the user at site B to send any data on it will result in the site B TCP receiving a reset control message.  Such a message indicates to the site B TCP that something is wrong, and it is expected to abort the connection.
+                    </t>
+                    <t>General Guideline for Reset</t>
+                    <t>As a general rule, reset (RST) must be sent whenever a segment arrives which apparently is not intended for the current connection.  A reset must not be sent if it is not clear that this is the case. Below is all the possible cases for cases that need to sent RST. In all the follwing cases, if the incoming segment has a ACK field, the reset MUST take its sequnce number, otherwise sequence number MUST be zero. </t>
+                    <t>
+                        <list>
+                            <t>No connection: If the connection does not exist (CLOSED) then a reset is sent in response to any incoming segment except another reset. </t>
+                            <t>Unsyncronized connection: If the connection is in any non-synchronized state (LISTEN, SYN-SENT, SYN-RECEIVED), and the incoming segment acknowledges something not yet sent (the segment carries an unacceptable ACK), or if an incoming segment has a security level or compartment which does not exactly match the level and compartment requested for the connection, a reset is sent.</t>
+                            <t>Syncrounized connection: If incoming packet has unmatched security level, a reset is sent</t>
+                        </list>
+                    </t>
+                    <t>Reset Handling</t>
+                    <t>To validate the RST, receiver checks the sequence number of the reset. It is valid if the sequnce number is in its receiving window,  If the receiver was in the LISTEN state, it ignores it.  If the receiver was in SYN-RECEIVED state and had previously been in the LISTEN state, then the receiver returns to the LISTEN state, otherwise the receiver aborts the connection and goes to the CLOSED state.  If the receiver was in any other state, it aborts the connection and advises the user and goes to the CLOSED state.</t>
+                </section>
+            </section>
+	    <section title="Close Connection">
+		<t>Similar to TCP, the PCP takes four segments to terminate a connection. This is caused by its half-close. Because a PCP connection is full-duplex(data can be flowing in each direction independently of the others), the directions must be shut down independently.The rule is that either end can send a FIN when it is done sending data. When a PCP find a package with FIN set to 1, it must notify the application that the other end has terminated the connection. Sending FIN is the result of one or two applications issuing a close. </t>
+		<t>Sending a FIN package only means in one direction, it will not transport any data. In the other direction, the PCP is still able to send data. We say that for the end which firstly issues the close performs the active close, while the other end performs the passive close.</t>
+		<t>After the server receives the FIN, it sends back an ACK of the received sequence number plus one.Just like SYN, the FIN also consumes a sequence number. The server then closes its connection, causing its TCP to send a FIN, which the client PCP must ACK by incrementing the received sequence number by one.</t> 
+		<t>There are essentially three cases:</t>
+		<t><list>
+			<t>The user initiates by telling the PCP to CLOSE the connection</t>
+			<t>The remote PCP initiates by sending a FIN control signal</t>
+			<t>Both user CLOSE simultaneously</t>
+		</list></t>
+		<t>Case 1: Local user initiates the close</t>
+		<t>In this case, a FIN segment can be constructed and placed on the outgoing segment queue.  No further SENDs from the user will be accepted by the PCP, and it enters the FIN-WAIT-1 state.  RECEIVEs are allowed in this state.  All segments preceding and including FIN will be retransmitted until acknowledged.  When the other PCP has both acknowledged the FIN and sent a FIN of its own, the first PCP can ACK this FIN.  Note that a PCP receiving a FIN will ACK but not send its own FIN until its user has CLOSED the connection also.</t>
+		<t>Case 2: PCP receives a FIN from the network</t>
+		<t>If an unsolicited FIN arrives from the network, the receiving PCP can ACK it and tell the user that the connection is closing.  The user will respond with a CLOSE, upon which the PCP can send a FIN to the other PCP after sending any remaining data.  The PCP then waits until its own FIN is acknowledged whereupon it deletes the connection.  If an ACK is not forthcoming, after the user timeout the connection is aborted and the user is told.</t>
+		<t>Case 3: both users close simultaneously</t>
+		<t>A simultaneous CLOSE by users at both ends of a connection causes FIN segments to be exchanged.  When all segments preceding the FINs have been processed and acknowledged, each PCP can ACK the FIN it has received.  Both will, upon receiving these ACKs, delete the connection.</t>
+        <figure>
+                        <preamble/>
+                        <artwork>
+<![CDATA[
+PCP A                                                    PCP B
+1.  ESTABLISHED                                          ESTABLISHED
+    (Close)
+2.  FIN-WAIT-1  --> [SEQ=100][ACK=300][CTL=FIN,ACK]  --> CLOSE-WAIT
+3.  FIN-WAIT-2  <-- [SEQ=300][ACK=101][CTL=ACK]      <-- CLOSE-WAIT
+                                                          (Close)
+4.  TIME-WAIT   <-- [SEQ=300][ACK=101][CTL=FIN,ACK]  <-- LAST-ACK
+5.  TIME-WAIT   --> [SEQ=101][ACK=301][CTL=ACK]      --> CLOSED
+6. (2 MSL)
+   CLOSED
+                       Normal Close Sequence
+
+
+PCP A                                                    PCP B
+1.  ESTABLISHED                                          ESTABLISHED
+    (Close)                                               (Close)
+2.  FIN-WAIT-1  --> [SEQ=100][ACK=300][CTL=FIN,ACK]  ... FIN-WAIT-1
+        <-- [SEQ=300][ACK=100][CTL=FIN,ACK]  <--
+		... [SEQ=100][ACK=300][CTL=FIN,ACK]  -->
+                        
+3.  CLOSING     --> [SEQ=101][ACK=301][CTL=ACK]      ... CLOSING
+                <-- [SEQ=301][ACK=101][CTL=ACK]      <--
+	        ... [SEQ=101][ACK=301][CTL=ACK]      -->
+4.  TIME-WAIT                                            TIME-WAIT  
+    (2 MSL)                                               (2 MSL)
+    CLOSED                                                CLOSED
+    
+   
+                   Simultaneous Close Sequence
+                  ]]>
+                        </artwork>
+                        <postamble/>
+                    </figure>
+
+	   </section>
+        
+       <section title="Data Communication">
+          <t>Once a connection is established, data is communicated  by sequential segments. PCP should be reliable; however, segments might be lost due to kinds of errors, retransmission is needed to ensure delivery of every segment.</t>
+          <t>The sender keeps track of the next sequence number to use in a variable SND,NXT. The receiver of data keeps track of the next sequence number to expect in the variable RCV.NXT. The sender of data also keeps track of the oldest unacknowledged sequence number as the variable SND.UNA.  These three variable should be equal when the data flow is presently idle and all data has been successfully sent and acknowledged.</t>
+          <t>In detail, during communication, the server and client could transmit data in bidirection simultaneously as the sender and receiver. If a server want to communicate with a client(just considering one direction), there are two steps in the full process basically:</t>
+          <t><list>
+                <t>sending data: the server send a package with data, which contains sequence number and acknowledgement number. In the beginning, the sequence and acknowledgement number are the same as those from the last process of the establishment.</t>
+                <t>When the client receive this data package, it should send a new package of data for confirmation, in which the acknowledgement number is same as the sequence number in the last data segment. In addition, the acknowledgement number is the sum of the sequence number and data size of the last data segment from the server.</t>
+          </list></t>
+          <t>When the sender creates a segment and transmits it the sender advances SND.NXT.  When the receiver accepts a segment it advances RCV.NXT and sends an acknowledgment.  When the data sender receives an acknowledgment it advances SND.UNA.  The extent to which the values of these variables differ is a measure of the delay in the communication.</t>
+          <t>In some conditions, retransmission happens to guarantee the reliability. For example, when a client sends some data to a server but the client doesn't receive any confirmation package. The client would resend these data and after the server receives the same data again knowing from the sequence number, the server would discard the redundant data and send the acknowledgement. And there is another example. If the client sends two data packages the acknowledgement of  which both are delayed, the timing-out would arouse resubmission of the first data segment without confirmation from the server.</t>
+          <t>Furthermore, the window sent in each segment indicates the range of sequence numbers the sender of the window (the data receiver) is currently prepared to accept. A large window means to encourage transmissions. If more data arrives than can be accepted, it will be discarded.</t>
+           
+       </section>
+	   
+	   <section title="Event Processing">
+	<t>Following TCP, the PCP also has an event processing subsection. The processing depicted in this section is an example of one possible implementation.</t>
+	<t>There are three main categories in event processing: user calls, arriving segments, and timeouts. In this section, we will describe what PCP can do in respnse to each of the events. All the processing response depend on the state of the connection.</t>
+	<t><list>
+		<t>Events that occur:</t>
+		<t><list>
+			<t>User calls: </t>
+			<t><list>
+				<t>OPEN</t>
+				<t>SEND</t>
+				<t>RECEIVE</t>
+				<t>CLOSE</t>
+				<t>ABORT</t>
+				<t>STATUS</t>
+			</list></t>
+			<t>Arriving Segments</t>
+			<t><list>
+				<t>SEGMENT ARRIVES</t>
+			</list></t>
+			<t>Timeouts</t>
+			<t><list>
+				<t>USER TIMEOUT</t>
+				<t>REGISTRATION TIMEOUT</t>
+				<t>TIME-WAIT TIMEOUT</t>
+			</list></t>				
+		</list></t>
+	</list></t>
+	<t>Error responses are given as character strings.  For example, user commands referencing connections that do not exist receive "error: connection not open".</t>
+	<t>We can think about processing incoming segments that, they are first tested for the proper sequence number and then further queued and processed in sequence number order.</t>
+	<t>When a segment overlaps other already received segments we reconstruct the segment to contain just the new data and adjust header fields to be consistent.</t>
+	<t><list>
+		<t>OPEN CALL</t>
+		<t><list>
+			<t>CLOSED STATE</t>
+			<t><list>
+				<t>Create a new transmission control block (TCB) to hold connection
+      state information.  Fill in local socket identifier, foreign
+      socket, precedence, security/compartment, and user timeout
+      information.  Note that some parts of the foreign socket may be
+      unspecified in a passive OPEN and are to be filled in by the
+      parameters of the incoming SYN segment.  Verify the security and
+      precedence requested are allowed for this user, if not return
+      "error:  precedence not allowed" or "error:  security/compartment
+      not allowed."  If passive enter the LISTEN state and return.  If
+      active and the foreign socket is unspecified, return "error:
+      foreign socket unspecified"; if active and the foreign socket is
+      specified, issue a SYN segment.  An initial send sequence number
+      (ISS) is selected.  A SYN segment of the form [SEQ=ISS][CTL=SYN]
+      is sent.  Set SND.UNA to ISS, SND.NXT to ISS+1, enter SYN-SENT
+      state, and return.
+</t>
+<t>
+If the caller does not have access to the local socket specified,
+      return "error:  connection illegal for this process".  If there is
+      no room to create a new connection, return "error:  insufficient
+      resources".
+
+</t>
+</list></t>	
+<t>LISTEN STATE</t>
+<t><list>
+	<t>If active and the foreign socket is specified, then change the
+      connection from passive to active, select an ISS.  Send a SYN
+      segment, set SND.UNA to ISS, SND.NXT to ISS+1.  Enter SYN-SENT
+      state.  Data associated with SEND may be sent with SYN segment or
+      queued for transmission after entering ESTABLISHED state.  The
+      urgent bit if requested in the command must be sent with the data
+      segments sent as a result of this command.  If there is no room to
+      queue the request, respond with "error:  insufficient resources".
+      If Foreign socket was not specified, then return "error:  foreign
+      socket unspecified".
+</t>
+</list></t>
+</list></t>
+<t>
+SEND CALL
+</t>
+	<t><list>
+		<t>CLOSED STATE</t>
+		<t><list>
+			<t>If the user does not have access to such a connection, then return
+      "error:  connection illegal for this process".</t>
+			<t>Otherwise, return "error:  connection does not exist".</t>
+
+		</list></t>
+		<t>LISTEN STATE</t>
+		<t><list>
+		<t>If the foreign socket is specified, then change the connection
+      from passive to active, select an ISS.  Send a SYN segment, set
+      SND.UNA to ISS, SND.NXT to ISS+1.  Enter SYN-SENT state.  Data
+      associated with SEND may be sent with SYN segment or queued for
+      transmission after entering ESTABLISHED state.  The urgent bit if
+      requested in the command must be sent with the data segments sent
+      as a result of this command.  If there is no room to queue the
+      request, respond with "error:  insufficient resources".  If
+      Foreign socket was not specified, then return "error:  foreign
+      socket unspecified".</t>
+
+		</list></t>
+		<t>SYN-SENT STATE</t>
+		<t>SYN-RECEIVED STATE</t>
+		<t><list>
+			<t>Queue the data for transmission after entering ESTABLISHED state.
+      If no space to queue, respond with "error:  insufficient
+      resources".</t>
+
+		</list></t>
+		<t>ESTABLISHED STATE</t>
+					<t>CLOSE-WAIT STATE</t>
+					<t><list>
+						<t>Segmentize the buffer and send it with a piggybacked
+      acknowledgment (acknowledgment value = RCV.NXT).  If there is
+      insufficient space to remember this buffer, simply return "error:
+      insufficient resources".</t>
+						<t>If the urgent flag is set, then SND.UP [- SND.NXT-1 and set the
+      urgent pointer in the outgoing segments.</t>
+
+
+					</list></t>
+					<t>FIN-WAIT-1 STATE</t>
+					<t>FIN-WAIT-2 STATE</t>
+					<t>CLOSING STATE</t>
+					<t>LAST-ACK STATE</t>
+					<t>TIME-WAIT STATE</t>
+					<t><list>
+						<t>Return "error:  connection closing" and do not service request.</t>
+					</list></t>
+		
+			
+	</list></t>
+	<t>RECEIVE CALL</t>
+	<t><list>
+		<t>CLOSED STATE</t>
+		<t><list>
+			<t>If the user does not have access to such a connection, return
+      "error:  connection illegal for this process".</t>
+			<t>Otherwise return "error:  connection does not exist".</t>
+
+		</list></t>
+		<t>LISTEN STATE</t>
+		<t>SYN-SENT STATE</t>
+		<t>SYN-RECEIVED STATE</t>
+		<t><list>
+			<t>Queue for processing after entering ESTABLISHED state.  If there
+      is no room to queue this request, respond with "error:
+      insufficient resources".</t>
+		</list></t>
+		<t>ESTABLISHED STATE</t>
+		<t>FIN-WAIT-1STATE</t>
+		<t>FIN-WAIT-2 STATE</t>
+		<t><list>
+			<t>If insufficient incoming segments are queued to satisfy the
+      request, queue the request.  If there is no queue space to
+      remember the RECEIVE, respond with "error:  insufficient
+      Resources".
+</t>
+<t>
+Reassemble queued incoming segments into receive buffer and return
+      to user.  Mark "push seen" (PUSH) if this is the case.
+</t>
+<t>
+If RCV.UP is in advance of the data currently being passed to the
+      user notify the user of the presence of urgent data.
+
+</t>
+<t>
+When the TCP takes responsibility for delivering data to the user
+      that fact must be communicated to the sender via an
+      acknowledgment.  The formation of such an acknowledgment is
+      described below in the discussion of processing an incoming
+      segment.
+
+</t>
+		</list></t>
+		<t>CLOSE-WAIT STATE</t>
+		<t><list>
+			<t>
+			Since the remote side has already sent FIN, RECEIVEs must be
+      satisfied by text already on hand, but not yet delivered to the
+      user.  If no text is awaiting delivery, the RECEIVE will get a
+      "error:  connection closing" response.  Otherwise, any remaining
+      text can be used to satisfy the RECEIVE.
+			</t>
+
+		</list></t>
+		<t>CLOSING STATE</t>
+		<t>LAST-ACK STATE</t>
+		<t>TIME-WAIT STATE</t>	
+		<t><list>
+			<t>
+Return "error:  connection closing".
+			</t>
+		</list></t>
+
+	</list></t>
+	<t>CLOSE CALL</t>
+	<t><list>
+		<t>CLOSED STATE</t>
+		<t><list>
+			<t>
+If the user does not have access to such a connection, return "error:  connection illegal for this process".
+</t>
+<t>
+Otherwise, return "error:  connection does not exist".
+</t>
+		</list></t>
+		<t>LISTEN STATE</t>
+		<t><list>
+			<t>
+			Any outstanding RECEIVEs are returned with "error:  closing"
+      responses.  Delete TCB, enter CLOSED state, and return.
+			</t>
+		</list></t>
+		<t>SYN-SENT STATE</t>
+		<t><list>
+			<t>
+			Delete the TCB and return "error:  closing" responses to any
+      queued SENDs, or RECEIVEs.
+			</t>
+
+		</list></t>
+		<t>SYN-RECEIVED STATE</t>
+		<t><list>
+			<t>If no SENDs have been issued and there is no pending data to send,
+      then form a FIN segment and send it, and enter FIN-WAIT-1 state;
+      otherwise queue for processing after entering ESTABLISHED state.
+
+			</t>
+		</list></t>
+		<t>ESTABLISHED STATE</t>
+		<t><list>
+			<t>
+			Queue this until all preceding SENDs have been segmentized, then
+      form a FIN segment and send it.  In any case, enter FIN-WAIT-1
+      state.
+			</t>
+		</list></t>
+		<t>FIN-WAIT-1 STATE</t>
+		<t>FIN-WAIT-2 STATE</t>
+		<t><list>
+			<t>Strictly speaking, this is an error and should receive a "error:
+      connection closing" response.  An "ok" response would be
+      acceptable, too, as long as a second FIN is not emitted (the first
+      FIN may be retransmitted though).
+			</t>
+		</list></t>
+		<t>CLOSE-WAIT STATE</t>
+		<t><list>
+			<t>
+				Queue this request until all preceding SENDs have been
+      segmentized; then send a FIN segment, enter CLOSING state.
+
+			</t>
+		</list></t>
+		<t>CLOSING STATE</t>
+		<t>LAST-ACK STATE</t>
+		<t>TIME-WAIT STATE</t>
+		<t><list>
+			<t>
+			Respond with "error:  connection closing".
+			</t>
+		</list></t>
+	</list></t>
+	<t>ABORT CALL</t>
+	<t><list>
+		<t>CLOSED STATE</t>
+		<t><list>
+			<t>
+If the user should not have access to such a connection, return
+      "error:  connection illegal for this process".
+</t>
+<t>
+Otherwise return "error:  connection does not exist".
+</t>
+		</list></t>
+		<t>LISTEN STATE</t>
+		<t><list>
+			<t>
+			Any outstanding RECEIVEs should be returned with "error:
+      connection reset" responses.  Delete TCB, enter CLOSED state, and
+      return.
+			</t>
+		</list></t>
+		<t>SYN-SENT STATE</t>
+		<t><list>
+			<t>
+			All queued SENDs and RECEIVEs should be given "connection reset"
+      notification, delete the TCB, enter CLOSED state, and return.
+			</t>
+		</list></t>
+		<t>SYN-RECEIVED STATE</t>
+		<t>ESTABLISHED STATE</t>
+		<t>FIN-WAIT-1 STATE</t>
+		<t>FIN-WAIT-2 STATE</t>
+		<t>CLOSE-WAIT STATE</t>
+		<t><list>
+			<t>Send a reset segment:</t>
+			<t>[SEQ=SND.NXT][CTL=RST]</t>
+			<t>All queued SENDs and RECEIVEs should be given "connection reset"
+      notification; all segments queued for transmission (except for the
+      RST formed above) or retransmission should be flushed, delete the
+      TCB, enter CLOSED state, and return.
+</t>
+		</list></t>
+		<t>CLOSING STATE</t>
+		<t>LAST-ACK STATE</t>
+		<t>TIME-WAIT STATE</t>
+		<t><list>
+			<t>
+			Respond with "ok" and delete the TCB, enter CLOSED state, and
+      return.
+
+			</t>
+		</list></t>
+	</list></t>
+	<t>STATUS CALL</t>
+	<t><list>
+		<t>CLOSED STATE</t>
+		<t><list>
+			<t>
+			If the user should not have access to such a connection, return "error:  connection illegal for this process".
+			</t>
+			<t>
+			Otherwise return "error:  connection does not exist".
+			</t>
+		</list></t>
+		<t>LISTEN STATE</t>
+		<t><list>
+			<t>Return "state = LISTEN", and the TCB pointer.</t>
+		</list></t>
+		<t>SYN-SENT STATE</t>
+		<t><list>
+			<t>Return "state = SYN-SENT", and the TCB pointer.</t>
+		</list></t>
+		<t>SYN-RECEIVED STATE</t>
+		<t><list>
+			<t>Return "state = SYN-RECEIVED", and the TCB pointer.</t>
+		</list></t>
+		<t>ESTABLISHED STATE</t>
+		<t><list>
+			<t>Return "state = ESTABLISHED", and the TCB pointer.</t>
+		</list></t>
+		<t>FIN-WAIT-1 STATE</t>
+		<t><list>
+			<t>Return "state = FIN-WAIT-1", and the TCB pointer.</t>
+		</list></t>
+					<t>FIN-WAIT-2 STATE</t>
+		<t><list>
+			<t>Return "state = FIN-WAIT-2", and the TCB pointer.</t>
+		</list></t>
+		<t>CLOSE-WAIT STATE</t>
+		<t><list>
+			<t>Return "state = CLOSE-WAIT", and the TCB pointer.</t>
+		</list></t>
+		<t>CLOSING STATE</t>
+		<t><list>
+			<t>Return "state = CLOSING", and the TCB pointer.</t>
+		</list></t>
+		<t>LAST-ACK STATE</t>
+		<t><list>
+			<t>Return "state = LAST-ACK", and the TCB pointer.</t>
+		</list></t>
+		<t>TIME-WAIT STATE</t>
+		<t><list>
+			<t>Return "state = TIME-WAIT", and the TCB pointer.</t>
+		</list></t>
+	</list></t>
+	<t>SEGMENT ARRIVES</t>
+	<t><list>
+		<t>LISTEN STATE</t>
+		<t><list>
+			<t>
+			all data in the incoming segment is discarded.  An incoming
+      segment containing a RST is discarded.  An incoming segment not
+      containing a RST causes a RST to be sent in response.  The
+      acknowledgment and sequence field values are selected to make the
+      reset sequence acceptable to the TCP that sent the offending
+      segment.
+
+			</t>
+			<t>
+			If the ACK bit is off, sequence number zero is used,
+			</t>
+			<t>			[SEQ=0][ACK=SEG.SEQ+SEG.LEN][CTL=RST,ACK]
+			</t>
+			<t>
+			If the ACK bit is on,
+			</t>
+			<t>
+			[SEQ=SEG.ACK][CTL=RST]
+			</t>
+			<t>
+			Return.
+			</t>		
+		</list></t>
+		<t>LISTEN STATE</t>
+		<t><list>
+			<t>
+			first check for an RST
+</t>
+	<t>
+	An incoming RST should be ignored.  Return.
+	</t>
+	<t>
+	second check for an ACK
+	</t>
+	<t>
+	Any acknowledgment is bad if it arrives on a connection still in
+        the LISTEN state.  An acceptable reset segment should be formed
+        for any arriving ACK-bearing segment.  The RST should be
+        formatted as follows:
+	</t>
+	<t>
+	[SEQ=SEG.ACK][CTL=RST]
+	</t>
+	<t>
+	 Return.
+	</t>
+	<t>
+	third check for a SYN
+	</t>
+	<t>
+	If the SYN bit is set, check the security.  If the
+        security/compartment on the incoming segment does not exactly
+        match the security/compartment in the TCB then send a reset and
+        return.
+
+	</t>
+	<t>
+	[SEQ=SEG.ACK][CTL=RST]
+	</t>
+	<t>
+	If the SEG.PRC is greater than the TCB.PRC then if allowed by
+        the user and the system set TCB.PRC--SEG.PRC, if not allowed
+        send a reset and return.
+	</t>
+	<t>
+	[SEQ=SEG.ACK][CTL=RST]
+	</t>
+	<t>
+	If the SEG.PRC is less than the TCB.PRC then continue.
+	</t>
+	<t>
+	  Set RCV.NXT to SEG.SEQ+1, IRS is set to SEG.SEQ and any other
+        control or text should be queued for processing later.  ISS
+        should be selected and a SYN segment sent of the form:
+
+	</t>
+	<t>
+	[SEQ=ISS][ACK=RCV.NXT][CTL=SYN,ACK]
+	</t>
+	<t>
+	SND.NXT is set to ISS+1 and SND.UNA to ISS.  The connection
+        state should be changed to SYN-RECEIVED.  Note that any other
+        incoming control or data (combined with SYN) will be processed
+        in the SYN-RECEIVED state, but processing of SYN and ACK should
+        not be repeated.  If the listen was not fully specified (i.e.,
+        the foreign socket was not fully specified), then the
+        unspecified fields should be filled in now.
+
+	</t>
+	<t>
+	fourth other text or control
+	</t>
+	<t>
+	Any other control or text-bearing segment (not containing SYN)
+        must have an ACK and thus would be discarded by the ACK
+        processing.  An incoming RST segment could not be valid, since
+        it could not have been sent in response to anything sent by this
+        incarnation of the connection.  So you are unlikely to get here,
+        but if you do, drop the segment, and return.
+
+</t>
+		</list></t>
+		<t>SYN-SENT STATE</t>
+		<t><list>
+			<t>
+			first check the ACK bit
+			</t>
+			<t>
+			If the ACK bit is set
+			</t>
+			<t>
+			If SEG.ACK =[ ISS, or SEG.ACK ] SND.NXT, send a reset (unless
+          the RST bit is set, if so drop the segment and return)
+			</t>
+			<t>
+			[SEQ=SEG.ACK][CTL=RST]
+			</t>
+			<t>	
+			and discard the segment.  Return.
+			</t>
+			<t>
+			If SND.UNA =[ SEG.ACK =[ SND.NXT then the ACK is acceptable.
+			</t>
+			<t>
+			second check the RST bit
+			</t>
+			<t>
+			If the RST bit is set
+			</t>
+			<t>
+			If the ACK was acceptable then signal the user "error:
+          connection reset", drop the segment, enter CLOSED state,
+          delete TCB, and return.  Otherwise (no ACK) drop the segment
+          and return.
+
+			</t>
+			<t>
+			third check the security and precedence
+			</t>
+			<t>
+			If the security/compartment in the segment does not exactly
+        match the security/compartment in the TCB, send a reset
+			</t>
+			<t>
+			If there is an ACK
+			</t>
+			<t>
+			[SEQ=SEG.ACK][CTL=RST]
+			</t>
+			<t>
+			Otherwise
+			</t>
+			<t>
+			[SEQ=0][ACK=SEG.SEQ+SEG.LEN][CTL=RST,ACK]
+			</t>
+			<t>
+			If there is an ACK
+			</t>
+			<t>
+			The precedence in the segment must match the precedence in the
+          TCB, if not, send a reset
+
+			</t>
+			<t>
+			[SEQ=SEG.ACK][CTL=RST]
+			</t>
+			<t>
+			If there is no ACK
+			</t>
+			<t>
+			If the precedence in the segment is higher than the precedence
+          in the TCB then if allowed by the user and the system raise
+          the precedence in the TCB to that in the segment, if not
+          allowed to raise the prec then send a reset.
+
+			</t>
+			<t>
+			[SEQ=0][ACK=SEG.SEQ+SEG.LEN][CTL=RST,ACK]
+			</t>
+			<t>
+			If the precedence in the segment is lower than the precedence
+          in the TCB continue.
+			</t>
+			<t>
+			If a reset was sent, discard the segment and return.
+			</t>
+			<t>
+			fourth check the SYN bit
+			</t>
+			<t>This step should be reached only if the ACK is ok, or there is
+        no ACK, and it the segment did not contain a RST.
+			</t>
+			<t>
+			If the SYN bit is on and the security/compartment and precedence are acceptable then, RCV.NXT is set to SEG.SEQ+1, IRS is set to
+        SEG.SEQ.  SND.UNA should be advanced to equal SEG.ACK (if there
+        is an ACK), and any segments on the retransmission queue which
+        are thereby acknowledged should be removed.
+
+			</t>
+			<t>
+			If SND.UNA > ISS (our SYN has been ACKed), change the connection
+        state to ESTABLISHED, form an ACK segment
+
+			</t>
+			<t>
+			[SEQ=SND.NXT][ACK=RCV.NXT][CTL=ACK]
+			</t>
+			<t>
+			and send it.  Data or controls which were queued for
+        transmission may be included.  If there are other controls or
+        text in the segment then continue processing at the sixth step
+        below where the URG bit is checked, otherwise return.
+
+			</t>
+			<t>
+			Otherwise enter SYN-RECEIVED, form a SYN,ACK segment
+			</t>
+			<t>
+			[SEQ=ISS][ACK=RCV.NXT][CTL=SYN,ACK]
+			</t>
+			<t>
+			and send it.  If there are other controls or text in the
+        segment, queue them for processing after the ESTABLISHED state
+        has been reached, return.
+
+			</t>
+			<t>
+			fifth, if neither of the SYN or RST bits is set then drop the
+      segment and return.
+
+			</t>
+			
+			
+
+			
+			
+		</list></t>
+	</list></t>
+	<t>
+			Otherwise, first check sequence number
+			</t>
+	
+	<t> Other stuff in the SEGMENT ARRIVES are the same as TCP's</t>
+	<t>USER TIMEOUT</t>
+	<t><list>
+		<t>USER  TIMEOUT</t>
+		<t><list>
+			<t>For any state if the user timeout expires, flush all queues, signal
+    the user "error:  connection aborted due to user timeout" in general
+    and for any outstanding calls, delete the TCB, enter the CLOSED
+    state and return.</t>
+		</list></t>
+		<t>RETRANSMISSION TIMEOUT</t>
+		
+		<t><list>
+			<t>
+			For any state if the retransmission timeout expires on a segment in
+    the retransmission queue, send the segment at the front of the
+    retransmission queue again, reinitialize the retransmission timer,
+    and return.
+			</t>
+		</list></t>
+		<t>TIME-WAIT TIMEOUT</t>
+		<t><list>
+			<t>
+			If the time-wait timeout expires on a connection delete the TCB,
+    enter the CLOSED state and return.
+
+			</t>
+		</list></t>
+	</list></t>
+	
+	
+	</list></t>
+
+	
+		</section>
+        </section>
+    </middle>
+    <!--  *****BACK MATTER ***** -->
+    <back>
+    </back>
+</rfc>
