@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced.
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN"
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">HOP Request For Comments</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Team Mewtwo" initials="T.M." role="editor"
+           surname="Mewtwo">
+     <organization>JHU Network Security Fall 2019</organization>
+
+     <address>
+       <postal>
+         <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 443-220-7992</phone>
+
+       <email>gzhanyu1@jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
+        in the current day for you. If only the current year is specified, xml2rfc will fill
+     in the current day and month for you. If the year is not the current one, it is
+     necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
+     purpose of calculating the expiry date).  With drafts it is normally sufficient to
+     specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>HOP Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.
+     If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>HOP</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t>The HOP(Heartbeat Oblivion Protocol) is a protocol that can be used as a reliable host-to-host protocal in the PLAYGROUND network.
+       This document describes the philosophical and technical background of the Heartbeat Oblivion Protocol.
+     </t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Introduction">
+
+     <t>The Heartbeat Oblivion Protocol (HOP) is intended for use
+       as a reliable host-to-host protocol between hosts in PLAYGROUND network.
+       This document describes the philosophical and technical background of
+       the Heartbeat Oblivion Protocol,
+       the functions to be performed by the it,
+       the program that implements it,
+       and its interface to programs or users that require its services.
+       </t>
+   <section title="Purpose">
+
+       <t>PLAYGROUND is an unreliable network, on which
+         six start-up companies (by the time of the creation of this document,
+         to the best of the authors' knowledge) plus a bank are currently developing their products and services.
+         To enable reliable data communications among these organizations and their products and services,
+         this document is developed to provide a standard, lightweight protocol
+         which supports reliable communications through PLAYGROUND network.
+         The Heartbeat Oblivion Protocol is designed to carry forward
+         the merits of existing data communication protocols and mechanisms such like TCP and Heartbeat,
+         by combining their reputable and widely examined features,
+         but also to be as lightweight as possible by removing
+         all the unnecessary or redundant functions in existing protocols
+         without weakening the reliability of the data communication.</t>
+
+    </section>
+
+    <section title="Technical Background">
+    <t>The Heartbeat Oblivion Protocol is inspired by and highly based on TCP and Heartbeat design.
+      On a very high level view, it inherits the classic three-way handshake mechanism from TCP to establish a connection session between two hosts.
+      After the session is established, however, the connection is not maintained silently as in TCP.
+      Instead, the two hosts are required to actively maintain their connection by sending heartbeat packets to each other periodically.
+      With this heartbeat mechanism, the connection keeps alive until one side of the connection decides to close the session
+      by discontinuing its own heartbeat, but keeps on listening to the connection
+      for a designated last period of time for potential last few packets from the other host.
+      The other host will realise that the connection is closed after not having received any heartbeat packets for a period of time,
+      and then close the connection as well.
+      Thus, both hosts do not need to take any extra actions to terminate a connection,
+      and the whole termination processes in the original TCP could be eliminated with this heartbeat design in the Heartbeat Oblivion Protocol.
+    </t>
+    </section>
+    </section>
+
+    <section title="Design Philosophy">
+    <t>As is described in the Technical Background section,
+      the Heartbeat Oblivion Protocol is utilizing the three-way handshake mechanism in TCP for connection establishment,
+      and the Heartbeat mechanism for connection maintenance and termination.
+      Conceptually, for either side of a connection, the host will know that it still holds an ongoing connection
+      with its connected partner as long as from its own point of view, "I can hear your Heartbeat."
+      That is the "Heartbeat" part in the protocol name. However,
+      a host will never actively update or check the status of a connection.
+      If it wants to terminate a connection, the only thing it could do is to terminate its own Heartbeat.
+      Once its Heartbeat is discontinued, it should still stay for a short period of time
+      in case there is any "last words" from its connected partner before its partner realises that its Heartbeat is lost.
+      After that, what is gone is really gone, finally.
+      On the other side, whenever a host notices that it has lost its connected partner's Heartbeat for a designated period of time,
+      it would realise that the connection between them is dead.
+      Then all it could do is to stop sending any more packets, close the session,
+      clean up all the buffered information about this previously connected partner, and listen to other connections.
+      This is the procedure of "Oblivion". This design philosophy gestates the "HOP", Heartbeat Oblivion Protocol, proudly presented by MewTwo, a group of HOPkins students.
+    </t>
+    </section>
+
+
+   <section title="Specification">
+     <section title="Packet Definition">
+  <t>The HOP packet is defined as follows:
+  </t>
+  <t>
+      <figure>
+          <artwork><![CDATA[
+        from playground.network.packet import PacketType
+        from playground.network.packet.fieldtypes 
+                                      import UINT32, STRING, BUFFER
+        class HOPPacket(PacketType):
+            DEFINITION_IDENTIFIER = "mewtwo.HOP.Packet"
+            DEFINITION_VERSION = "1.0"
+            FIELDS = [
+              ("seqNum", UINT32),
+              ("ackNum", UINT32),
+              ("flag", STRING), # Values: "SYN", "ACK", "HB", "DATA"
+              ("checkSum", STRING), # Hash value of the packet
+              ("data", BUFFER)
+            ]
+            Figure 1. HOP Packet in Playground Format
+                  ]]>
+          </artwork>
+      </figure>
+  </t>
+  <t><list>
+      <t>"seqNum" -- 32-bit unsigned integer.
+        This field represents the sequence number of a packet from the sender.
+        Value of this field is always calculated from the sum of seqNum and data length of the last sent packet,
+        with the exception of the SYN packet.
+        If the "flag" field is set to "SYN", this field is set to the initial sequence number. </t>
+      <t>"ackNum" -- 32-bit unsigned integer.
+        This field contains the value of the next sequence number the sender of the segment is expecting to receive.
+        Once a connection is established this is always sent </t>
+      <t>"flag" -- String. The flag field represents the type of transmission.
+        It can be set to either "SYN", "ACK", "HB", or "DATA". Value "SYN" and "ACK" are used during the establishment of connection;
+        value "DATA" should be set for all data transmission packets; and value "HB" will be used for any heartbeat packet.
+        Any other value will be deemed invalid. </t>
+      <t>"checkSum" -- String. The checkSum field is the hash value of the packet. </t>
+      <t>"data" -- Buffer type. The data field contains the payload of this packet.
+        Maximum length of payload field is 1500 bytes.</t>
+      </list></t>
+  </section>
+
+       <section title="Heartbeat">
+        <t>Heartbeat is the innovation of our protocol comparing to original TCP.
+          This mechanism is just like electrocardiogram, the moving pulses on the screen are signal of vitality.
+          The function of our Heartbeat analogously, as suggested by its name, is the indication of a 'living' session.
+          Once a session is established, the both sides in this communication should send out a Heartbeat packet to each other every second (or other fixed time period).
+          Only when one of the two ends in the communication receives the Heartbeat packet sent by the other end,
+          can he/she affirm that this session is still alive.
+          Once one of the end fails to receive the Heartbeat packet a certain times in a row (say 5),
+          he/she may consider that the connection is broken and terminate the current session. </t>
+       </section>
+
+       <section title="Session Establishment">
+        <t>For session establishment, we implemented a strategy similar to TCP 3-way handshake.
+          Say the client wants to set up a new session with the server.
+          He/she will first send out a SYN packet with a random picked sequence number (x) to server.
+          When the SYN packet is sent, the client could expect a response to start a session in the next period of time.
+          If timed out, the client should stop waiting for response.</t>
+        <t>Upon the server receives an SYN packet,
+          it will send back a SYN/ACK packet with the acknowledge number x+1 and a new random picked random number (y).
+          After this packet being sent out,
+          the server will also start waiting for a response in the next period of time.
+          And if timed out, the server will stop waiting for session establishment and go back to 'listening' state.</t>
+        <t>At last, when the SYN/ACK packet successfully received by client,
+          the client should response an ACK packet with the acknowledge number set to y+1.
+          From now on, the client could switch to 'established' stage and start sending and receiving Heartbeat packet.
+          And when the ACK packet is received by server in time, the server would also switch to 'established' stage and start 'Heartbeating'.</t>
+        <t>Now, both sides are good to communication with each other.</t>
+       </section>
+
+       <section title="Heartbeat Implementation">
+        <t>As mentioned above, Heartbeat is needed to keep established session alive.
+          Although the Heartbeat mechanism looks straightforward, in order to put it into use,
+          we have to consider the identification and validation issue.</t>
+        <t>A Heartbeat packet should be able to indicate which session it belongs to.
+          To achieve this, the packet sender should set the sequence number of a Heartbeat packet based on sequence number of the 'last-sent' packet.
+          (In the following article in this section, the use of 'packet' only refers to data packet excluding Heartbeat packet.)
+          Besides, considering that it's not always the case that there's a new 'last-sent' packet when generating a new Heartbeat packet's sequence number,
+          we need to set an increment (N) for the sequence number of each Heartbeat packet.
+          (N could be a number that relatively prime to the max-packet size.)
+          As a result, we could set a variant to be used to calculate the sequence number of next Heartbeat packet.
+          If any 'new-sent' packet exists, the variant is set to the sequence number of 'last-sent' packet;
+          otherwise, it could be the sequence number of 'last-sent' Heartbeat packet.
+          In this case, the new sequence number for next Heartbeat packet is simply the value of that variant plus N.</t>
+        <t>Continue the example above.
+          Once the 3-way handshake finished, both side should start sending Heartbeat packet.
+          For the client, the sequence number of the last-sent packet is x+1.
+          So the sequence number of the first Heartbeat packet to be sent should be x+1+N.
+          As long as there's no new packet been sent, the sequence number in Heartbeat packet will keep imcrementing (in forms of x+1+k*N).
+          Once a new packet been sent (the sequence number of which is x+A),
+          then the next sequence number for Heartbeat packet will be x+A+N.
+          The Heartbeat packets sent by server are almost the same except that the sequence numbers are based on y instead of x.</t>
+        <t>Then, the receiver of a Heartbeat packet should also be able to verify the validity of this packet.
+          Considering the normal case, the Heartbeat packet that received by one side should contain a sequence number based on the acknowledge number of 'last-sent' packet of this side
+          (originally the sequence number of 'last-sent' packet of the other side). Since this verification is not strict-required,
+          as long as the sequence number of received Heartbeat packet falls into a reasonable range, the packet could be regarded as a valid packet.</t>
+        <t>Note: </t>
+        <t>Except for sequence number and HB flag, all the other fields of Heartbeat packet should be set and will be regarded as None;
+          the sequence number of Heartbeat packet doesn't interfere with the sequence number of normal data packet;
+          the mechanism only guarantees that there will not likely to be same Heartbeat packets in normal communication,
+          security is not guaranteed; to achieve security, N could be a shared secret of both sides,
+          then introduce encryption system to prevent spoofing.</t>
+       </section>
+
+       <section title="Data Transmission">
+         <t>After the connection between the sender and the receiver has been eatablished,
+           they begin sending data packets and communicate with each other.
+           The pakets sent including both heartbeat packents and data packets.
+           The data flows in the session is regarded as a stream of packets.
+           The HOP protocol sends packets to the receiver.
+           Maximum packet size is defined to prevent the sending host from holding the data for too long or too large.
+           The maximum payload size of HOP is 1500 bytes.
+           If the payload is greater than the maximum, the HOP protocol will break it into pieces of 1500 or less bytes.
+        </t>
+
+      <t>Since each packet will be sent in a particular order,
+        the HOP protocol assigns a unique sequence number to each packet when it is transmitted.
+        So that the receiver could ressemble all the received packets in its original order.
+        All transmitted data packets and heartbeats SHOULD be sent and received under the ESTAB(Established) state.
+      </t>
+
+       </section>
+
+       <section title="Error Handling">
+
+         <t>There are many different types of errors.
+           The HOP protocol defines a error type packet for determining the error types.
+         </t>
+         <t>
+                    <figure>
+                      <artwork><![CDATA[
+               class errorTypePacket(PacketType):
+                   DEFINITION_IDENTIFIER = "HOP.errorHandling.errorType"
+                   DEFINITION_VERSION = "1.0"
+                   BODY = [
+                     ("error_type",UINT32),
+                     ("error_discription", string)
+                   ]
+                   Figure 2. errorType Packet in Playground Format
+                        ]]>
+                                      </artwork>
+                                  </figure>
+                              </t>
+      <t>
+       The unexpected packet types plays an important role in the errors.
+       If such errors(unexpected packet types) are ignored,
+       the communication will be more efficient.
+       But it may cause new problems like still waiting packets and heartbeat exists.
+       As a result, once incorrect packet types is received, the protocol should shutdown.
+      </t>
+
+        <t>For example, during the handshake of the establishing peroid, the server expects a SYN packet.
+          If any other packet type like a ACK is received, the server SHOULD shutdown.</t>
+
+        <t>Data transmission errors include:
+         <list style="numbers">
+           <t>Loss of packets</t>
+           <t>Incorrect order of the packets</t>
+           <t>Phantom packets (receiver gets packets that have never been sent)</t>
+       </list></t>
+       </section>
+
+       <section title="Session Termination">
+        <t>Thanks to the Heartbeat mechanism, session termination is quite straightforward.
+          If one party in a session wants to terminate the connection for some reason,
+          he/she can just stop the Heartbeat sending process and then close the connection directly.
+          At the same time, the other party will soon fail to receive any more Heartbeat packet of this session.
+          Then he/she may consider that the connection is closed for whatever reason and close the connection.</t>
+       </section>
+
+       <section title="State Machine">
+          <t>The following figure shows the various sates of the TCP connection progresses and how they will
+             be responsed to different event.</t>
+             <t><figure><artwork>
+
+                                                        active OPEN
+                                                      --------------
+                                                    create TCB and SYN
+                                    +--------+ ----------------------
+     -----------------------------&gt; | CLOSED |                      |
+     |                              +--------+ &gt;----------------    |
+     |		                       |   ^                   |    |
+     |       	         passive OPEN  |   |    CLOSE          |    |
+     |                   ------------  |   | ----------        |    |
+     |                    create TCB   |   |  delete TCB       |    |
+     |                                 V   |                   |    |
+     |                              +--------+        CLOSE    |    |
+     |                              | LISTEN |      --------   |    |
+     |                              +--------+      delete TCB |    |
+     |                    rcv SYN      |   |    SEND           |    |
+     |                   ----------    |   |  --------         |    |
+     |  	        send SYN,ACK   |   |  send SYN	       |    V
+     |     +-------+                  /     \                 +-------+
+     |     |       |   &lt;-------------         -------------&gt;  |       |
+     |     |  SYN  |                 rcv   SYN                |  SYN  |
+     |     |       |   &lt;------------------------------------  |       |
+     |     | RCVD  |                send   ACK                |  SENT |
+     |     |       |   &lt;-------------         -------------&gt;  |       |
+     |     +-------+                  \       /               +-------+
+     |                rcv ACK of SYN   |     |   rcv SYN,ACK
+     |                --------------   |     |   -----------
+     |                       x         V     V     send ACK
+     |      HB lost(PASSIVE CLOSE)   +---------+
+     ------------------------------- |  ESTAB  |
+     |         --------------------- +---------+
+     |         |    stop HB           |        ^
+     |         | ACTIVE CLOSE)        |   HB   |
+     |timeout  |                      | ACTIVE |
+     |         V                      ----------
+     |    +------+
+     ---  | WAIT |
+          +------+
+              </artwork></figure></t>
+       <t>From the figure, we can find there are altogether 6 states in out TCP connection.
+          Let's explain them in details.</t>
+          <t>1.CLOSED</t>
+          <t> This is the initial state and the final state of the TCP connection and it means the TCP connection is closed.
+              There are wto ways to enter other states from this state. One is the passive one, this will work when you create a TCB and it will make you enter the LISTEN state. Another one is the acitve one, this will work when you want to create a connection and create TCB and SYN, and after this, you will enter the SYN SENT state.</t>
+          <t>2.LISTEN</t>
+          <t> In this state, you are in the second step of the three handshakes. You can either choose to send SYN or send SYN and ACK when you receive the SYN to enter next state and what you should do depends on whether you have received the SYN packet. Also you can delete the TCB to back to the CLOSED state.</t>
+          <t>3.SYN RCVD and SYN SENT</t>
+          <t>This two are both the last step of three handshakes. And which state you are in depend on whether you have received a SYN packet or send out a SYN packet. The SYN SENT state can change to SYN RCVD state when it receive SYN and send ACK. They can enter the ESTAB state when the three handshakes finish, and how to finish handshkes is a little different in two states. Another thing need to mention is when you are in the SYN SENT state, you can choose to delete the TCB to back to the CLOSED state.</t>
+          <t>4.ESTAB</t>
+          <t>This is the main state of the TCP connection. And in this state, there will be Heart Beat packets between the server and client.</t>
+          <t>Reliable connection is made in this state. ACK response is expected for every packet sent out. And when an ACK packet doesn't come and time is out, it will resend all the packets whose ACK number is follow the missing packet.</t>
+          <t>There are two ways to stop the connection and enter the CLOSED state. One is the passive one, when we find the we haven't received Heart Beats in a period time, we regard the another side of connetion has closed the connection, then we will close the connection and back to the CLOSED state. The active one is when we want to close the connection. We will first stop send out heart beats packets and enter the WAIT state. The purpose of WAIT state is the oppsite side of the connection hasn't found we had stopped the connection. So we needs to hold on for some time and when the time is out, we can enter the CLOSED state.</t>
+       </section>
+      </section>
+
+   <section title="Security Considerations">
+   <t>This specification is a documentation standard and not directly related
+   to the technical security of any protocol.</t>
+   </section>
+
+    <section title="Copyright Information">
+    <t>The HOP is still new and has not yet developed
+    a policy that has been reviewed by legal counsel. However, at present,
+    the following text MUST be used in the PRFC's.</t>
+
+    <t>The copyright notice on the front page of the PRFC should read:
+    "Copyright (c) 2019 TEAM MEWTWO.  All rights reserved.</t>
+
+   <t>This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions."</t>
+
+   <t>Full Copyright Statement</t>
+
+   <t>Copyright (C) Team Mewtwo (2019).  All Rights Reserved.</t>
+
+   <t>This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.</t>
+
+   <t>Intellectual Property</t>
+
+   <t>The HOP is
+   intended to be free of any intellectual property conflicts.  All
+   involving parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the DYKM project.</t>
+
+   </section>
+
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <!--references title="Normative References"-->
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+
+   <!--/references-->
+
+   <!-- Change Log
+
+v00 2006-03-15  EBD   Initial version
+
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative
+                     images. Removed meta-characters from comments (causes problems).
+
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the
+                     IANA guidelines reference from the I-D to the finished RFC.
+
+SETH NIELSON:
+  Altered for PLAYGROUND AND PRFC's
+  2016-09-21 SJN PRFC 1
+
+  Updated for Fall 2017
+  2017-10-1
+  -->
+ </back>
+</rfc>
