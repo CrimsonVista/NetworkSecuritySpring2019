@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">Playground Request For Comments</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Seth James Nielson" initials="S.J." role="editor"
+           surname="Nielson">
+     <organization>JHU Network Security Fall 2017</organization>
+
+     <address>
+       <postal>
+         <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 410-497-7384</phone>
+
+       <email>sethjn@cs.jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+	 in the current day and month for you. If the year is not the current one, it is 
+	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+	 specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>Playground Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+	 If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PRFC</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t>The PLAYGROUND (Poly-Localized Algorithmic Yields
+     Generated Remotely On Unused Network Devices) system is
+     designed to give students and researchers a sandbox in which to develop
+     network security experiments. For PLAYGROUND experiments
+     that involve a PETF (Playground Engineering Task Force),
+     PRFC's (Playground RFC's) are used in a manner similar
+     to RFC's. This PRFC specifices the format standards
+     for PRFC's.</t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Introduction">
+     <t>RFC's (Request for Comments) are a publication of the Internet 
+     Engineering Task Force (IETF). RFC's have many purposes including
+     the publication of standards, general information, and best
+     practices.</t>
+     
+     <t>The PLAYGROUND experiment, developed by Seth James Nielson,
+     is a pedigogical framework for instructing principles of Internet
+     Security. The primary goal of the PLAYGROUND framework is to provide
+     a network system that allows students and researchers to develop
+     security mechanisms as well as attacks against them. The PLAYGROUND
+     system is designed to provide a complex enough system to enable
+     kinds of attacks and defenses one finds in the real Internet but
+     with a much reduced complexity.</t>
+     
+     <t>Not only does PLAYGROUND provide a reduced complexity, but it
+     also allows a student to think in terms of principles instead of
+     just in raw implementation. Cross-site scripting attacks may
+     disappear in the future, but the principles of colliding security
+     spaces will not. PLAYGROUND allows the students to try out principles
+     in a new environment and with new concrete instantiations.</t>
+     
+     <t>Standards and other publications, such as RFC's, are a critical
+     part of the security process. Open standards allow design flaws
+     to be captured early in the development of an Internet protocol
+     or system. Discovered flaws can be reported and fixed quickly
+     and effectively.</t>
+     
+     <t>Accordingly, as part of the PLAYGROUND experiment, collaborating
+     participants, such as the students in a class, can practice and
+     experiment with a publication process similar to RFC's. These publications
+     are called Playground RFC's and follow the same formats and
+     serve the same purposes insofar as possible.</t>
+     
+     <t>This memo describes the PRFC standards, largely pointing to the
+     corresponding standards for RFCs. Differences, where they exist,
+     are noted. Also included is a description of a modified xml2rfc tool
+     that can help to produce PRFC's with the proper formatting.</t>
+
+     <section title="Requirements Language">
+       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref
+       target="RFC2119">RFC 2119</xref>.</t>
+     </section>
+   </section>
+   
+   <section title="General Authoring Guidelines">
+    <t>The most important aspect of a PRFC is the clarity and correctness of
+    the writing. The next most important component is the completeness of the
+    technical document in describing all relevant information. The last and
+    least important element is the formatting according to RFC guidelines.</t>
+    
+    <t>In terms of writing clearly and correctly, consider the following suggestions.</t>
+    
+    <t><list style="numbers">
+    	<t>Use formal English grammar and use it correctly</t>
+    	<t>Prefer conciseness and simplicity</t>
+    	<t>Get to the point</t>
+    </list></t>
+    
+    <t>Although the formatting is the least important element, authors SHOULD 
+    learn and employ the correct formatting as much as possible. Most of this
+    document will focus on these elements</t>
+    
+    <t>Authors MUST, after reading this PRFC, review any RFC's that are
+    referenced. Authors SHOULD search for other RFC's that provide RFC-authoring
+    guidelines or instructions as well as for other RFC-authoring guides and
+    tutorials that can be found on the Internet.</t>
+    
+    <t>Astute readers will observe that this document is also not perfectly
+    aligned with RFC standards and even technical writing guidelines. Similarly,
+    it is not expected that other PRFC's will be perfect either. Nevertheless,
+    authors MUST make good-faith efforts to understand the principles behind
+    RFC documents and demonstrate them in crafting their own PRFC's.</t>
+    
+    <section title="Meta Data">
+    <t>At the top of all PRFC's is meta-data analogous to the meta-data at the
+    top of an RFC.</t>
+    
+    <t><list style="symbols">
+    	<t>The PRFC SHOULD include the author's name.</t>
+    	<t>The PRFC MUST identify "JHU Network Security Fall 2017" as the
+    	organization</t>
+    	<t>The PRFC MUST NOT identify a student's actual address. Use, instead,
+    	a John Hopkins office number or laboratory name.</t>
+    	<t>The PRFC MUST identify the month and year of writing.</t>
+    </list></t>
+    
+    <t>Additional meta data includes the "References" and "Author's Address"
+    sections. These elements MUST conform to RFC specifications.</t>
+    </section>
+    
+    <section title="Copyright Information">
+    <t>The PLAYGROUND experiment is still new and has not yet developed
+    a policy that has been reviewed by legal counsel. However, at present,
+    the following text MUST be used in the PRFC's.</t>
+    
+    <t>The copyright notice on the front page of the PRFC should read:
+    "Copyright (c) 2017 SETH JAMES NIELSON.  All rights reserved.</t>
+
+   <t>This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions."</t>
+   
+   <t>Student authors MUST grant copyrights to SETH JAMES NIELSON. However,
+   they may also retain copyrights for themselves and add their names to the
+   copyright notice accordingly.</t>
+   
+   <t> The final page of the PRFC MUST include a section entitled 
+   "Full Copyright Statement" that reads:</t>
+   
+   <t>"Copyright (C) Seth James Nielson (2017).  All Rights Reserved.</t>
+
+   <t>This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.</t>
+
+   <t>The limited permissions granted above are perpetual and will not be
+   revoked by SETH JAMES NIELSON or his successors or assigns.</t>
+
+   <t>This document and the information contained herein is provided on an
+   "AS IS" basis and SETH JAMES NIELSON and associated academic
+   institutions DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE."</t>
+   
+   <t>After the "Full Copyright Statement" the PRFC MUST include a section
+   entitled "Intellectual Property" that reads:</t>
+
+   <t>The PLAYGROUND framework and student submissions for PLAYGROUND are
+   intended to be free of any intellectual property conflicts.  All
+   submitting parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the PLAYGROUND project.  Specifically, any
+   submission can be used in future educational settings including
+   subsequent PLAYGROUND experiments.</t>
+
+   <t>Any interested party is invited to bring to the experiment director's
+   attention any copyrights, patents or patent applications, or other
+   proprietary rights which may cover technology that may be currently
+   in use without permission.</t>
+
+   <t>It should be noted that these statements have not been reviewed by
+   legal counsel.  Moreover, the academic institutions at which
+   PLAYGROUND experiments take place may have additional or even
+   conflicting copyright and intellectual property rules.  Accordingly,
+   concerned parties may need to contact their own lawyer and/or
+   resources at their institution to understand the rights and
+   limitations associated with code donated to a PLAYGROUND experiment."</t>
+   
+   <t>As with the initial copyright notice, the Copyright assignment to
+   Seth James Nielson can be agumented the the names of the authors.</t>
+    </section>
+    
+	<section title="Guidelines for Writing Standards">
+		<t>Most of the guidelines for writing standards are the same as they
+		are for RFC's. In particular, <xref target="RFC2360">RFC 2360</xref>
+		provides the current best practices for writing Internet Standards.
+		In general, RFC 2360 will provide the basic template for evaluating 
+		PRFC's that specify a standard.</t>
+		
+		<t>Perhaps the most important section of RFC 2360 is "2.1 Discussion of
+		Security." Authors MUST read and understand this information. PRFC's without
+		an adequate discussion of security will be rejected.</t>
+		
+		<t>Certain sections of RFC 2360 do not apply to writing PRFC's. These
+		include:</t>
+		
+		<t><list style="empty">
+			<t>2.5 Change Logs</t>
+			<t>2.13 IANA Considerations</t>
+			<t>2.14 Network Management Considerations</t>
+			<t>2.17 Internationalization</t>
+		</list></t>
+		
+		<t>For PRFC's that will serve as standards, the status MUST read: "
+		This document specifies a Playgrounds standards track protocol for
+   the Playground Experiment, and requests discussion and suggestions
+   for improvements.  Distribution of this memo is unlimited."</t>
+		
+	</section>
+	
+	<section title="Guidlines for Writing Non-Standards">
+		<t>PRFC's that are not standards track will not be held to the same
+		requirements. In particular, while it would be great if these PRFC's
+		tracked RFC guidelines, it is not required.</t>
+		
+		<t>For documents that comprise "best current practices," the status
+		of the PRFC MUST read: "This document specifies an Playground Best Current Practices for the Playground
+Experiment, and requests discussion and suggestions for improvements.
+Distribution of this memo is unlimited."</t>
+
+		<t>For documents that are for information purposes only, the status
+		of the PRFC MUST read: "This memo provides information for the Playground Experiment.
+It does not specify an Playground standard of any kind.
+Distribution of this memo is unlimited."</t>
+
+		<t>For documents that specify experimental protocols, 
+		the status of the PRFC MUST read: "This memo defines an Experimental Protocol for the Playground Experiment.
+It does not specify a Playground standard of any kind.
+Discussion and suggestions for improvement are requested.
+Distribution of this memo is unlimited."</t>
+
+		<t>For documents that specify information that is kept for historical reasons
+		the status of the PRFC must read: "This memo describes a historic protocol for the Playground Experiment.
+It does not specify a Playground standard of any kind.
+Distribution of this memo is unlimited."</t>
+	</section>
+   </section>
+   
+   <section title="PRFC Submission Process">
+   <t>PRFC's are required whenever PLAYGROUND groups need to interoperate. Some 
+   specifications will be mandated as part of PLAYGROUND development. Under these 
+   circumstances, the PETF will be responsible for approving the standards.</t>
+   
+   <t>In creating these mandated standards, the PETF can either draft the standards
+   and a reference implementation themselves or accept submissions from individual
+   groups. In either case, the final standard must be approved by a majority of the
+   PETF before the PRFC will be officially published.</t>
+   
+   <t>Any group can draft a standard that defines protocols and technologies that
+   are specific to their own PLAYGROUND nodes. Publishing PRFC's is the only acceptable
+   way for two groups to interact with each other. Thus, if a group wishes to make
+   their optional mechanisms available to other groups, they must create a PRFC 
+   publication. These PRFC's do not need the approval of the PETF if they are given
+   "experimental" status. Otherwise, a majority of the PETF must approve the standard
+   in order for it to be given "standards-track" status.</t>
+   
+   <t>PRFC's seeking "informational" status also do not require PETF approval.</t>
+   
+   <t>PRFC's seeking "best current practice" status do require PETF approval.</t>
+   </section>
+   
+   <section title="PRFC Revision Process">
+   <t>Once a PRFC is officially published by the PETF, it cannot be modified further
+   for any reason. A new PRFC must be submitted that identifies the errors and 
+   proposes to "update" or "supercede" the previous document.</t>
+   
+   <t>A PRFC MUST use the "update" reference if the changes do not result in an
+   incompatible protocol and the old protocol is not shown to be insecure. 
+   Changes to PRFC's that are "updates" include:</t>
+   
+   <t><list style="numbers">
+   	<t>Corrections to spelling, grammar, and other wording in the document</t>
+   	<t>Additional details about operations and operational considerations</t>
+   	<t>Additional parameters or interactions to the existing protocol</t>
+   </list></t>
+   
+   <t>A PRFC MUST use the "supercede" reference if the changes result in an incompatible
+   protocol OR if the previous protocol is demonstrated to be insecure.</t>
+   
+   <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   
+   <t>A PRFC submitted without PETF approval MUST be revised only by the same PLAYGROUND
+   group that submitted the original.</t>
+   </section>
+   
+   <section title="Security Considerations">
+   <t>This specification is a documentation standard and not directly related
+   to the technical security of any protocol.</t>
+   </section>
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <references title="Normative References">
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC2119;
+     
+     &RFC2360;
+     
+   </references>
+
+
+   <!-- Change Log
+
+v00 2006-03-15  EBD   Initial version
+
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
+                     images. Removed meta-characters from comments (causes problems).
+
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the 
+                     IANA guidelines reference from the I-D to the finished RFC.  
+                     
+SETH NIELSON:
+  Altered for PLAYGROUND AND PRFC's
+  2016-09-21 SJN PRFC 1
+
+  Updated for Fall 2017
+  2017-10-1
+  -->
+ </back>
+</rfc>
