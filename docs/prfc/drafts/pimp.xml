@@ -190,32 +190,7 @@
    </section>
    
    <section title="Protocol">
-     
-     
-      <!-- ARTWORK EXAMPLE -->
-   		<figure anchor="xml_packet" align="center">
-            <preamble>The following artwork demonstrates the structure of the PIMP packet:</preamble>
-            <artwork align="left">
-<![CDATA[
-    0                   1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                        Sequence Number                        |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                    Acknowledgment Number                      |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |A|R|S|F|R|                               |                     |
-   |C|S|Y|I|T|            Checksum           |       (Empty)       |
-   |K|T|N|N|R|                               |                     |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                             data                              |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-]]>
-            </artwork>
-            <postamble>
-              Header Diagram 
-            </postamble>
-        </figure>
+   <!-- mending required -->
      
      <section title = "Header Descriptions">
        <t>Sequence Number - 32 bits:</t>
