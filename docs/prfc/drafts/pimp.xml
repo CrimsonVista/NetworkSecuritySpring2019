@@ -207,7 +207,7 @@
               ("SYN", BOOLEAN),
               ("FIN", BOOLEAN),
               ("RTR", BOOLEAN),
-              ("checkSum", STRING), # Hash value of the packet
+              ("checkSum", STRING), 
               ("data", BUFFER)
             ]
                   ]]>
