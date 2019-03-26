@@ -202,7 +202,7 @@
             FIELDS = [
               ("seqNum", UINT32),
               ("ackNum", UINT32),
-              ("CtlBits", STRING), # 5 bits representing: ACK, RST, SYN, FIN, RTR
+              ("ctlBits", STRING), # 5 bits representing: ACK, RST, SYN, FIN, RTR
               ("checkSum", STRING), # Hash value of the packet
               ("data", BUFFER)
             ]
