@@ -190,33 +190,30 @@
    </section>
    
    <section title="Protocol">
-     
-     
-      <!-- ARTWORK EXAMPLE -->
-   		<figure anchor="xml_packet" align="center">
-            <preamble>The following artwork demonstrates the structure of the PIMP packet:</preamble>
-            <artwork align="left">
-<![CDATA[
-    0                   1                   2                   3
-    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                        Sequence Number                        |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                    Acknowledgment Number                      |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |A|R|S|F|R|                               |                     |
-   |C|S|Y|I|T|            Checksum           |       (Empty)       |
-   |K|T|N|N|R|                               |                     |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-   |                             data                              |
-   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-]]>
-            </artwork>
-            <postamble>
-              Header Diagram 
-            </postamble>
-        </figure>
-     
+   <t>
+      <figure>
+          <artwork><![CDATA[
+        from playground.network.packet import PacketType
+        from playground.network.packet.fieldtypes 
+                                      import UINT32, STRING, BUFFER, BOOLEAN
+        class PIMPPacket(PacketType):
+            DEFINITION_IDENTIFIER = "PIMP.Packet"
+            DEFINITION_VERSION = "1.0"
+            FIELDS = [
+              ("seqNum", UINT32),
+              ("ackNum", UINT32),
+              ("ACK", BOOLEAN), 
+              ("RST", BOOLEAN),
+              ("SYN", BOOLEAN),
+              ("FIN", BOOLEAN),
+              ("RTR", BOOLEAN),
+              ("checkSum", STRING), # Hash value of the packet
+              ("data", BUFFER)
+            ]
+                  ]]>
+          </artwork>
+      </figure>
+	   </t>
      <section title = "Header Descriptions">
        <t>Sequence Number - 32 bits:</t>
        			<t><list style="empty">
