@@ -279,40 +279,69 @@
    
    <section title="Technical Functionality">
      <t>
-The "three-way handshake" is the procedure used to establish a connection. This procedure normally is initiated by one PIMP and responded to by another PIMP. The procedure also works if two PIMP simultaneously initiate the procedure. When simultaneous attempt occurs, each PIMP receives packet with the SYN flag set which carries no acknowledgment after it has sent a "SYN". Of course, the arrival of an old duplicate "SYN" segment can potentially make it appear, to the recipient, that a simultaneous connection initiation is in progress. Proper use of "reset" segments can disambiguate these cases.
-Several examples of connection initiation follow. Although these examples do not show connection synchronization using data-carrying segments, this is perfectly legitimate, so long as the receiving PIMP doesn't deliver the data to the user until it is clear the data is valid (i.e., the data must be buffered at the receiver until the connection reaches the ESTABLISHED state). The three-way handshake reduces the possibility of false connections. It is the implementation of a trade-off between memory and messages to provide information for this checking.
-The simplest three-way handshake is shown in figure 7 below. The figures should be interpreted in the following way. Each line is numbered for reference purposes. Right arrows (-->) indicate
-departure of a PIMP packet from PIMP A to PIMP B, or arrival of a packet at B from A. Left arrows (<--), indicate the reverse. Ellipsis (...) indicates a segment which is still in the network (delayed). An "XXX" indicates a segment which is lost or rejected.
-Comments appear in parentheses. PIMP states represent the state AFTER the departure or arrival of the segment (whose contents are shown in the center of each line). Segment contents are shown in abbreviated form, with sequence number, and ACK field. Other fields such as window, addresses, lengths, and text have been left out in the interest of clarity.
-             PIMP A                                             PIMP B
-CLOSED LISTEN
-SYN-SENT --> <SEQ=100><SYNFLAG=TRUE> --> SYN-RECEIVED
-ESTABLISHED <-- <SEQ=300><ACK=101><SYNFLAG=TRUE ACKFLAG=TRUE> <-- SYN-RECEIVED
-ESTABLISHED --> <SEQ=101><ACK=301><ACKFLAG=TRUE><DATA> --> ESTABLISHED
-
-The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion. To deal with this, a special control message, reset, has been devised. If the receiving PIMP is in a non-synchronized state (i.e., SYN-SENT, SYN-RECEIVED), it returns to LISTEN on receiving an acceptable reset.
-If the TCP is in one of the synchronized states it aborts the connection and informs its user. We discuss this later case under "half-open" connections below.
-HALF OPEN
-An established connection is said to be "half-open" if one of the PIMPs has closed or aborted the connection at its end without the knowledge of the other, or if the two ends of the connection have become desynchronized owing to a crash that resulted in loss of memory. Such connections will automatically become reset if an attempt is made to send data in either direction. However, half-open connections are expected to be unusual, and the recovery procedure is mildly involved.
-If at site A the connection no longer exists, then an attempt by the user at site B to send any data on it will result in the site B PIMP receiving a reset control message. Such a message indicates to the site B PIMP that something is wrong, and it is expected to abort the connection.
-Assume that two user processes A and B are communicating with one another when a crash occurs causing loss of memory to A's PIMP.
-Depending on the operating system supporting A's PIMP, it is likely that some error recovery mechanism exists. When the PIMP is up again, A is likely to start again from the beginning or from a recovery point. As a result, A will probably try to OPEN the connection again or try to SEND on the connection it believes open. In the latter case, it receives the error message "connection not open" from the local (A's) PIMP. In an attempt to establish the connection, A's PIMP will send a packet containing SYN. This scenario leads to the example shown in figure 10. After PIMP A crashes, the user attempts to re-open the connection. PIMP B, in the meantime, thinks the connection is open.
-   PIMP A                                                                                 PIMP B
-(CRASH) (send 300,receive 100)
-CLOSED ESTABLISHED
-SYN-SENT --> <SEQ=400><SYNFLAG=TRUE> --> (??)
-(!!) <-- <SEQ=300><ACK=100><ACKFLAG=TRUE> <-- ESTABLISHED
-SYN-SENT --> <SEQ=100><CTL=RST> --> (Abort!!)
-SYN-SENT CLOSED
-SYN-SENT --> <SEQ=400><SYNFLAG=TRUE> -->
-When the SYN arrives at line 3, PIMP B, being in a synchronized state and the incoming segment outside the window, responds with an acknowledgment indicating what sequence it next expects to hear (ACKFLAG = TRUE SEQ=100). PIMP A sees that this segment does not acknowledge anything it sent and, being unsynchronized, sends a reset (RST) because it has detected a half-open connection. PIMP B aborts at line 5. PIMP A will continue to try to establish the connection; the problem is now reduced to the basic 3-way handshake of figure 7.
-An interesting alternative case occurs when PIMP A crashes and PIMP B tries to send data on what it thinks is a synchronized connection.
-This is illustrated in figure 11. In this case, the data arriving at PIMP A from PIMP B (line 2) is unacceptable because no such connection exists, so PIMP A sends a RST. The RST is acceptable so PIMP B processes it and aborts the connection.
-            PIMP A                                                                                              PIMP B
-(CRASH) (send 300,receive 100)
-(??) <-- <SEQ=300><ACK=100><DATA=10><ACKFLAG=TRUE>. <-- ESTABLISHED
---> <SEQ=100><CTL=RST> --> (ABORT!!)
-	     SOURCE: Obviously copied from TCP RFC</t>
+      The "three-way handshake" is the procedure used to establish a connection. This procedure normally is initiated by one PIMP and responded to by another PIMP. The procedure also works if two PIMP simultaneously initiate the procedure. When simultaneous attempt occurs, each PIMP receives packet with the SYN flag set which carries no acknowledgment after it has sent a "SYN". Of course, the arrival of an old duplicate "SYN" segment can potentially make it appear, to the recipient, that a simultaneous connection initiation is in progress. Proper use of "reset" segments can disambiguate these cases.
+      Several examples of connection initiation follow. Although these examples do not show connection synchronization using data-carrying segments, this is perfectly legitimate, so long as the receiving PIMP doesn't deliver the data to the user until it is clear the data is valid (i.e., the data must be buffered at the receiver until the connection reaches the ESTABLISHED state). The three-way handshake reduces the possibility of false connections. It is the implementation of a trade-off between memory and messages to provide information for this checking.
+      The simplest three-way handshake is shown in figure 7 below. The figures should be interpreted in the following way. Each line is numbered for reference purposes. Right arrows (-->) indicate
+      departure of a PIMP packet from PIMP A to PIMP B, or arrival of a packet at B from A. Left arrows, indicate the reverse. Ellipsis (...) indicates a segment which is still in the network (delayed). An "XXX" indicates a segment which is lost or rejected.
+      Comments appear in parentheses. PIMP states represent the state AFTER the departure or arrival of the segment (whose contents are shown in the center of each line). Segment contents are shown in abbreviated form, with sequence number, and ACK field. Other fields such as window, addresses, lengths, and text have been left out in the interest of clarity. 
+    </t>
+    <figure align="center">
+      <preamble>The following artwork demonstrates the connection state diagram:</preamble>
+      <artwork align="center"><![CDATA[
+                   PIMP A                                             PIMP B
+                  CLOSED LISTEN
+                  SYN-SENT --> <SEQ=100><SYNFLAG=TRUE> --> SYN-RECEIVED
+                  ESTABLISHED <-- <SEQ=300><ACK=101><SYNFLAG=TRUE ACKFLAG=TRUE> <-- SYN-RECEIVED
+                  ESTABLISHED --> <SEQ=101><ACK=301><ACKFLAG=TRUE><DATA> --> ESTABLISHED
+                  ]]>
+       </artwork>
+      <postamble>
+        PIMP Connection State Diagram
+      </postamble>
+  </figure>
+        <t>
+        The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion. To deal with this, a special control message, reset, has been devised. If the receiving PIMP is in a non-synchronized state (i.e., SYN-SENT, SYN-RECEIVED), it returns to LISTEN on receiving an acceptable reset. If the TCP is in one of the synchronized states it aborts the connection and informs its user. We discuss this later case under "half-open" connections below. </t>
+        <t>
+        HALF OPEN
+        An established connection is said to be "half-open" if one of the PIMPs has closed or aborted the connection at its end without the knowledge of the other, or if the two ends of the connection have become desynchronized owing to a crash that resulted in loss of memory. Such connections will automatically become reset if an attempt is made to send data in either direction. However, half-open connections are expected to be unusual, and the recovery procedure is mildly involved.
+        If at site A the connection no longer exists, then an attempt by the user at site B to send any data on it will result in the site B PIMP receiving a reset control message. Such a message indicates to the site B PIMP that something is wrong, and it is expected to abort the connection.
+        Assume that two user processes A and B are communicating with one another when a crash occurs causing loss of memory to A's PIMP.
+        Depending on the operating system supporting A's PIMP, it is likely that some error recovery mechanism exists. When the PIMP is up again, A is likely to start again from the beginning or from a recovery point. As a result, A will probably try to OPEN the connection again or try to SEND on the connection it believes open. In the latter case, it receives the error message "connection not open" from the local (A's) PIMP. In an attempt to establish the connection, A's PIMP will send a packet containing SYN. This scenario leads to the example shown in figure 10. After PIMP A crashes, the user attempts to re-open the connection. PIMP B, in the meantime, thinks the connection is open. 
+        </t>
+      <figure align="center">
+            <preamble>The following artwork demonstrates the connection state diagram:</preamble>
+            <artwork align="center"><![CDATA[
+                PIMP A                                                                                 PIMP B
+                (CRASH) (send 300,receive 100)
+                CLOSED ESTABLISHED
+                SYN-SENT --> <SEQ=400><SYNFLAG=TRUE> --> (??)
+                (!!) <-- <SEQ=300><ACK=100><ACKFLAG=TRUE> <-- ESTABLISHED
+                SYN-SENT --> <SEQ=100><CTL=RST> --> (Abort!!)
+                SYN-SENT CLOSED
+                SYN-SENT --> <SEQ=400><SYNFLAG=TRUE> -->
+                ]]>
+                 </artwork>
+            <postamble>
+              PIMP Connection State Diagram
+            </postamble>
+        </figure>
+        <t>When the SYN arrives at line 3, PIMP B, being in a synchronized state and the incoming segment outside the window, responds with an acknowledgment indicating what sequence it next expects to hear (ACKFLAG = TRUE SEQ=100). PIMP A sees that this segment does not acknowledge anything it sent and, being unsynchronized, sends a reset (RST) because it has detected a half-open connection. PIMP B aborts at line 5. PIMP A will continue to try to establish the connection; the problem is now reduced to the basic 3-way handshake of figure 7.
+        An interesting alternative case occurs when PIMP A crashes and PIMP B tries to send data on what it thinks is a synchronized connection.
+        This is illustrated in figure 11. In this case, the data arriving at PIMP A from PIMP B (line 2) is unacceptable because no such connection exists, so PIMP A sends a RST. The RST is acceptable so PIMP B processes it and aborts the connection.</t>
+        <figure align="center">
+            <preamble>The following artwork demonstrates the connection state diagram:</preamble>
+            <artwork align="center"><![CDATA[
+                        PIMP A                                                                                              PIMP B
+                (CRASH) (send 300,receive 100)
+                (??) <-- <SEQ=300><ACK=100><DATA=10><ACKFLAG=TRUE>. <-- ESTABLISHED
+                --> <SEQ=100><CTL=RST> --> (ABORT!!)
+                       SOURCE: Obviously copied from TCP RFC</t>
+                   ]]>
+             </artwork>
+            <postamble>
+              PIMP Connection State Diagram
+            </postamble>
+        </figure>
           <!-- ARTWORK EXAMPLE -->
    		<figure anchor="xml_state" align="center">
             <preamble>The following artwork demonstrates the connection state diagram:</preamble>
