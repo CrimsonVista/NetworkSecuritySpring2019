@@ -206,7 +206,7 @@
               ("SYN", BOOLEAN),
               ("FIN", BOOLEAN),
               ("RTR", BOOLEAN),
-              ("checkSum", INT),  
+              ("checkSum", BUFFER),  
               ("data", BUFFER)
             ]
                   ]]>
@@ -232,9 +232,9 @@
               <t>FIN - Receive no more data from the sender</t>
               <t>RTR - Request retransmission from sender</t>
             </list></t>
-       <t>Checksum - 128 bits</t>
+       <t>Checksum - BUFFER</t>
        			<t><list style="empty">
-							<t> Checksum will be done using the MD5 algorithm, which takes an arbitrary length input and produces a 128 bit output. In our case the input will be header fields prior to the checksum (last field being RTR). This requires little effort to implement, as there are packages to perform an MD5 hash.</t>
+							<t> Checksum will be done using the MD5 algorithm, which takes an arbitrary length input and produces a 128 bit output which is stored in a buffer. In our case the input will be header fields prior to the checksum (last field being RTR). This requires little effort to implement, as there are packages to perform an MD5 hash.</t>
             </list></t>
    	 </section>
      
@@ -250,7 +250,7 @@
             ("SYN", BOOLEAN)
             ("FIN", BOOLEAN)
             ("RTR", BOOLEAN)
-            ("checksum", INTEGER, 128 bit)
+            ("checksum", BUFFER)
          		("data", BUFFER)
     			]
        </t>
@@ -482,9 +482,9 @@ v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date 
                      year only, to be consistent with the comments. Updated the 
                      IANA guidelines reference from the I-D to the finished RFC.  
 
-v1.1 Team Kronos Update Proposal pull request 2019-03-36 
+v1.1 Team Kronos Update Proposal pull request 2019-03-27 
 	-Changed checksum to MD5 hash
-	-Changed header fields to match descriptions, and changed checksum from STRING to INT (MD5 is 128-bit / 16 byte output)
+	-Changed header fields to match descriptions, and changed checksum from INT to BUFFER
 	-Added the packet transmission steps of the handshake (as they are defined in TCP) to the Technical Functionality
 	-Added error handling for packets received with improper flag combinations (the packet is dropped)
                      
