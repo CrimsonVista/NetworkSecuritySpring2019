@@ -8,7 +8,6 @@
     There has to be one entity for each item to be referenced. 
     An alternate method (rfc include) is described in the references. -->
 
-<!ENTITY RFC0793 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.0793.xml">
 <!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
 <!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
@@ -207,7 +206,7 @@
               ("SYN", BOOLEAN),
               ("FIN", BOOLEAN),
               ("RTR", BOOLEAN),
-              ("checkSum", STRING), 
+              ("checkSum", INT),  
               ("data", BUFFER)
             ]
                   ]]>
@@ -233,16 +232,9 @@
               <t>FIN - Receive no more data from the sender</t>
               <t>RTR - Request retransmission from sender</t>
             </list></t>
-       <t>Checksum - 16 bits:</t>
+       <t>Checksum - 128 bits</t>
        			<t><list style="empty">
-							<t>As described in <xref target="RFC0793">RFC 793</xref>, 
-                "The checksum field is the 16 bit one's complement of the one's
-    						complement sum of all 16 bit words in the header and text.  If a
-    						segment contains an odd number of header and text octets to be
-                checksummed, the last octet is padded on the right with zeros to
-                form a 16 bit word for checksum purposes.  The pad is not
-                transmitted as part of the segment.  While computing the checksum,
-                the checksum field itself is replaced with zeros."</t>
+							<t> Checksum will be done using the MD5 algorithm, which takes an arbitrary length input and produces a 128 bit output. In our case the input will be header fields prior to the checksum (last field being RTR). This requires little effort to implement, as there are packages to perform an MD5 hash.</t>
             </list></t>
    	 </section>
      
@@ -251,14 +243,14 @@
           DEFINITION_IDENTIFIER = "roastmyprofessor.pimp.PIMPPacket"
     			DEFINITION_VERSION = "1.0"
     			BODY = [
-        		("sequence_number", INTEGER),
-        		("acknowledgment_number", INTEGER)
+        		("seqNum", UINT32),
+        		("ackNum", UINT32)
          		("ACK", BOOLEAN)
             ("RST", BOOLEAN)
             ("SYN", BOOLEAN)
             ("FIN", BOOLEAN)
             ("RTR", BOOLEAN)
-            ("checksum", INTEGER)
+            ("checksum", INTEGER, 128 bit)
          		("data", BUFFER)
     			]
        </t>
@@ -268,27 +260,25 @@
      </section>
      
      <section title = "Error handling">
-       <t>There are two types of errors that can occur:</t>
+       <t>There are multiple errors that can occur:</t>
        
        <t><list style="numbers">
-				 <t>Packet loss</t>
-         <t>Corrupted data (indicated by an incorrect checksum)</t>
+		        <t>Packet loss</t>
+            <t>Corrupted data (indicated by an incorrect checksum)</t>
+		        <t>*Packet with invalid flags (invalid flag combination) is received</t>
        </list></t>
        
-       <t>Both of these cases are handled the same way. A packet
+       <t>The first cases are handled the same way. A packet
      requesting retransmission of the lost or corrupted packet
      will be sent to the caller.</t>
+     	<t>*In the last case (invalid flag combination for a packet received), such as an incorrect combination of flags, the packet will be dropped.</t>
+
      </section>
    </section>
    
    <section title="Technical Functionality">
-     <t>PIMP retains the standard TCP three way handshake and
-     termination procedures. Additionally, when the reciever
-     sends the FIN packet, they specify the final sequence number
-     they have sent. This gives the server one last chance to ask
-     for any retranmits in the (shortened, final) window, and wait
-     until they are recieved before sending a FIN packet back to the 
-     reciever."</t>
+     <t>PIMP retains the standard TCP three way handshake for connection establishment and
+     termination procedures. The handshake includes the following steps: 1) SYN: Client sends a SYN packet (with SYN flag) to the server, seqNum set to random uint32 'A'. 2) SYN-ACK: Server responds with a SYN-ACK packet (such that SYN and ACK flags are set), this packet sets the ackNum (unit32) to the received seqNum A + 1. the seqNum is set to a new random uint32 'B'. 3) ACK: Client acknowledges by sending an ACK packet (with ACK flag set) to the server, where seqNum is set to received ackNum, and the ackNum is set to the received seqNum + 1. If this is completed, connections is established as both sides have acknowledged the connetion. Additionally, when the server sends the FIN packet, they specify the final sequence number they have sent. This gives the server one last chance to ask for any retranmits in the (shortened, final) window, and wait until they are received before sending a FIN packet back to the reciever."</t>
      
           <!-- ARTWORK EXAMPLE -->
    		<figure anchor="xml_state" align="center">
@@ -468,7 +458,6 @@
    
    <references title="Normative References">
      <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0793.xml"?-->
-     &RFC0793;
      <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
      &RFC2119;
      
@@ -492,6 +481,12 @@ v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and
 v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
                      year only, to be consistent with the comments. Updated the 
                      IANA guidelines reference from the I-D to the finished RFC.  
+
+v1.1 Team Kronos Update Proposal pull request 2019-03-36 
+	-Changed checksum to MD5 hash
+	-Changed header fields to match descriptions, and changed checksum from STRING to INT (MD5 is 128-bit / 16 byte output)
+	-Added the packet transmission steps of the handshake (as they are defined in TCP) to the Technical Functionality
+	-Added error handling for packets received with improper flag combinations (the packet is dropped)
                      
 SETH NIELSON:
   Altered for PLAYGROUND AND PRFC's
