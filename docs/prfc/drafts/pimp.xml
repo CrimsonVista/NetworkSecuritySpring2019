@@ -286,9 +286,9 @@ Comments appear in parentheses. PIMP states represent the state AFTER the depart
              PIMP A                                             PIMP B
 CLOSED LISTEN
 SYN-SENT --> <SEQ=100><SYNFLAG=TRUE> --> SYN-RECEIVED
-ESTABLISHED <-- <SEQ=300><ACK=101><ACKFLAG=TRUE> <-- SYN-RECEIVED
-ESTABLISHED --> <SEQ=101><ACK=301><SYNFLAG=TRUE ACKFLAG=TRUE> --> ESTABLISHED
-ESTABLISHED --> <SEQ=101><ACK=301><CTL=ACK><DATA> --> ESTABLISHED
+ESTABLISHED <-- <SEQ=300><ACK=101><SYNFLAG=TRUE ACKFLAG=TRUE> <-- SYN-RECEIVED
+ESTABLISHED --> <SEQ=101><ACK=301><ACKFLAG=TRUE><DATA> --> ESTABLISHED
+
 The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion. To deal with this, a special control message, reset, has been devised. If the receiving PIMP is in a non-synchronized state (i.e., SYN-SENT, SYN-RECEIVED), it returns to LISTEN on receiving an acceptable reset.
 If the TCP is in one of the synchronized states it aborts the connection and informs its user. We discuss this later case under "half-open" connections below.
 HALF OPEN
