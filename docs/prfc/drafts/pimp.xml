@@ -194,7 +194,7 @@
           <artwork><![CDATA[
         from playground.network.packet import PacketType
         from playground.network.packet.fieldtypes 
-                                      import UINT32, STRING, BUFFER, BOOLEAN
+                              import UINT32, STRING, BUFFER, BOOLEAN
         class PIMPPacket(PacketType):
             DEFINITION_IDENTIFIER = "PIMP.Packet"
             DEFINITION_VERSION = "1.0"
@@ -288,11 +288,11 @@
     <figure align="center">
       <preamble>The following artwork demonstrates the connection state diagram:</preamble>
       <artwork align="center"><![CDATA[
-                   PIMP A                                             PIMP B
-                  CLOSED LISTEN
-                  SYN-SENT --> <SEQ=100><SYNFLAG=TRUE> --> SYN-RECEIVED
-                  ESTABLISHED <-- <SEQ=300><ACK=101><SYNFLAG=TRUE ACKFLAG=TRUE> <-- SYN-RECEIVED
-                  ESTABLISHED --> <SEQ=101><ACK=301><ACKFLAG=TRUE><DATA> --> ESTABLISHED
+PIMP A                                                         PIMP B
+                                                        CLOSED LISTEN
+SYN-SENT    --> <SEQ=100><SYNFLAG>                   --> SYN-RECEIVED
+ESTABLISHED <-- <SEQ=300><ACK=101><SYNFLAG, ACKFLAG> <-- SYN-RECEIVED
+ESTABLISHED --> <SEQ=101><ACK=301><ACKFLAG><DATA>     --> ESTABLISHED
                   ]]>
        </artwork>
       <postamble>
@@ -311,14 +311,14 @@
       <figure align="center">
             <preamble>The following artwork demonstrates the connection state diagram:</preamble>
             <artwork align="center"><![CDATA[
-                PIMP A                                                                                 PIMP B
-                (CRASH) (send 300,receive 100)
-                CLOSED ESTABLISHED
-                SYN-SENT --> <SEQ=400><SYNFLAG=TRUE> --> (??)
-                (!!) <-- <SEQ=300><ACK=100><ACKFLAG=TRUE> <-- ESTABLISHED
-                SYN-SENT --> <SEQ=100><CTL=RST> --> (Abort!!)
-                SYN-SENT CLOSED
-                SYN-SENT --> <SEQ=400><SYNFLAG=TRUE> -->
+PIMP A                                           PIMP B
+(CRASH) (send 300,receive 100)
+CLOSED ESTABLISHED
+SYN-SENT --> <SEQ=400><SYNFLAG=TRUE>          --> (??)
+(!!)     <-- <SEQ=300><ACK=100><ACKFLAG=TRUE> <-- ESTABLISHED
+SYN-SENT --> <SEQ=100><CTL=RST>               --> (Abort!!)
+SYN-SENT CLOSED
+SYN-SENT --> <SEQ=400><SYNFLAG=TRUE>          -->
                 ]]>
                  </artwork>
             <postamble>
@@ -331,11 +331,11 @@
         <figure align="center">
             <preamble>The following artwork demonstrates the connection state diagram:</preamble>
             <artwork align="center"><![CDATA[
-                        PIMP A                                                                                              PIMP B
-                (CRASH) (send 300,receive 100)
-                (??) <-- <SEQ=300><ACK=100><DATA=10><ACKFLAG=TRUE>. <-- ESTABLISHED
-                --> <SEQ=100><CTL=RST> --> (ABORT!!)
-                       SOURCE: Obviously copied from TCP RFC</t>
+PIMP A                                                       PIMP B
+(CRASH) (send 300,receive 100)
+(??) <-- <SEQ=300><ACK=100><DATA=10><ACKFLAG=TRUE>. <-- ESTABLISHED
+     --> <SEQ=100><CTL=RST>                         --> (ABORT!!)
+ SOURCE: Obviously copied from TCP RFC</t>
                    ]]>
              </artwork>
             <postamble>
