@@ -234,7 +234,7 @@
             </list></t>
        <t>Checksum - BUFFER</t>
        			<t><list style="empty">
-							<t> Checksum will be done using the MD5 algorithm, which takes an arbitrary length input and produces a 128 bit output which is stored in a buffer. In our case the input will be header fields prior to the checksum (last field being RTR). This requires little effort to implement, as there are packages to perform an MD5 hash.</t>
+							<t> Checksum will be done using the MD5 algorithm, which takes an arbitrary length input and produces a 128 bit output which is stored in a buffer. In our case the input will be header fields prior to the checksum (last field being RTR) and data. This requires little effort to implement, as there are packages to perform an MD5 hash.</t>
             </list></t>
    	 </section>
      
