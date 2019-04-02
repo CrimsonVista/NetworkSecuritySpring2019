@@ -216,15 +216,15 @@
      <section title = "Header Descriptions">
        <t>Sequence Number - 32 bits:</t>
        			<t><list style="empty">
-							<t> The sequence number is the first data octet in the segment. We will use python's 
-              Random module in Initial Sequence Number (ISN) determination. </t>
+							<t> The sequence number is in the seqNum field. We will use python's 
+              Random module in Initial Sequence Number (ISN) determination. If a packet is an ACK packet that is out of the handshake and just ACKing data, the seqNum should be set to 0 </t>
             </list></t>
        <t>Acknowledgment Number - 32 bits:</t>
        			<t><list style="empty">
 							<t>The acknowledgment number is a number that is 1 more than the last sequence number. 
-         			This is sent to the sender to notify them that their last packet was received.</t>
+         			This is sent to the sender to notify them that their last packet was received. If a packet is an data packet that is out of the handshake, and just sending data, the ACK num should be set to 0.</t>
             </list></t>
-       <t>Control Bits - 5 bits (left to right):</t>
+       <t>Control Flags:</t>
        			<t><list style="empty">
 							<t>ACK - Acknowledgement field significant</t>
               <t>RST - Reset the connection</t>
