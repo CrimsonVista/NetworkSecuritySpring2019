@@ -405,6 +405,7 @@ PIMP A                                                       PIMP B
 		 The reciever of the FIN packet will send a FIN-ACK. Upon reciept of the FIN-ACK, one last ACK will
 		 be sent. The reciver of the FIN ACK will send the ACK and then close. The sender of the FIN ACK will
 		 wait for the last ACK. If it doesn't recieve the ACK within the timeout period, it will close anyway.
+		 The sequence number and ack number in FIN, FIN-ACK and the final ACK should all be 0.
 		 </t> </section>
 
    
