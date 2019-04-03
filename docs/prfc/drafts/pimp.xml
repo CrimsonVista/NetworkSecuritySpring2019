@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="US-ASCII"?>
 <!-- This template is modified by Seth Nielson for creating P-RFC's
     (Playground-RFC's). -->
@@ -383,10 +384,10 @@ PIMP A                                                       PIMP B
    |                 CLOSE    |     |    rcv FIN
    V                -------   |     |    -------
  +---------+        snd FIN  /       \   snd ACK        +---------+
- |  FIN    |<---------------           ---------------->|  CLOSE  |
- | WAIT-1  |------------------                          |   WAIT  |
+ |  FIN    |<---------------           ---------------->|         |
+ | WAIT-1  |------------------                          |         |
  +---------+          rcv FIN  \                        +---------+
-   | rcv ACK of FIN   -------   |                          CLOSE  |
+   | rcv ACK of FIN   -------   |                                 |
    | --------------   snd ACK   |                         ------- |
    V        x                   V                         snd FIN V
  +---------+                +---------+                 +---------+
