@@ -88,10 +88,10 @@
 
    <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
         in the current day for you. If only the current year is specified, xml2rfc will fill 
-	 in the current day and month for you. If the year is not the current one, it is 
-	 necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
-	 purpose of calculating the expiry date).  With drafts it is normally sufficient to 
-	 specify just the year. -->
+   in the current day and month for you. If the year is not the current one, it is 
+   necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+   purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+   specify just the year. -->
 
    <!-- Meta-data Declarations -->
 
@@ -101,7 +101,7 @@
 
    <!-- WG name at the upperleft corner of the doc,
         IETF is fine for individual submissions.  
-	 If this element is not present, the default is "Network Working Group",
+   If this element is not present, the default is "Network Working Group",
         which is used by the RFC Editor as a nod to the history of the IETF. -->
 
    <keyword>PRFC</keyword>
@@ -148,10 +148,14 @@
      a two bit number - 65,535 - which is the largest number that can
      be put in the two bit portion of the PIMP packet allocated to "window".</t>
      
-     <t>Additionally, the protocol is simplified by sending back a retransmission 
-     request packet for every missing sequence number after the window has been 
-     filled. The window is identified as "filled" after a specified timeout, and 
-     at this time, the retransmit requests will be sent.</t>
+     <t>In case of packet loss in extreme scenario, for example, client only sends one packet to server, but packet is lost, both server and client wait for the response from the other side. The ACK mechanism is needed.</t>
+
+     <t>When server receives packer, it will place packets orderly, then it checks the sequence number of packet to determine if the packet is what it is supposed to receive. Once the packet is accepted by the server, it sends back a ACK packet.</t>
+
+     <t>On the other side, after sending out the packet, the client will keep the data until it receives a corresponding ACK packet whose ACK number should be sequence number +1. It keeps waiting for 10 seconds. After timeout, it will resend the packets starting from time out packet. Within the 10 seconds, it will only be regarded as latency of network.</t>
+
+     <t>Additionally, out of extreme scenario, the protocol is simplified by sending back a retransmission request packet for every missing sequence number after the window has been filled. The window is identified as "filled" after a specified timeout, and 
+     at this time, the retransmit requests will be sent. In this case, only the specific packets will be needed for retransmission.</t>
      
      <t>If the sender receives a retransmission request, it should send out
      the missing packets sequentially. If the retransmission is not received, 
@@ -167,7 +171,7 @@
       numbers will be fixed, these fields can also be excluded from the PIMP header.</t>
      
      <t>Finally, we guard against SYN flooding by having a time out. If
-     nothing is recieved from a client within the timeout, the connection
+     nothing is received from a client within the timeout, the connection
      is closed. SYN flooding may briefly occur, but the TCB will be flushed
      of any connections that are not fully open each time the timeout elapses.</t>
     
@@ -178,11 +182,11 @@
       they are given a new window with the next set of sequence numbers.
       Packets may be lost on the network, and a mechanism for retransmission
       must be supplied. The sequence numbers prevent duplicates, verify all 
-      sent data has been recieved, and provide a mechanism for identifying 
+      sent data has been received, and provide a mechanism for identifying 
       missing segments. Checksums are provided to recognize corruption of data.
-      Retranmission of corrupted or fragmented data can then be requested.</t>
+      Retransmission of corrupted or fragmented data can then be requested.</t>
     
-    <t>Additional meta data includes the "References" and "Author's Address"
+    <t>Additional metadata includes the "References" and "Author's Address"
     sections. These elements MUST conform to RFC specifications.</t>
     </section>
   
@@ -212,6 +216,7 @@
                   ]]>
           </artwork>
       </figure>
+
 	   </t>
      <section title = "Header Descriptions">
        <t>Sequence Number - 32 bits:</t>
@@ -233,10 +238,12 @@
               <t>RTR - Request retransmission from sender</t>
             </list></t>
        <t>Checksum - BUFFER</t>
+
        			<t><list style="empty">
 							<t> Checksum will be done using the MD5 algorithm, which takes an arbitrary length input and produces a 128 bit output which is stored in a buffer. In our case the input will be header fields prior to the checksum (last field being RTR) and data. This requires little effort to implement, as there are packages to perform an MD5 hash.</t>
+
             </list></t>
-   	 </section>
+     </section>
      
      <section title = "Packet Description">
        <t>class PIMPPacket(PacketType):
@@ -256,7 +263,7 @@
        </t>
        <t>PIMP packets include two sections, the header and the data sections. 
          The header section includes the fields described in the header description. 
-       	 The data section, on the other hand, includes a buffer with the data being transmitted.</t>
+         The data section, on the other hand, includes a buffer with the data being transmitted.</t>
      </section>
      
      <section title = "Error handling">
@@ -343,7 +350,7 @@ PIMP A                                                       PIMP B
             </postamble>
         </figure>
           <!-- ARTWORK EXAMPLE -->
-   		<figure anchor="xml_state" align="center">
+      <figure anchor="xml_state" align="center">
             <preamble>The following artwork demonstrates the connection state diagram:</preamble>
             <artwork align="center">
 <![CDATA[ 
@@ -399,7 +406,22 @@ PIMP A                                                       PIMP B
         </figure>
    
    </section>
-   
+
+<section title="ACK Specification">
+    <t>Under normal data transformation, the active open is performed by the client sending a SYN to the server. The client set the segment’s sequence number to a random value A. Then when server successfully receives a SYN, in response, it replies with a SYN-ACK. The Ack number  is set to one more than the received sequence number i.e A+1. and the sequence number that the server chooses for the packet is another random number,B. Finally the client sends an ACK back to the server. The sequence number is set to the received acknowledgement value i.e. A+1, and the acknowledgement number is set to one more than the received sequence number i.e. B+1. At this point, both the client and server have received and acknowledgment of the connection. And the connection is established.</t>
+
+    <t>If the first SYN packet is lost, the timeout mechanism will be called on client side and it will automatically resend the SYN packet once the ack does not arrive within the set time. And if it tries several times, connection will terminate.</t>
+
+    <t>If SYN-ACK packet sent by server or ACK packet sent by the client is lost, timeout mechanism on server side will do the same thing, which means server will actively resend out the SYN-ACK packet once the ack does not arrive within the time. And if it tries several times, connection will terminate.</t>
+
+    <t>Ideally, in the data transmission process, the client would send out data packets with continuously increment sequence numbers (seqNum). If nothing goes wrong, after the server receives a packet with seqNum = i, the server would respond back an acknowledgment packet to the client with the acknowledgment number (ackNum) equals to i + 1.</t>
+
+    <t>In the case that the server does not successfully receive data packets sent from the client, no associated acknowledgment packets will be sent back to the client. As a result, as long as the client keeps track of all the sent packets, if after a certain timeout the client still not receive the ACK for those packets, the client would consider those packets are lost, and thus re-transmit them to the server again.</t>
+
+    <t>The connection termination procedure for a pimp session is shown as following:
+    In the case the client initiates the termination, it sends a FIN. After receiving it, the server sends back a acknowledgement. The server waits for application process to close and then sends its FIN. After receiving it, the client sends back a acknowledgement. Then the server closes when receiving the ACK, and client waits until the ACK is received by the server then the client proceeds to the closed state. If any of the packet is lost during the transmission, the timeout function is applied.</t>
+</section>
+
    <section title="PRFC Revision Process">
    <t>Once a PRFC is officially published by the PETF, it cannot be modified further
    for any reason. A new PRFC must be submitted that identifies the errors and 
@@ -410,9 +432,9 @@ PIMP A                                                       PIMP B
    Changes to PRFC's that are "updates" include:</t>
    
    <t><list style="numbers">
-   	<t>Corrections to spelling, grammar, and other wording in the document</t>
-   	<t>Additional details about operations and operational considerations</t>
-   	<t>Additional parameters or interactions to the existing protocol</t>
+    <t>Corrections to spelling, grammar, and other wording in the document</t>
+    <t>Additional details about operations and operational considerations</t>
+    <t>Additional parameters or interactions to the existing protocol</t>
    </list></t>
    
    <t>A PRFC MUST use the "supercede" reference if the changes result in an incompatible
