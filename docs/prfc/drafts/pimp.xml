@@ -407,6 +407,26 @@ PIMP A                                                       PIMP B
         </figure>
    
    </section>
+	 
+	 	 <section title="Fin Process">
+	         <t> The FIN process is the same as the handshake. The side that desires to close will send a FIN packet.
+			 The reciever of the FIN packet will send a FIN-ACK. Upon reciept of the FIN-ACK, one last ACK will
+			 be sent. The reciver of the FIN ACK will send the ACK and then close. The sender of the FIN ACK will
+			 wait for the last ACK. If it doesn't recieve the ACK within the timeout period, it will close anyway.
+			 The sequence number and ack number in FIN, FIN-ACK and the final ACK should all be 0.
+			 The reciever of the FIN packet will send a FIN-ACK. Upon reciept of the FIN-ACK, the reciever
+			 of the FIN-ACK will wait for any outstanding data (missing sequence numbers) from the sender of
+			 the FIN. The reciever of the FIN-ACK will also wait until any un-ACKed packets they have sent to
+			 be ACKed and then one last ACK will be sent. The reciver of the FIN ACK will send the ACK and then close
+			 (after sending and recieving any previous SEQs and ACKs). 
+			 The sender of the FIN ACK will wait for the last ACK. 
+			 If it doesn't recieve the ACK within the timeout period, but gotten ACKs for all
+			 data sent and doesn't have any un-ACKed data, it will close anyway.
+			 The sequence number and ack number in FIN, FIN-ACK and the final ACK should be the next numbers in the regular sequence.
+			 These will NOT be seperate ACK packets. The FIN will contain the sequence number and the ACK number will be set to zero.
+			 The FIN-ACK will contain the sender's sequence number AND ACK for the FIN. The final ACK will contain the sequence number
+			 and ACK number for the FIN-ACK.
+			 </t> </section>
 
 <section title="ACK Specification">
     <t>Under normal data transformation, the active open is performed by the client sending a SYN to the server. The client set the segment’s sequence number to a random value A. Then when server successfully receives a SYN, in response, it replies with a SYN-ACK. The Ack number  is set to one more than the received sequence number i.e A+1. and the sequence number that the server chooses for the packet is another random number,B. Finally the client sends an ACK back to the server. The sequence number is set to the received acknowledgement value i.e. A+1, and the acknowledgement number is set to one more than the received sequence number i.e. B+1. At this point, both the client and server have received and acknowledgment of the connection. And the connection is established.</t>
