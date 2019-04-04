@@ -48,7 +48,7 @@
     <front>
         <!-- The abbreviated title is used in the page header - it is only necessary if the
             full title is longer than 39 characters -->
-        <title abbrev="PRFC's">Playground TCP(PCP)</title>
+        <title abbrev="PRFC's">Protocol definition for Playground Control Protocol(PCP)</title>
         <!-- add 'role="editor"' below for the editors if appropriate -->
         <!-- Another author who claims to be an editor -->
         <author fullname="Captcha" role="editor">
@@ -75,7 +75,7 @@
         <!-- Meta-data Declarations -->
         <area>
         General</area>
-        <workgroup>Playgroup TCP</workgroup>
+        <workgroup>Protocol definition for Playground Control Protocol(PCP)</workgroup>
         <!-- WG name at the upperleft corner of the doc,
             IETF is fine for individual submissions.
             If this element is not present, the default is "Network Working Group",
@@ -85,11 +85,13 @@
             files in a meta tag but they have no effect on text or nroff
             output. If you submit your draft to the RFC Editor, the
             keywords will be used for the search engine. -->
+        <abstract>
+            <t>
+              Protocol definition for Playground Control Protocol(PCP)
+            </t>
+        </abstract>
     </front>
     <middle>
-        <section title="INTRODUCTION">
-            PCP is short for Playgroup TCP protocol.
-        </section>
         <section title="SPECIFICATION">
             <section title="Header Format">
                 <figure>
