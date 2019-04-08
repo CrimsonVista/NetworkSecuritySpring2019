@@ -19,7 +19,7 @@ class PassthroughProtocol(StackingProtocol):
         
     def connection_lost(self, exc):
         logger.debug("{} passthrough connection lost. Shutting down higher layer.".format(self._mode))
-        self.higherProtocol().connection_lost(transport)
+        self.higherProtocol().connection_lost(exc)
         
 PassthroughClientFactory = StackingProtocolFactory.CreateFactoryType(
     lambda: PassthroughProtocol(mode="client")
