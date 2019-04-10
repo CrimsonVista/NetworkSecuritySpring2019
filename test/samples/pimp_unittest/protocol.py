@@ -1,13 +1,6 @@
-# Setup your testing here. Your pimp protocol either
-# has to be on path, or you can adjust the path as 
-# shown below
-
-#import sys
-#sys.path.append("/path/to/pimp/")
-
-# use your module's name and client names etc
-#from pimp import PimpClientProtocol, PimpServerProtocol, PIMPPacket
-
+import sys
+sys.path.append("../../../../src/reliable_layers/")
+from y20191_pimp.protocol import PimpClientProtocol, PimpServerProtocol, PIMPPacket
 from playground.network.testing.mock import MockTransportToStorageStream as MockTransport
 from playground.asyncio_lib.testing import TestLoopEx
 from playground.common.logging import EnablePresetLogging, PRESET_DEBUG
@@ -108,7 +101,7 @@ class TestLegalCommands(unittest.TestCase):
         self.assertEqual(client_rst.seqNum, server_ack)
         
         # client should resend SYN
-        self.loop.advanceClock(60)
+        self.loop.advanceClock(10)
         
         # various student implementations might have
         # multiple functions that trigger once, sending
@@ -314,19 +307,78 @@ class TestLegalCommands(unittest.TestCase):
         server_data_packet = self.server_transport.sink.packets.pop(0)
         
         self.client.data_received(server_data_packet.__serialize__())
-        self.assertEqual(len(self.client_transport.sink.packets), 1)
-        ack_packet = self.client_transport.sink.packets.pop(0)
         
         client_app_transport.close()
         self.client.higherProtocol().connection_lost.assert_called()
         
-        self.assertEqual(len(self.client_transport.sink.packets), 1)
-        fin_packet = self.client_transport.sink.packets.pop(0)
+        # there could be multiple acks, check that last packet is fin
+        self.assertTrue(len(self.client_transport.sink.packets)>= 1)
+        fin_packet = self.client_transport.sink.packets.pop(-1)
+        self.assertTrue(fin_packet.FIN)
         
         # We aren't even testing all the states. Just test whether
         # or not we call server connection_lost.
         self.server.data_received(fin_packet.__serialize__())
         self.server.higherProtocol().connection_lost.assert_called()
+        
+    def test_reordering(self):
+        # connect the client and server
+        self.server.connection_made(self.server_transport)
+        self.client.connection_made(self.client_transport)
+        
+        # handle syn
+        self.assertEqual(len(self.client_transport.sink.packets), 1)
+        syn_packet = self.client_transport.sink.packets.pop(0)
+        self.assertTrue(syn_packet.SYN)
+        self.server.data_received(syn_packet.__serialize__())
+        
+        # handle syn_ack
+        self.assertEqual(len(self.server_transport.sink.packets), 1)
+        syn_ack_packet = self.server_transport.sink.packets.pop(0)
+        self.assertTrue(syn_ack_packet.SYN)
+        self.assertTrue(syn_ack_packet.ACK)
+        self.client.data_received(syn_ack_packet.__serialize__())
+        
+        # handle ack
+        self.assertEqual(len(self.client_transport.sink.packets), 1)
+        ack_packet = self.client_transport.sink.packets.pop(0)
+        self.assertTrue(ack_packet.ACK)
+        self.server.data_received(ack_packet.__serialize__())
+        
+        self.client.higherProtocol().connection_made.assert_called()
+        self.server.higherProtocol().connection_made.assert_called()
+        
+        client_app_transport, = self.client.higherProtocol().connection_made.call_args[0]
+        server_app_transport, = self.server.higherProtocol().connection_made.call_args[0]
+        
+        client_app_transport.write(b"message 1")
+        client_app_transport.write(b"message 2")
+        client_app_transport.write(b"message 3")
+        
+        # there should be three packets
+        self.assertEqual(len(self.client_transport.sink.packets), 3)
+        data1, data2, data3 = self.client_transport.sink.packets
+        self.client_transport.sink.packets = []
+
+        # packets in reverse order
+        self.server.data_received(data3.__serialize__())
+        self.server.data_received(data2.__serialize__())
+        
+        self.server.higherProtocol().data_received.assert_not_called()
+        
+        self.server.data_received(data1.__serialize__())
+        serverapp_data_received = self.server.higherProtocol().data_received.call_args_list
+        serverdata = b""
+        while serverapp_data_received:
+            serverdata += serverapp_data_received.pop(0)[0][0]
+        self.assertEqual(serverdata, b"message 1message 2message 3")
+    
+    def test_reordering_with_retransmit(self):
+        self.test_reordering()
+        # assume one re-transmit for each out-of-order message)
+        self.assertEqual(len(self.server_transport.sink.packets),2)
+        self.assertTrue(self.server_transport.sink.packets[0].RTR)
+        self.assertTrue(self.server_transport.sink.packets[1].RTR)
         
 if __name__ == '__main__':
     #EnablePresetLogging(PRESET_DEBUG)
