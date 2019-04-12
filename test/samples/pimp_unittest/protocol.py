@@ -95,7 +95,7 @@ class TestLegalCommands(unittest.TestCase):
             ACK=True)
         self.client.data_received(bad_ack_packet.__serialize__())
         
-        self.assertEqual(len(self.client_transport.sink.packets) > 0)
+        self.assertTrue(len(self.client_transport.sink.packets) > 0)
         client_rst = self.client_transport.sink.packets.pop(0)
         self.assertTrue(client_rst.RST)
         self.assertEqual(client_rst.seqNum, server_ack)
