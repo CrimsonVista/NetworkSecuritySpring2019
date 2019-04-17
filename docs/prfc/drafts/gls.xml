@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+        <!-- One method to get references from the online citation libraries.
+            There has to be one entity for each item to be referenced.
+            An alternate method (rfc include) is described in the references. -->
+
+        <!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+        <!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+        <!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+        <!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+        <!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+        <!ENTITY RFC5246 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5246.xml">
+        <!ENTITY RFC8446 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml">
+        ]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+    <!-- category values: std, bcp, info, exp, and historic
+       ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+          or pre5378Trust200902, playgroundWinter201501
+       you can add the attributes updates="NNNN" and obsoletes="NNNN"
+       they will automatically be output with "(if approved)" -->
+
+    <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="GSP">GoNuts Secure Protocol</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Golden Nugget" initials="G.N." role="editor" surname="Nugget">
+     <organization>JHU Network Security Spring 2019</organization>
+
+     <address>
+       <postal>
+         <street>JHU Malone MSSI Lab</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 123-456-7890</phone>
+
+       <email>golden_nugget@jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+        <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
+             in the current day for you. If only the current year is specified, xml2rfc will fill
+          in the current day and month for you. If the year is not the current one, it is
+          necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
+          purpose of calculating the expiry date).  With drafts it is normally sufficient to
+          specify just the year. -->
+
+        <!-- Meta-data Declarations -->
+
+        <area>General</area>
+
+       <workgroup>Network Working Group</workgroup>
+
+       <!-- WG name at the upper left corner of the doc,
+            IETF is fine for individual submissions.  
+       If this element is not present, the default is "Network Working Group",
+            which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+       <keyword>PRFC</keyword>
+
+       <!-- Keywords will be incorporated into HTML output
+            files in a meta tag but they have no effect on text or on
+            output. If you submit your draft to the RFC Editor, the
+            keywords will be used for the search engine. -->
+
+        <abstract>
+            <t>This document describes the GoNuts Secure Protocol (GSP). 
+               In this PRFC, we describe all the necessary cryptography to establish a “secure authenticated channel.” </t>
+        </abstract>
+    </front>
+
+    <middle>
+        <section title="Introduction">
+           <section title="Overview">
+           <t>In GoNuts Secure Protocol (GSP), two nodes that use GSP would know the identity of the other party to satisfy mutual authentication. 
+             For the authenticity of data, subsequent transmissions can be proved to have come from the two parties once authenticated.  
+             For confidentiality of data, only the two parties can read the transmitted data once authenticated. 
+             For integrity of data, the communications cannot be undetectably altered, dropped, or reordered once authenticated.   </t>
+           </section>
+
+            <section title="Requirements Language">
+             <t>ServerSauce: indicates the digital cert from Server </t>
+             <t>ClientSauce: indicates the digital cert from Client </t>
+             <t>Nugget: indicates the packet</t>
+             <t>Meal: indicates the session</t>
+             <t>MealTicket: indicates the session.id </t>
+             <t>SauceFactory: repository that contains digital certs from the server and the client </t>
+             </section>
+       </section>
+
+       <section title="Purpose">
+            <t>This memorandum describes the way the secure channel is established. 
+               Its purpose is to ensure message authorization, confidentiality, authenticity, and message integrity.</t>       
+            <list style="numbers">
+                  <t>Authentication: Both the server and the client need to be mutually authenticated.</t>
+                  <t>Confidentiality: Data sent over the channel after establishment is only visible to the endpoints.</t>  
+                  <t>Integrity: Data sent over the channel after establishment cannot be modified by attackers without detection. </t>    
+            </list>    
+        </section>
+
+        <section title="Protocol Specifications">
+          <section title="Authentication">
+            <t>The handshake protocol allows peers to negotiate a protocol version, select cryptographic algorithms, optionally authenticate each other,
+              and establish shared secret keying material.  Once the handshake is complete, the peers use the established keys to protect the application-layer traffic.</t>
+            
+            <t>The GSP handshake protocol:</t>
+            <list style="numbers">
+              <t>The Client initially sends a ClientHello request which contains a cipher suite, a client certificate and any additional information that it wishes to send (like an alert message). </t>
+              <t> The server, on receiving everything from the client, sends its choice of cipher, server certificate and any additional information. This additional information can contain alert messages that can be used for error handling.</t>
+             <t> On connection establishment, the client sends a nonce which is a randomly generated number along with a session key which is randomly generated to ensure the security of a communications session between two nodes. Throughout each session, the key is transmitted along with each message and is encrypted with the recipient's public key. </t>
+             <t>In case of the client, the nonce and the session key are encrypted with the server's public key.</t>
+             <t>After receivong the encrypted nonce and session key to the server, the server decrypts these using its private key.</t>
+             <t>The server sends nonce+1 along with the same session key, encrypted under the client's public key.</t>
+             <t>The client can decrypt this using its private key. After this, both the client and server have each other's public key which is used for data transmission in the future.</t>
+              </list>
+                    <figure>
+                         <artwork><![CDATA[
+      Client                                         Server
+
+  +--------------+
+  | ClientHello  |
+  |--------------|+--------------------------->
+  |-Cipher Suite |                           
+  |-Certificate  |                             
+  |-Additional   |
+  | Message      |                       
+  +--------------+                              +--------------+
+                                                | ServerHello  |
+                  <----------------------------+|--------------|
+                                                |-Choice of    |
+                                                | Cipher       |
+                                                |-Certificate  |
+                                                |-Additional   |
+                                                | Message      | 
+                                                +--------------+
+  
+  +---------------+
+  |NONCE, Session |
+  |        Key    |
+  +---------------+   
+  |encrypted with |
+  |the server's   | 
+  |   public key  |
+  +---------------+    ------------------>      
+                                                +---------------+
+                                                |NONCE+1,Session| 
+                                                |   key         |
+                                                +---------------+
+                                                |encrypted with |
+                                                |client's public|
+                                                |           key |
+                     <--------------------      +---------------+
+-----------------------------------------------------------------
+                      CONNECTION ESTABLISHMENT 
+_________________________________________________________________
+                  
+                    Figure 1. GSP Handshake
+
+]]>            
+                  </artwork>
+                    </figure>
+            <list style="numbers">
+                    <t>How are identities established?                
+                      Playground addresses are the only identity we’ll be using for establishing authentication. 
+                      For example, 20191.0.1.1 is an identity for purposes of our implementation. 
+                      Thus, if somebody “attacks” somebody else from an address, we can identify the group that is responsible for the incident.</t>
+
+                    <t>How are identities verified?
+                      For server authentication, the client uses the server's public key to encrypt the data that is used to compute the secret key. 
+                      The server can generate the secret key only if it can decrypt that data with the correct private key. 
+                      For client authentication, the server uses the public key in the client certificate to decrypt the data the client sends during the handshake. 
+                      The exchange of finished messages that are encrypted with the secret key confirms that authentication is complete.
+                      The exchange of digital certificates during the SSL or TLS handshake is part of the authentication process. </t>
+
+                    <t>How is trust established?
+                      Trust is established based on the signed digital certificates by Playground Authorities.</t>
+              
+                    <t>How does a party prove identity to another?
+                      We will use the public key to prove identity from one party to another. The public key encrypts and the private key decrypts. 
+                      Encrypt a message with the server's public key, send it, and if the server can repeat back the original message, it just proved that it got the private key without revealing the key.</t>
+            </list>        
+          </section>
+
+          
+           <section title="Client Hello Request">
+              <t>The client begins by sending a Client Hello to the server. In the Client Hello packet, it also sends a cipher suite that offers three options
+                for encryption. The packet also contains the client's certificate that is authorized by the Root Certificate Authority. This certificate can further be signed by the Certificate authority </t>
+              <t>The cipher suits offered by the GSP are: </t>
+                <list style="numbers">
+                    <t> AES_128_GCM_256 </t>
+                    <t> AES_256_GCM_SHA_384 </t>
+                    <t> RSA_WITH_AES_128_CBC_SHA </t>
+                      
+                  <t>The Client Hello ends when all these 3 things are sent by the client. There may be certain errors associated with the Client Hello Request which will be explained in the Error Handling section.</t>
+                </list> 
+
+           </section>
+            
+          <section title="Server Hello Request">
+              <t>The server will send this message in response to the Client Hello (see above) to proceed with the hanshake. The server processes the ClientHello and determines the cryptographic parameters it wishes to use and the ServerHello message indicates the negotiated cryptographic parameters. It thus sends over the choice of cipher as well as the server's certificate which is signed by Root Certificate Authority (Root CA). The server carries out the certification verification of the client and the client certificate number is checked in the Certificate Revocation List (CRL) as well. If it is not present in the list, the certificate is accepted. 
+              </t>
+                <t>The Server Hello ends when the server has sent the three important parameters- server certificate, Server Hello Message and the choice of cipher.The veriifcation of client certificate must also be done. All error handling related to the Server Hello Request will be explained in the Error Handling section.</t>
+          </section>
+          
+          <section title="Key Exchange / Key Transport">
+            <t>The key exchange messages are used to determine the security capabilities of the client and the server and to establish shared
+              secrets, including the traffic keys used to protect the rest of the handshake and the data.</t>
+            <t> Establish shared keying material and select the cryptographic parameters. Everything after this phase is encrypted. </t>
+          </section>
+                
+                     
+         <section title = "Server and Client Certificate and Verification">
+           Server sends its certificate to the client after verifying the client's certificate and receiving the client's Hello packet. The server 
+           certificate will be verified if it has been signed by the root CA. A VerifyCert() method can be defined to take in the recieved certificate as an parameter to ferify the certificate.
+             </section>
+          
+          <section title="Parameters">
+          <t> Contents inside the GSP certificate is shown below:</t>
+            <t>
+                    <figure>
+                        <artwork><![CDATA[
+                                +--------------------------+
+                                |     GSP Certificate      |
+                                |--------------------------|
+                                |+Serial Number            |
+                                |+Signature Algorithm ID   |
+                                |+Issuer Name              |
+                                |+Validity Period          |
+                                |+Subject Name             |
+                                |+Subject Public Key Info  |
+                                | -Public Key Algorithm    |
+                                | -Subject Public Key      |
+                                |+Issuer Unique Identifier |
+                                |+Subject Unique Identifier|
+                                +--------------------------+
+    
+                                ]]>
+                        </artwork>
+                    </figure>
+                </t>      
+          </section>
+          
+          <section title="Error Handling">
+          <t>
+            1. HelloRetryRequest: When the server does not respond in the appropriate time, the client sends a HelloRetryRequest.
+            2. If any of the authentication steps fail, the handshake fails, and the session terminates.
+            3. Time out is set at 3 seconds. 
+          </t> 
+          </section>
+        </section>
+          
+          <section title="Security Considerations">
+          <section title="Trust Model">
+                <t>
+                    <list style="numbers">
+                        <t>Root certificate authority (RCA): RCA is deemed to be trusted
+                            organizations. The very existence of the RCA marks the first step in the
+                            establishment of the line of trust. The RCA certificate can
+                            be self-signed. RCA gives a certificate to each CA. RCA also maintains the main CRL.
+                        </t>
+                        <t>Certificate authority: Each company (team) has their own certificate authority (i.e., the PETF lead is the CA of the company).
+                           Each CA of the company is responsible to provide certificaets for their server and clients. CAs are responsibile to maintain and update their local CRL.
+                      </t>                 
+                    </list>
+                </t>           
+            </section>
+          </section>
+            <section title="Certificate Verification and Revocations">
+                <t> A Certificate Revocation List (CRL) is a list of digital certificates that have been revoked by the issuing Certificate Authority (CA) before their scheduled expiration date and should no longer be trusted.
+                </t>
+            </section>
+          </middle>
+
+    <!--  *****BACK MATTER ***** -->
+
+    <back>
+        <!-- References split into informative and normative -->
+
+        <!-- There are 2 ways to insert reference entries from the citation libraries:
+         1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+         2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+            (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+         Both are cited textually in the same manner: by using xref elements.
+         If you use the PI option, xml2rfc will, by default, try to find included files in the same
+         directory as the including file. You can also define the XML_LIBRARY environment variable
+         with a value containing a set of directories to search.  These can be either in the local
+         filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+        <references title="Normative References">
+            <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+            &RFC2119;
+
+            &RFC2360;
+
+            &RFC5246;
+
+            &RFC8446;
+        </references>
+    </back>
+</rfc>
