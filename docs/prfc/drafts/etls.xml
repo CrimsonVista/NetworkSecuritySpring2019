@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Ether for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">Playground Request For Comments by Esther</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Esther" initials="E" role="editor"
+           surname="Esther">
+     <organization>JHU Network Security Spring 2019</organization>
+
+     <address>
+       <postal>
+         <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 410-497-7384</phone>
+
+       <email>sethjn@cs.jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+   in the current day and month for you. If the year is not the current one, it is 
+   necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+   purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+   specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>Playground Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+   If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PRFC</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t>The PLAYGROUND (Poly-Localized Algorithmic Yields
+     Generated Remotely On Unused Network Devices) system is
+     designed to give students and researchers a sandbox in which to develop
+     network security experiments. For PLAYGROUND experiments
+     that involve a PETF (Playground Engineering Task Force),
+     PRFC's (Playground RFC's) are used in a manner similar
+     to RFC's. This PRFC specifices the format standards
+     for PRFC's.</t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Introduction">
+     <t>The primary purpose of the ETLS (Esther Transport Layer Security) is to provide reliable, securable logical circuit or connection service between pairs of processes. It originated in the version 1.3 of the Transport Layer Security (TLS) protocol. It provides a communication privacy over the Playground Wire Protocol. The protocol allows client/server applications to communicate in a way that is designed to prevent eavesdropping tampering, or message forgery. ETLS meets the following requirements:</t>
+
+     <t><list style="numbers">
+        <t>It ensures that each party knows the identity of the other party (mutual authentication).</t>
+        <t>Once authenticated, subsequent transmissions can be proved to have come from the two parties (authenticity of data).</t>
+        <t>Once authenticated, only the two parties can read the transmitted data (confidentiality of data).</t>
+        <t>It provides for the detection of non-malicious errors (e.g., errors caused by accidents and random chance)</t>
+        <t>Once authenticated, the communications cannot be undetectably altered, dropped, or reordered (message integrity of data)</t>
+     </list></t>
+
+     <section title="Requirements Language">
+       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref target="RFC2119">RFC 2119</xref>.</t>
+     </section>
+   </section>
+   
+   <section title="The ETLS Handshake Protocol">
+    <t>The cryptographic parameters of the session state are produced by the TLS Handshake Protocol, which operates on top of the TLS Record Layer. When a TLS client and server first start communicating, they agree on a protocol version, select cryptographic algorithms, optionally authenticate each other, and use public-key encryption techniques to generate shared secrets.</t>
+    
+    <t>The TLS Handshake Protocol involves the following steps:</t>
+    
+    <t><list style="numbers">
+    	<t>Exchange hello messages to agree on algorithms, exchange random values, and check for session resumption.</t>
+    	<t>Exchange the necessary cryptographic parameters to allow the client and server to agree on a premaster secret.</t>
+      <t>Exchange certificates and cryptographic information to allow the client and server to authenticate themselves.</t>
+      <t>Generate a master secret from the premaster secret and exchanged random values.</t>
+      <t>Provide security parameters to the record layer.</t>
+      <t>Allow the client and server to verify that their peer has calculated the same security parameters and that the handshake occurred without tampering by an attacker.</t>
+    </list></t>
+
+      <section title="Part 1: Client Hello(Client-->Server)">
+        <t>First, the client sends a Client Hello to the server. The Client Hello includes the following information.</t>
+        <t>Client Version: The client only accepts TLS 1.2 version.</t>
+        <t>Client Random: This is a 32-byte random number. The client random and the server random are later used to generate the key for encryption.</t>
+        <t>Session ID:This is the session id to be used for the connection. If the session_id is not empty, the server searches for previously cached sessions and resumes that session if a match is found.</t>
+        <t>Cipher Suites:Cipher suites are combinations of cryptographic algorithms. Typically, each cipher suite contains one cryptographic algorithm for each of the following tasks: key exchange, authentication, bulk (data) encryption, and message authentication. The client sends a list of all the cipher suites that it supports in order of preference. This means that the client would ideally prefer the connection to be established using the first cipher suite sent.</t>
+
+          <t>Here we specify the Cipher suite to be TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256. This string contains the following information:</t>
+            <t>TLS is the protocol being used</t>
+            <t>ECDHE is the key exchange algorithm (Elliptic curve Diffie–Hellman)</t>
+            <t>ECDSA is the authentication algorithm (Elliptic Curve Digital Signature Algorithm)</t>
+            <t>AES_128_GCM is the data encryption algorithm (Advanced Encryption Standard 128 bit Galois/Counter Mode)</t>
+            <t>SHA256 is the Message Authentication Code (MAC) algorithm (Secure Hash Algorithm 256 bit)</t>
+      </section>
+
+      <section title = "Part 2: Server Hello(Server---> Client)">
+        <t>After the server receives the Client Hello, it replies with a Server Hello. A Server Hello may either contain selected options (from among those proposed during Client Hello) or it may be a handshake failure message.</t>
+        <t>Server Version: The server agree on TLS 1.2 version.</t>
+        <t>Server Random: This is a 32-byte random number. The client random and the server random are later used to generate the key for encryption.</t>
+        <t>Session ID:If the client Session ID was not empty, the server searches for previously cached sessions and if a match is found, that session ID is used to resume the session. If the client Session ID was empty, a new session may be created by the server and sent in the server Session ID.</t>
+        <t>Cipher Suites:The server agrees on the cipher suite sent in the Client Hello.</t>
+      </section>
+
+      <section title = "Part 3: Server Certificate (Server --> Client)">
+        <t>The server selects the cipher suite from among Cipher Suites sent in the Client Hello.</t>
+      </section>
+      <section title = "Part 4: Server Key Exchange (Server --> Client)">
+        <t>The server key exchange message is sent only if the certificate provided by the server is not sufficient for the client to exchange a pre-master secret. (This is true for DHE_DSS, DHE_RSA, and DH_anon).</t>
+      </section>
+      <section title = "Part 5: Server Hello Done (Server --> Client)">
+        <t>The server sends this to the client to confirm that the Server Hello message is finished.</t>
+      </section>
+      <section title = "Part 6: Client Key Exchange (Server --> Client)">
+        <t>The Client Key Exchange message is sent right after the Server Hello Done is received from the server. If the server requests a Client Certificate, the Client Key Exchange is sent after that. During this stage, the client creates a pre-master key.</t>
+        <t>The pre-master secret is created by the client (the method of creation depends on the cipher suite) and then shared with the server.Before sending the pre-master secret to the server, the client encrypts it using the server public key extracted from the certificate provided by the server. This means that only the server can decrypt the message since asymmetric encryption (key pair) is used for the pre-master secret exchange.</t>
+        <t>Master Secret: After the server receives the pre-master secret key, it uses its private key to decrypt it. Now, the client and the server compute the master secret key based on random values exchanged earlier (Client Random and Server Random) using a pseudorandom function (PRF). A PRF is a function used to generate arbitrary amounts of pseudorandom data.</t>
+        <t>The master secret key, which is 48 bytes in length, will then be used by both client and server to symmetrically encrypt the data for the rest of the communication.</t>
+        <t>The client and the server create a set of 3 keys:</t>
+         <t>client_write_MAC_key: Authentication and Integrity check</t>
+         <t>server_write_MAC_key: Authentication and Integrity check</t>
+         <t>client_write_key: Message encryption using symmetric key</t>
+         <t>server_write_key: Message encryption using symmetric key</t>
+         <t>client_write_IV: Initialization Vector used by some AHEAD ciphers</t>
+         <t>server_write_IV: Initialization Vector used by some AHEAD ciphers</t>
+         
+        <t>Both Client and Server will use the master secret to generate the sessions keys which will be to encrypt/decrypt data.</t>
+
+      </section>
+      <section title = "Step 7: Client Change Cipher Spec (Client --> Server)">
+        <t>At this point, the client is ready to switch to a secure, encrypted environment. The Change Cipher Spec protocol is used to change the encryption. Any data sent by the client from now on will be encrypted using the symmetric shared key.</t>
+      </section>
+      <section title = "Step 8: Client Handshake Finished (Client --> Server)">
+        <t>The last message of the handshake process from the client signifies that the handshake is finished. This is also the first encrypted message of the secure connection.</t>
+      </section>
+      <section title = "Step 9: Server Change Cipher Spec (Server --> Client)">
+        <t>The server is also ready to switch to an encrypted environment. Any data sent by the server from now on will be encrypted using the symmetric shared key.</t>
+      </section>
+      <section title = "Step 10: Server Handshake Finished (Server --> Client)">
+        <t>The last message of the handshake process from the server (sent encrypted) signifies that the handshake is finished.</t>
+      </section>
+
+    </section>
+
+    <section title = "Packet Description">
+      <section title = "Handshake Protocol">
+        <t>enum {
+        hello_request(0), client_hello(1), server_hello(2),
+        certificate(11), server_key_exchange (12),
+        certificate_request(13), server_hello_done(14),
+        certificate_verify(15), client_key_exchange(16),
+        finished(20), (255)
+    } HandshakeType;
+
+    struct {
+        HandshakeType msg_type;
+        uint24 length;
+        select (HandshakeType) {
+            case hello_request:       HelloRequest;
+            case client_hello:        ClientHello;
+            case server_hello:        ServerHello;
+            case certificate:         Certificate;
+            case server_key_exchange: ServerKeyExchange;
+            case certificate_request: CertificateRequest;
+            case server_hello_done:   ServerHelloDone;
+            case certificate_verify:  CertificateVerify;
+            case client_key_exchange: ClientKeyExchange;
+            case finished:            Finished;
+        } body;
+    } Handshake;</t>
+      </section>
+      <section title = 'Hello Message'>
+        <t>struct { } HelloRequest;
+
+    struct {
+        uint32 gmt_unix_time;
+        opaque random_bytes[28];
+    } Random;
+
+    opaque SessionID;
+
+    uint8 CipherSuite[2];
+
+    enum { null(0), (255) } CompressionMethod;
+
+    struct {
+        ProtocolVersion client_version;
+        Random random;
+        SessionID session_id;;
+        
+} ClientHello;
+
+    struct {
+        ProtocolVersion server_version;
+        Random random;
+        SessionID session_id;
+        CipherSuite cipher_suite;
+        
+    } ServerHello;</t>
+
+      </section>
+      <section title = "Client authentication and key exchange messages">
+      <t>
+    struct {
+        select (KeyExchangeAlgorithm) {
+            case rsa: EncryptedPreMasterSecret;
+            case diffie_hellman: DiffieHellmanClientPublicValue;
+        } exchange_keys;
+    } ClientKeyExchange;
+
+    struct {
+        ProtocolVersion client_version;
+        opaque random[46];
+
+    } PreMasterSecret;
+
+    struct {
+        public-key-encrypted PreMasterSecret pre_master_secret;
+    } EncryptedPreMasterSecret;
+
+    enum { implicit, explicit } PublicValueEncoding;
+
+    struct {
+        select (PublicValueEncoding) {
+            case implicit: struct {};
+            } dh_public;
+    } ClientDiffieHellmanPublic;
+
+    struct {
+        Signature signature;
+    } CertificateVerify;
+
+       </t>
+      </section>
+
+      <section title = "Handshake finalization message">
+      <t>
+    struct {
+        opaque verify_data[12];
+    } Finished;
+</t>
+      </section>
+
+    </section>
+
+
+    <section title="Error handling">
+    <t>Error handling in the ETLS Handshake protocol is very simple. When an
+   error is detected, the detecting party sends a message to the other
+   party. Upon transmission or receipt of an fatal alert message, both
+   parties immediately close the connection. Servers and clients are
+   required to forget any session-identifiers, keys, and secrets
+   associated with a failed connection. The following error alerts are
+   defined:</t>
+    </section>
+    <section title="Error types">
+        <section title="Unexpected_message">
+            <t>Inevitably there is a chance that the network will congest occasionally, and some data might not be able to be delivered to the receiver side in the first delivery attempt. As a result, it is essential to make the sender/receiver identify the successful packet transmission, and come up with a re-transmission mechanism if there’s the congestion issue in the network environment.</t>
+          </section>
+          <section title = "decryption_failed">
+            <t>A TLSCiphertext decrypted in an invalid way: either it wasn`t an even multiple of the block length or its padding values, when checked, weren`t correct. This message is always fatal.</t>
+          </section>
+          <section title= "handshake_failure">
+            <t>Reception of a handshake_failure alert message indicates that the sender was unable to negotiate an acceptable set of security parameters given the options available. This is a fatal error.</t>
+          </section>
+          <section title = "bad_certificate">
+            <t> A certificate was corrupt, contained signatures that did not
+       verify correctly, etc.</t>
+          </section>
+          <section title = 'unsupported_certificate'>
+            <t>A certificate was of an unsupported type.</t>
+          </section>
+          <section title = 'certificate_revoked'>
+            <t>A certificate was revoked by its signer.</t>
+          </section>
+          <section title = 'illegal_parameter'>
+            <t>A field in the handshake was out of range or inconsistent with
+       other fields. This is always fatal.</t>
+          </section>
+          <section title = "decrypt_error">
+            <t>A handshake cryptographic operation failed, including being
+       unable to correctly verify a signature, decrypt a key exchange,
+       or validate a finished message.</t>
+          </section>
+
+            
+   </section>    
+
+  <!--------------Do not Delete this paragraph!!!!!!!!!!!-------------------->
+  <section title="Standard Specification">
+    <t>Most of the guidelines for writing standards are the same as they
+    are for RFC's. In particular, <xref target="RFC2360">RFC 2360</xref>
+    provides the current best practices for writing Internet Standards.
+    In general, RFC 2360 will provide the basic template for evaluating 
+    PRFC's that specify a standard.</t>
+  </section>
+  <!------Do not Delete this paragraph!!!!!!!!!!! JUST leave it here------->
+  
+   </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <references title="Normative References">
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC2119;
+     
+     &RFC2360;
+     
+   </references>
+
+
+   <!-- Change Log
+v00 2006-03-15  EBD   Initial version
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
+                     images. Removed meta-characters from comments (causes problems).
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the 
+                     IANA guidelines reference from the I-D to the finished RFC.  
+                     
+SETH NIELSON:
+  Altered for PLAYGROUND AND PRFC's
+  2016-09-21 SJN PRFC 1
+  Updated for Fall 2017
+  2017-10-1
+  -->
+ </back>
+</rfc>
