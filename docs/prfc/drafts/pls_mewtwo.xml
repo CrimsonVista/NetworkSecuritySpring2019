@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced.
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs),
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN"
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">PIMP Layer Security</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Team Mewtwo" initials="T.M." role="editor"
+           surname="Mewtwo">
+     <organization>JHU Network Security Fall 2019</organization>
+
+     <address>
+       <postal>
+         <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 443-220-7992</phone>
+
+       <email>gzhanyu1@jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill
+        in the current day for you. If only the current year is specified, xml2rfc will fill
+     in the current day and month for you. If the year is not the current one, it is
+     necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the
+     purpose of calculating the expiry date).  With drafts it is normally sufficient to
+     specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>PLS Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.
+     If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PIMP Layer Security</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t>
+       The PLS(PIMP Layer Security) is a protocol that have mutual authentication, confidentiality
+       and message intergrity over the reliable transport protocol PIMP of PLAYGROUND Network.
+     </t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Introduction">
+
+     <t>
+       The PIMP Layer Security is a protocol that have authentication, confidentiality
+       and message intergrity over the reliable transport protocol PIMP of PLAYGROUND Network.
+
+       This document describes the philosophical and technical background of
+       the PLS Protocol,
+       the communcation and authentication functions
+       and its interface to programs or users that require its services.
+       </t>
+   <section title="Purpose">
+
+       <t>
+         The PIMP Layer Security is developed to provide a secure channel for data communications in the PLAYGROUND network.
+         The PLS is required to run on a PIMP layer which should be able to provide reliable transportation.
+         </t>
+
+    </section>
+
+    <section title="Technical Background">
+    <t>
+      The secure channel provided by PLS includes authenticaiton, confidentiality and message intergrity.
+      Here we should define these.
+    </t>
+
+    <t>
+      Authenticaiton: It is a most important part between client and server.
+      Both of the server and the client MUST be authenticated.
+      The server and the client uses Elliptic Curve Diffie-Hellman Ephemeral(ECDHE) with x25519 curve to generate the exchange key during eatablishment.
+      Authentication uses Elliptic Curve Digital Signature Algorithm(ECDSA) with secp256k1 curve and SHA256 to hash.
+    </t>
+
+    <t>
+      Confidentiality: Data sent through the PLS channel after establishment SHOULD not be visible by the outside. SHA256 is used to hash.
+    </t>
+
+    <t>
+      Message Intergrity: Data sent through the PLS channel after establishment SHOULD NOT be attanked or modified by the outside.
+    </t>
+
+    </section>
+    </section>
+
+
+   <section title="Specification">
+     <section title="Packet Definition">
+  <t>
+    The PLS packet is defined as follows.
+    There includes Type, Random,PublicValue, Certificate, Signature and Ciphertext.
+  </t>
+  <t>
+      <figure>
+          <artwork><![CDATA[
+    from playground.network.packet import PacketType
+    from playground.network.packet.fieldtypes
+    import UINT32, STRING, BUFFER
+
+    class PLSPacket(PacketType):
+        DEFINITION_IDENTIFIER = "mewtwo.PLS.packet"
+        DEFINITION_VERSION = "1.0"
+        FIELDS = [
+          ("Type", STRING), // HELLO, FINISH, DATA, CLOSE
+          ("Random", BUFFER),//Exchange Key
+          ("PublicValue", BUFFER),
+          ("Certificate", LIST(BUFFER)),
+          ("Signature", BUFFER),
+          ("Ciphertext", BUFFER)
+        ]
+
+            Figure 1. PLS Packet in Playground Format
+                  ]]>
+          </artwork>
+      </figure>
+
+  </section>
+
+     <section title="Authentication">
+      <t> The puepose of the handshake for PLS protocol is to get a shared secret key for the server and client and then meet with authentication.
+      </t>
+
+      <t>The process of the handshake for PLS can be seen here:
+      </t>
+
+      <t>
+                    <figure>
+                        <artwork><![CDATA[
+      Client                                         Server
+  ----------------
+  |Generate Keys |
+  ----------------
+  ----------------
+  | ClientHello  |
+  |--------------|+--------------------------->
+  |+ClientRandom |                              ----------------
+  |+Public Value |                              |Generate Keys |
+  |+Certificates |                              ----------------
+  ----------------                              ----------------
+                                                | ServerHello  |
+                  <----------------------------+|--------------|
+                                                |+ServerRandom |
+                                                |+Public Value |
+                                                |+Certificates |
+                                                ----------------
+  ----------------                              ----------------
+  |Key Caculation|                              |Key Caculation|
+  ----------------                              ----------------
+  ----------------
+  |Client Finish |
+  |--------------|+--------------------------->
+  |+Signature    |                              ----------------
+  ----------------                              |Server Finish |
+                  <----------------------------+|--------------|
+                                                |+Signature    |
+                                                ----------------
+                    Figure 2.Handshake process for PLS
+]]>
+                        </artwork>
+                    </figure>
+                </t>
+      <t>The explaination of the whole process is shown below:
+      </t>
+
+      <t><list>
+      <t>Client Exchange Key Generation: The whole process of handshake begins with the generation of client exchange key.
+      The clients generates a pair of private and public key.
+      It uses ECDHE with x25519 curve to generate a 32 byte private key and the relevant public key. </t>
+      <t>#1 Message ClientHello:
+      After the client exchange key has been genreated and the client is connected to a server,
+      the client begins to sent the first message: ClientHello to the server. The message contains
+      a 32 byte "random"(private key), the "public value" of the ECDHE x25519, certificates.  </t>
+      <t>Server Exchange Key Generation: After veceiving the first message: ClientHello from the client,
+        the server generates a pair of private and public key.
+      It also uses ECDHE with x25519 curve to generate a 32 byte private key and the relevant public key. </t>
+      <t> #2 Message ServerHello:
+      Then the server respondes to the client with the second message: ServerHello to the client. The message contains
+      a 32 byte "random"(private key), the "public value" of the ECDHE x25519, certificates, similiar with the ClientHello message.</t>
+      <t>Server Key Caculation: the server caculates the shared secret key after it sent the ServerHello message.
+      It combines the Client Public Key from ClientHello message and Server Private Key from Server Exchange Key Generation to get the shared key.
+      Then generate the SHA256 hash of ClientHello and ServerHello.</t>
+      <t>Client Key Caculation: the clisnt caculates the shared secret key after it receive the ServerHello message.
+      It combines the Server Public Key from ServerHello message and Client Private Key from Client Exchange Key Generation to get the shared key.
+      Then generate the SHA256 hash of ClientHello and ServerHello.</t>
+      <t>#3 Message: Client Finish:
+        The Client Finish message includes a Type = FINISH and a Signature.
+        The client sends a certificate and a relevant cert(explained in the trust model section)
+        which will be validated by the server. The client signs a hash of the message using the certificate's privete key
+        to indicate that the client generates the certificate.
+         The server can use the certificate's public key to prove the signature.</t>
+      <t>#4 Message:  Server FINISH:
+        The Server Finish message includes a Type = FINISH and a Signature.
+        The server signs a hash of the message using the certificate's privete key
+        to indicate that the server generates the certificate.
+        The client can use the certificate's public key to prove the signature.</t>
+      <t>Data Transfer: After the PLS handshake process, the client and the server
+      begins to transmit data. Messages are encrypted using symmetric cryptography to ensure
+      the intergrity of data. The DATA packet inclues Type = DATA and Ciphertext.</t>
+      </list></t>
+
+     </section>
+
+       <section title="Trust Model">
+        <t>There is a trust chain, including a CertificateRequest, a CertificationAuthority and a Cert. </t>
+        <t>The certificate type MUST be X.509v3.</t>
+        <t>Obly CertificationAuthority can sign certificates.</t>
+        <t>CertificationAuthority is seen to be trusted organizations.</t>
+        <t>
+          The user then generates the ECDHE key pair and
+       uses the private key to sign a CertificateRequest
+       which will contain the public key of the private/public pair.</t>
+        <t>If the CSR is approved, the user is allowed to act as the CertificationAuthority to sign certificates.</t>
+        <t>The user act as the CertificationAuthority signs the certificate using the private key
+       of the private/public key pair where the public key is contained in the CertificateRequest.</t>
+        <t>It will generate a Cert to verigy the user's sinature.</t>
+
+       </section>
+
+       <section title="Algorithm">
+        <t>Key Exchange: using Elliptic Curve Diffie-Hellman Ephemeral(ECDHE) with the x25519 curve.</t>
+
+        <t>Sinature: using Elliptic Curve Diffie-Hellman Ephemeral(ECDHE) with secp256k1 curve and SHA256 hash.</t>
+
+        <t>Data Encryption and Intergrity: using symmtric cryptography. </t>
+
+       </section>
+
+       <section title="Error Handling/Shutdown">
+        <t>Any kind of error will cause a shutdown of the process. When the client/server encounters an error,
+          it will send a FINISH packet including a error message that cause a shutdown.
+          Errors includes wrong type of packet, packet missing any parts, etc.</t>
+
+          <t>For a normal shutdown, the client/server sends a FINISH packet giving the information that the connection is going to close.</t>
+       </section>
+
+      </section>
+
+   <section title="Security Considerations">
+   <t>The PLS protocol cannot prevent many common security mistakes. This part includes several recommendation to aviod some kind of problems.</t>
+   <t>For the random exchange key generation, the protocol requires a cryptographically secure pseudorandom number generator
+   (CSPRNG). In most cases, the operating system provides an
+   appropriate facility, which should be used
+   absent other (e.g., performance) concerns.</t>
+   <t>Also, the client/server SHOULD NOT reuse any keys.</t>
+   <t></t>
+   <t></t>
+   </section>
+
+    <section title="Copyright Information">
+    <t>The HOP is still new and has not yet developed
+    a policy that has been reviewed by legal counsel. However, at present,
+    the following text MUST be used in the PRFC's.</t>
+
+    <t>The copyright notice on the front page of the PRFC should read:
+    "Copyright (c) 2019 TEAM MEWTWO.  All rights reserved.</t>
+
+   <t>This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions."</t>
+
+   <t>Full Copyright Statement</t>
+
+   <t>Copyright (C) Team Mewtwo (2019).  All Rights Reserved.</t>
+
+   <t>This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.</t>
+
+   <t>Intellectual Property</t>
+
+   <t>The PLS is
+   intended to be free of any intellectual property conflicts.  All
+   involving parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the DYKM project.</t>
+
+   </section>
+
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <!--references title="Normative References"-->
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+
+   <!--/references-->
+
+   <!-- Change Log
+
+v00 2006-03-15  EBD   Initial version
+
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative
+                     images. Removed meta-characters from comments (causes problems).
+
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the
+                     IANA guidelines reference from the I-D to the finished RFC.
+
+SETH NIELSON:
+  Altered for PLAYGROUND AND PRFC's
+  2016-09-21 SJN PRFC 1
+
+  Updated for Fall 2017
+  2017-10-1
+  -->
+ </back>
+</rfc>
