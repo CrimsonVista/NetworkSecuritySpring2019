@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">Security Transportation Protocol Request For Comments</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Roast My Professor" initials="R.M.P." role="editor">
+     <organization>JHU Network Security Spring 2019</organization>
+
+     <address>
+       <postal>
+         <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+   in the current day and month for you. If the year is not the current one, it is 
+   necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+   purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+   specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>Playground Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+   If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PRFC</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t>The primary goal of the TLS protocol is to provide privacy and data
+   integrity between two communicating applications. STP is a simplified, TLS1.2-like protocol. STP simplifies the protocol by allowing only one kind of algorithm and also, handle error situation more simply</t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Preface">
+     <t>This document describes Network Security Spring 2019
+     Security Control Protocol. It is similar to TLS 1.2. It both modifies
+     and simplifies the original specification with an aim to
+     reduce network congestion.</t>
+     <t>STP is a simplified, TLS1.2-like protocol. The protocol is composed of two layers: the Record Protocol and the Handshake Protocol. STP simplifies the protocol by allowing only one kind of algorithm and also, handle error situation more simply</t>
+   <t>The STP Record Protocol is used for encapsulation the STP Handshake
+   Protocol, which allows the server and client to authenticate each other and
+   to negotiate an encryption algorithm and cryptographic keys before
+   the application protocol transmits or receives its first byte of
+   data.</t>
+
+     <section title="Requirements Language">
+       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref
+       target="RFC2119">RFC 2119</xref>.</t>
+     </section>
+   </section>
+   <section title="Description">
+     <t>For applications running in the Playground environment to securely 
+      communicate, there needs to be a secure layer protocol that encrypt/decrypt data.</t>
+     <t>The protocol includes several parts: record layer struct, handshake and encryption algorithm</t>
+
+   </section>
+   
+   <section title="Record Layer Struct">
+   	
+   <t>
+      <figure>
+          <artwork><![CDATA[
+        from playground.network.packet import PacketType
+        from playground.network.packet.fieldtypes 
+                              import UINT32, STRING, BUFFER, BOOLEAN, PACKET
+        class STPRecordLayer(PacketType):
+            DEFINITION_IDENTIFIER = "STP.RecordLayer"
+            DEFINITION_VERSION = "1.0"
+            FIELDS = [
+              ("content_type", STRING), 
+              ("version",STRING),
+              ("Handshake_Protocol", PACKET)
+            ]
+                  ]]>
+          </artwork>
+      </figure>
+	   </t>
+   </section>
+   <section title="Handshake Layer Struct">
+   	
+   <t>
+      <figure>
+          <artwork><![CDATA[
+        from playground.network.packet import PacketType
+        from playground.network.packet.fieldtypes 
+                              import UINT32, STRING, BUFFER, BOOLEAN
+        class STPPacket(PacketType):
+            DEFINITION_IDENTIFIER = "STP.HandshakePacket"
+            DEFINITION_VERSION = "1.0"
+            FIELDS = [
+              ("content_type", STRING),
+              ("version",STRING), 
+              ("cipher_suite", STRING),
+              ("client_random_bytes", BUFFER),
+              ("server_random_bytes", BUFFER),
+              ("client_public_key", BUFFER),
+              ("server_public_key", BUFFER),  
+              ("additional_data",BUFFER),
+              ("nonce",BUFFER),
+              ("data", BUFFER),
+              ("certification",BUFFER)
+            ]
+                  ]]>
+          </artwork>
+      </figure>
+	   </t>
+   </section>
+   <section title="Handshake">
+      <section title="Client Hello">
+        <t>The start of the security communication is from the client side. Client will start a "Client Hello" packet. </t>
+        
+        <t>Client Hello packet MUST include: content_type = "Client Hello", version = "STP 1.0"</t>
+        <t>In this version, we only allow algorithm "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256", so Client Hello packect MUST include cipher_suite = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"</t>
+        <t>After that, the client generate a random bytes (28 bytes) that will be used later. It will be stored in "client_random_bytes"</t>
+        <t> Finally the client send the packet to the server.</t>
+      </section>
+      <section title="Server Hello">
+        <t>Then, after the server recieved the client hello message, the server will send back a "Server Hello" message, if no error occurred in the Client Hello message.</t>
+        <t>Server Hello packet MUST include: content_type = "Server Hello", version = "STP 1.0", cipher_suite = "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"</t>
+        <t>Like the client, the server will also send a random bytes (28 bytes), called "server_random_bytes"</t>
+        <t>Finally the server senf the packet to the server.</t>
+      </section>
+      <section title="Server Certification">
+        <t>After the Server Hello, the server will send a certificate chain to the client.</t>
+        <t>Certificate MUST inclde: content_type = "Server Certification",version="STP 1.0".</t>
+        <t>Server Certification also MUST include the certification of its own address, which will be given by Professor.</t>
+      </section>
+      <section title="Server Key Exchange">
+        <t>Now we have identified the algorithm. The server will continue to send a packet called ServerKeyExchange.</t>
+        <t>In this packet, the server will share with the client with a public key.</t>
+        <t>Server Key Exchange MUST include: content_type = "Server Key Exchange", version = "STP 1.0". We also want to mention that we will only define "Named Curve" as secp256r1, which is a public NIST standard curve.</t>
+        <t>With knowledge of the curve to be used, both the server and client will know the crucial $p$ and $G$ values for ECDHE. For secp256r1, these are defined by NIST as:</t>
+        <t>p = FFFFFFFF 00000001 00000000 00000000 00000000 FFFFFFFF FFFFFFFF FFFFFFFF</t>
+        <t>G = 03 6B17D1F2 E12C4247 F8BCE6E5 63A440F2 77037D81 2DEB33A0 F4A13945 D898C296</t>
+        <t>The server will choose a random private key "a"(256 bytes) and compute $a*G$ as its public key. Store the public key in server_public_key.</t>
+        <t>Finally, it will be sent to the client</t>
+      </section>
+      <section title="Server Hello Done">
+        <t>This packet indicates that the server has finished all the information that needs to be sent in the hello part.</t>
+        <t>Server Hello Done MUCH sinclude: content_type = "Server Hello Done", version = "STP 1.0"</t>
+      </section>
+      <section title="Client Key Exchange">
+        <t>After client recieved the Server Hello Done message, the client will send its key exchange packet.</t>
+        <t>Client Key Exchange MUST include: content_type = "Client Key Exchange", version = "STP 1.0"</t>
+        <t>Like what server did, the client will choose a random private key "b"(256 bytes) and compte $b*G$ as its public key. Store the public key in client_public_key.</t>
+        <t> Finally, it will be sent to the server.</t>
+      </section>
+      <section title="Completing the Key Exchange">
+        <t>Now the client has $a*G$ and the server $b*G$, both can calculate the final secret value $a*b*G$ with their own private keys. This is known as the pre-master secret. Then we will find the final master secret</t>
+        <t>We define a function called P_SHA256(secret,seed) = HMAC_sha256(secret, A(1) + seed) + HMAC_sha256(secret, A(2) + seed)</t>
+        <t>master_secret = P_SHA256(pre_master_secret,b"master secret"+client_random_bytes + server_random_bytes)[0...47]</t>
+        <t>Where A(0) = seed, A(x) = HMAC_sha256(secret, A(x-1))</t>
+      </section>
+      <section title="Client Change Cipher Spec">
+        <t>The final unencrypted message sent by the client will be a Client Change Cipher Spec message, which indicates that all following messages will be encrypted.</t>
+        <t>Client Change Cipher Spec MUST include: content_type = "Client Change Cipher Spec", version = "STP 1.0"</t>
+        <t>In this packet, the client will also transport a hash of all previous handshake messages ("client_random_bytes", "server_random_bytes", "cipher_suite", "client_public_key", "server_public_key", all information is converted into bytes and added together), along with the string "client finished" (convert into bytes, simply added to the end).</t>
+      </section>
+      <section title="Server Change Cipher Spec">
+        <t>After the server recieved the client's "Client Change Cipher Spec" packet, the server will acknowledge it and if they are correct, the server will send a "Server Change Cipher Spec" packet.</t>
+        <t>"Server Change Cipher Spec" MUST include: content_type = "Server Key Exchange", version = "STP 1.0"</t>
+        <t>In this packet, the server will also transport a hash of all previous handshake messages ("client_random_bytes", "server_random_bytes", "cipher_suite", "client_public_key", "server_public_key", all information is converted into bytes and added together), along with the string "client finished, server finished" (convert into bytes, simply added to the end).</t>
+      </section>
+      <section title="Application Data">
+        <t>Finally, we can begin to transmit encrypted data. The only remaining step is to discuss how the data is encrypted with AES_GCM, an AEAD cipher.</t>
+        <t>First, we generate a MAC, key, and IV for both the client and the server using our master secret and the PRF definition from earlier.</t>
+        <t>key_data = P_SHA256(master_secret, b"key expansion" + server_random_bytes + client_random_bytes)</t>
+        <t>Since we are using 128-bit AES with SHA-256, we'll pull out the following key data:</t>
+        <t>client_write_MAC_key = key_data[0..31]</t>
+        <t>server_write_MAC_key = key_data[32..63]</t>
+        <t>client_write_key = key_data[64..79]</t>
+        <t>server_write_key = key_data[80..95]</t>
+        <t>client_write_IV = key_data[96..99]</t>
+        <t>server_write_IV = key_data[100..103]</t>
+        <t>We also construct additional_data and an 8-byte nonce, both of which are sent with the encrypted data.</t>
+        <t>additional_data = sequence_num + record_type + tls_version + length</t>
+        <t>nonce will be a random number the first time it is used on both sides. After that, it will be added 1 for every transport. (For example, the first time server send the data, nonce = random, then when client send back, nonce = random+1)</t>
+        <t> Finally we define the AES GCM we use as: </t>
+        <t>When the client send the message:</t>
+        <t>encrypted = AES_GCM(client_write_key, client_write_IV+nonce, DATA, additional_data)</t>
+        <t>The server can read it with</t>
+        <t>DATA = AES_GCM(client_write_key, client_write_IV+nonce, encrypted, additional_data)</t>
+        <t>When the server send the message:</t>
+        <t>encrypted = AES_GCM(server_write_key, server_write_IV+nonce, DATA, additional_data)</t>
+        <t>The client can read it with</t>
+        <t>DATA = AES_GCM(server_write_key, server_write_IV+nonce, encrypted, additional_data)</t>
+      </section>
+
+    </section>
+<section title="Technical Functionality">
+     <t>
+      The "hello handshake" is the procedure used to establish a security agreement. This procedure normally is started under a reliable connection. 
+      An example of security agreement follows. 
+      The hello handshake is shown in figure below. The figures should be interpreted in the following way. Each line is numbered for reference purposes. Right arrows (-->) indicate
+      departure of a PIMP packet from PIMP A to PIMP B, or arrival of a packet at B from A. Left arrows, indicate the reverse. Ellipsis (...) indicates a segment which is still in the network (delayed). An "XXX" indicates a segment which is lost or rejected. 
+    </t>
+    <figure align="center">
+      <preamble>The following artwork demonstrates the connection state diagram:</preamble>
+      <artwork align="center"><![CDATA[
+Cient                                                                                                           Server
+                                                        
+Client hello              --> <content_type><version><client_random_bytes><cipher_suite> --> 
+                          <-- <content_type><version><server_random_bytes><cipher_suite> <--              Server Hello
+                          <-- <content_type><version><certification>                     <--      Server Certification
+                          <-- <content_type><version><name_curve><server_public_key>     <--       Server Key Exchange
+                          <-- <content_type><version>                                    <--         Server Hello Done
+Client Key Exchange       --> <content_type><version><client_public_key>                 -->
+Client Change Cipher Spec --> <content_type><version><data>                              -->
+                          <-- <content_type><version>                                    <-- Server Change Cipher Spec
+Application data          <---------------------------------------------------------------->           Aplication data
+                  ]]>
+       </artwork>
+      <postamble>
+        STP Connection State Diagram
+      </postamble>
+  </figure>
+</section>
+<section title="Error Handling">
+  <t>If there are some errors in the hello handshake set-up. The side finds the error will send FIN and close the connection.</t>
+  <t>The error conditions include:</t>
+  <t><list>
+    <t>When Server received "Client Hello" message, but content_type or version or cipher_suite are not correct, or missed.</t>
+    <t>When Client received "Server Hello" message, but content_type or version or cipher_suite are not correct, or missed.</t>
+    <t>When Client received "Server Hello" message, but content_type or version  are not correct, or missed, certicifation is missed or not equal to the destination address's certification.</t>
+    <t>When Client received "Server Key Exchange" message, but content_type or version or name_curve are not correct, or missed.</t>
+    <t>When Client received "Server Hello Done" message, but content_type or version are not correct, or missed.</t>
+    <t>When Server received "Client Key Exchange" message, but content_type or version are not correct, or missed.</t>
+    <t>When Server received "Client Change Cipher Spec" message, but content_type or version are not correct, or missed, data is not equal to the server's.</t>
+    <t>When Client received "Server Change Cipher Spec" message, but content_type or version are not correct, or missed, data is not equal to the client's.</t>
+  </list></t>
+
+  </section>
+
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+   
+   <references title="Normative References">
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0793.xml"?-->
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC2119;
+     
+   </references>
+
+
+   <!-- Change Log
+v00 2006-03-15  EBD   Initial version
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
+                     images. Removed meta-characters from comments (causes problems).
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the 
+                     IANA guidelines reference from the I-D to the finished RFC.  
+
+v1.1 Team Kronos Update Proposal pull request 2019-03-27 
+	-Changed checksum to MD5 hash
+	-Changed header fields to match descriptions, and changed checksum from INT to BUFFER
+	-Added the packet transmission steps of the handshake (as they are defined in TCP) to the Technical Functionality
+	-Added error handling for packets received with improper flag combinations (the packet is dropped)
+                     
+SETH NIELSON:
+  Altered for PLAYGROUND AND PRFC's
+  2016-09-21 SJN PRFC 1
+  Updated for Fall 2017
+  2017-10-1
+  -->
+ </back>
+</rfc>
