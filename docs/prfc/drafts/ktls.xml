@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This P-RFC's is created by group Kronos Arcade for 
+    EN601.444/644 Network Security Spring 2019 -->
+<!-- This file can be used for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="ktls-prfc" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="KTLS PRFC">Kronos Transport Layer Security (TLS) Handshake Protocol over PIMP</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Beckett Browning, Vaikunth Dharwadkar, Prakhar Kaushik, Seungeon Lee, Mingxi Xu">
+     <organization>Kronos Arcade</organization>
+
+     <address>
+       <postal>
+         <street>Johns Hopkins University/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <phone>+1 123-456-7890</phone>
+
+       <email>kronos@jhu.edu</email>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+   in the current day and month for you. If the year is not the current one, it is 
+   necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+   purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+   specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>Playground Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+   If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PRFC</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+   
+     <t>This PRFC specifies the way in which Team Kronos propose to implement the secure layer for network communications 
+       that will potentially exist on top of the PIMP reliable layer built on the Playground overlay network. PIMP handles 
+       communications, while the secure layer is concerned with security properties such as confidentiality and integrity of the 
+       data being transmitted over the network.</t>
+     
+   </abstract>
+ </front>
+
+    <middle>
+                
+        <section title="Purpose / Technical Background">
+        <t> The purpose of this PRFC is to provide specifications for a secure layer protocol for network communications for the Network 
+          Security class of Spring 2019 on the Playground network (overlay network) developed by Professor Nielson. 
+          Ideally our specifications will enable all students of the class to design and implement a secure layer that is 
+          compatibile with the rest of the class. Inspiration for many features in this proposed protocol are drawn from TLS 1.3. </t>
+        </section>
+           
+        <section title="Algorithms">
+        <t> Team Kronos proposes to use the RSA asymmetric cipher for encryption and SHA-256 for hashing. Using one scheme rather than multiple 
+          will provide simple compatability for all groups. RSA will also be used for key generation and as the algorithm for signing certificates.
+          HKDF will be used for key derivation. </t>
+
+        <!--!!!!!!!!!!!!!!!!!!!!! -->
+        <!-- KEY EXCHANGE??? -->
+        <!-- !!!!!!!!!!!!!!!! -->
+        <!-- CERTIFICATE??? -->
+        <!--!!!!!!!!!!!!!!!!!!!!! -->
+
+        </section>
+
+        <section title="Handshake">
+        
+        <t>In this protocol we will use a handshake with a server certificate and key exchange in order to establish a secure communication. 
+          Each message within the handshake sends different information. The handshake is very ligthweight as only one set of cipher, operation 
+          mode, and hash algorithms are usable and the handshake does not need to synchronize security algorithms.</t>
+
+        <t>The following is the structure of data which will be communicated during the handshake: </t>
+
+        <!--#GCM (and counter mode) you have to increment the key or IV each time, you can't just continue encrypting continuously-->
+        <!--Note that GCM has a maximum data transmission limit, be sure to include this-->
+        <!--Add error handling (if there are any unexpected messages in hadnsahek, shut down) -->
+
+        <t> </t>
+        
+        <t>class SecureHandshake():</t>
+        <t>FIELDS = [</t>
+        <t>("public_key", int)</t>
+        <t>("msg_ctr", int)</t>
+        <t>certificate = [</t>
+        <t>("is_secure", False)</t>
+        <t>("issuer", b"") </t>
+        <t>("subject", b"") </t>
+        <t>("subject_public_key", b"")</t>
+        <t>("cert_sig", b"")</t>
+        <t>("server_veri", int)     //Nonce random # for server private-keyverification</t>
+        <t>("client_veri", int)   //Nonce random # for client private-key verification</t>
+        <t>]</t>
+        <t></t>
+        <t>Note that the following data must be held by only one side and NOT shared:</t>
+        <t>-server private key (server)</t>
+        <t>-client private key (client)</t>
+        <t>-HMAC send key (each side)</t>
+        <t>-HMAC read key (each side)</t>
+          
+          <!--MISSING INFO-->
+          <!--MISSING INFO-->  
+         <t>The msg_ctr field is simply a counter of messages sent. It is initialized to 0 and incremented whenever a message is sent. This
+          could be useful for differentiating packets with the same data or debugging.</t>
+          
+         <t>The initial handshake message (HS1) is a request from the client to the server. In this phase, the client sends the ClientHello. 
+          It will include the client's public key. The client must initialize "server_veri" as a integer of any length and public key. The client must generate the public key and private key pair using the RSA algorithm. The recommended RSA private key size is 256 bytes (2048 bits) or more.
+          </t>
+        
+          <t>The second handshake message (HS2) is the initial response from server to client. In this message, the server sends its self-signed 
+          certificate to the client. The certificate will be sent in the data field "certificate", and must include the defined fields including 
+          issuer, subject, etc. In this message, the server sends its self-signed certificate to the client. The server also encrypts the "server_veri" with its certificate private key. After the server encrypts the server_veri with the private key, the encrypted nonce will replace the original value in the server_veri field and sent back to the client. The certificate will be sent in the data field "certificate". The server should also compute a RSA private key and public key. In HS2, the server must include its public key. Additionally, a new nonce value should be initialized in "client_veri" as a means to ensure the client has the correct private key (this is the mirror of server_veri) 
+          and sent in HS2 as well.</t>
+          
+          <t>Upon receiving the encrypted server_veri, the client should be able to decrypt the value using the RSA public key from the server 
+            certificate, and ensure the decrypted server_veri is equivalent to the original server_veri the client sent. The certificate public key
+            is included in the certificate. If the decrypted value does not match the original server_veri the client sent, the connection should 
+            be terminated because this likely means the server does not posess the relevant private key. Additionally, the client must verify that 
+            the signature of the server certificate is within the client's list of known trusted parties (We can compile a list of each group's 
+            signatures as a class to cross-check certificate signatures against). This establishes trust. If the certificate signature is not 
+            within the client's list of trusted parties, the connection must close. The client must also encrypt client_veri with its
+            private key</t>
+        
+          <t>(HS3) The client will send the encrypted client_veri nonce to the server to verify the client has the private key intended for this secure communication
+          session. Upon receiving the encrypted client_veri, the server should decrypt it with its public key and ensure that it matches the original 
+          client_veri that it sent. If it matches then the client has been verified to possess the correct private key. Additionally, the client must
+          send its own self-signed client certificate in the "certificate" field.</t>
+          
+          <t>Finally (HS4) will be the last handshake message to signal that all handshake processes have been successful and secure
+          data transmission can begin. It requires that the server verifies the client's certificate by verifying its signature. Once verified, the
+          is_secure field will be set to true and HS4 may be sent. This is a message from client to server. Upon sending the message the client will know 
+          that secure communications may begin. Upon receiving this message, the server will know that secure communications may begin.</t>
+                      
+          <t>At this point the handshake process is complete if all data is received as expected (defined in this PRFC, certificate deemed valid and
+            nonce verification successful), and secure communications may begin. Both parties may send each other RSA encrypted data freely such that the 
+            data is encrypted with the respective party's private key and decrypted with the public key.</t> 
+          
+          <t>During any point in the handshake process, if the structure of this information is incorrect in any way, or a message received during 
+            the handshake does not contain the expected information, this protocol will close and end the establishment of secure communications. 
+            In the case of an invalid verification of the certificate (server_veri decrypted mismatch with original server_veri, or same with client_veri), the secure communications 
+            will also end immeditaley. 
+          </t>
+          
+        </section>
+      
+      <section title="Secure Data Transmission">
+        <t>class SecureDataTransmission():</t>
+        <t>FIELDS = [</t>
+        <t>("MAC", BUFFER),</t>
+        <t>("DATA", BUFFER),</t>
+        <t>("COUNTER", INTEGER)</t>
+        <t>]</t>
+        <t>
+          Each secure data transmission datagram will include an HMAC and data and a counter value. Counter values are initialized to zero on both sides
+          and are used to keep track and verify the sequence number of the data being tranmitted.
+        </t>
+        <t>
+          The MAC is the SHA256 hash of the data sent and the serialized byte of the handshake packet the user sent (HS1 for user 1 and HS2 for user 2) and the counter.
+          SHA256 produces a 256 bit hash digest output as a MAC. The user must convert the counter to byte then appends all three of these info as byte strings then compute
+          the hash. The receiver can compute the SHA256 hash of the data sent and the serialized byte of the handshake packet the user received.
+          If the received MAC does not match the computed MAC, the connection is immediately closed.
+        </t>
+        <t>
+          When sending data, the client and the server encrypts their data using the RSA private key they each computed
+          during the handshake. When received a encrypted data, the client and the server can be decrypted the data with
+          the public keys they received during the handshake. 
+        </t>
+          
+        <t>
+          The counter be incremented by one for each data the user sends out.
+        </t>
+        </section>
+      
+      <section title="Authentication">
+        <t>Authentication is performed and described in the handshake protocol. Identities are established and verified using the server's 
+        certificate, and the server_veri encryption during the handshake which is sent from the client and returned encrypted by the
+       server's private key. The client should decrypt the server_veri value with its public key and compare to the original value it 
+        sent. If they match, then the server posseses the correct private key for the secure communications. This is mirrored with client_veri
+        as described in the handshake. Our protocol is mostly concerned with the identity of the server, and less so with the client (Server certificate verification
+        and no client certificate used). Client authentication may be done for services that require it on the application level.</t>
+        
+        <t>Trust in the secure communication is established when the client verifies the signature of the server certificate by cross-checking
+        it against a list it stores of trusted parties (we should establish such a list as a class.)</t>
+      </section>
+      
+      <section title="Key exchange, derivation">
+        <t>Master key exchange for RSA encryption was performed and described in the handshake section.</t>
+        <t>When each side has its base encryption key, it must derive its keys using the HKDF algorithm which has a python implementation.</t> 
+        <t>Both client and server must also have read and write HMAC keys. These can be generated using a cryptographically secure
+        pseudorandom number generator (this can be done using the Python "secrets" class). The HMAC keys should be 512 bits (64 bytes) long. </t>
+      </section>
+      
+      <section title="Parameters">
+        <t>The only relevant parameters are key lengths. The length of RSA private key and HMAC keys. Protocol users are encouraged to use an RSA private key of at least 2048 bits for encryption. HMAC keys should be 512 bits (64 bytes) long. </t>
+      </section>
+      
+      <section title="Error Handling">
+        <t>Error handling is subjective to the operation (certificates, key exchange, data transmission, signature verification) and has been described 
+        in the other sections. In every case connection is terminated if there is a mismatch between a value and what is expected 
+        (or the format that is defined). This is because the connection is known to be reliable and there should not be malformed packets or 
+        miscalculations in cryptographic algorithms.</t>
+      </section>
+      
+      <section title="Security Considerations">
+        <t>-Keys must be individual and session based. Keys cannnot be reused for other users or sessions.</t>
+      </section>
+        
+    </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+
+   <!-- Change Log
+
+v00 2019-03-06    Initial version
+
+
+  03-06-2019 KRONOS PRFC 1
+  -->
+ </back>
+</rfc>
