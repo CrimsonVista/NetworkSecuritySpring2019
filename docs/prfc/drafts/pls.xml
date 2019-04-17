@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!-- This template is modified by Seth Nielson for creating P-RFC's
+    (Playground-RFC's). -->
+<!-- This template is for creating an Internet Draft using xml2rfc,
+    which is available here: http://xml2rfc.ietf.org. -->
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!-- One method to get references from the online citation libraries.
+    There has to be one entity for each item to be referenced. 
+    An alternate method (rfc include) is described in the references. -->
+
+<!ENTITY RFC2119 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC2360 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2360.xml">
+<!ENTITY RFC2629 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2629.xml">
+<!ENTITY RFC3552 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3552.xml">
+<!ENTITY RFC5226 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5226.xml">
+<!ENTITY RFC5246 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5246.xml">
+<!ENTITY RFC8446 SYSTEM "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8446.xml">
+]>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!-- used by XSLT processors -->
+<!-- For a complete list and description of processing instructions (PIs), 
+    please see http://xml2rfc.ietf.org/authoring/README.html. -->
+<!-- Below are generally applicable Processing Instructions (PIs) that most I-Ds might want to use.
+    (Here they are set differently than their defaults in xml2rfc v1.32) -->
+<?rfc strict="yes" ?>
+<!-- give errors regarding ID-nits and DTD validation -->
+<!-- control the table of contents (ToC) -->
+<?rfc toc="yes"?>
+<!-- generate a ToC -->
+<?rfc tocdepth="4"?>
+<!-- the number of levels of subsections in ToC. default: 3 -->
+<!-- control references -->
+<?rfc symrefs="yes"?>
+<!-- use symbolic references tags, i.e, [RFC2119] instead of [1] -->
+<?rfc sortrefs="yes" ?>
+<!-- sort the reference entries alphabetically -->
+<!-- control vertical white space 
+    (using these PIs as follows is recommended by the RFC Editor) -->
+<?rfc compact="yes" ?>
+<!-- do not start each main section on a new page -->
+<?rfc subcompact="no" ?>
+<!-- keep one blank line between list items -->
+<!-- end of list of popular I-D processing instructions -->
+
+
+
+
+<rfc category="std" docName="rfc1" ipr="playgroundStd_v1_0" number="1">
+ <!-- category values: std, bcp, info, exp, and historic
+    ipr values: trust200902, noModificationTrust200902, noDerivativesTrust200902,
+       or pre5378Trust200902, playgroundWinter201501
+    you can add the attributes updates="NNNN" and obsoletes="NNNN" 
+    they will automatically be output with "(if approved)" -->
+
+ <!-- ***** FRONT MATTER ***** -->
+
+ <front>
+   <!-- The abbreviated title is used in the page header - it is only necessary if the 
+        full title is longer than 39 characters -->
+
+   <title abbrev="PRFC's">Post-Interstellar Mining Protocol Layer Security (PLS) Request For Comments</title>
+
+   <!-- add 'role="editor"' below for the editors if appropriate -->
+
+   <!-- Another author who claims to be an editor -->
+
+   <author fullname="Roast My Professor" initials="R.M.P." role="editor">
+     <organization>JHU Network Security Spring 2019</organization>
+
+     <address>
+       <postal>
+         <street>JHU 160 Malone Hall/3400 North Charles St.</street>
+
+         <!-- Reorder these if your country does things differently -->
+
+         <city>Baltimore</city>
+
+         <region>MD</region>
+
+         <code>21218</code>
+
+         <country>USA</country>
+       </postal>
+
+       <!-- uri and facsimile elements may also be added -->
+     </address>
+   </author>
+
+   <date year="2019" />
+
+   <!-- If the month and year are both specified and are the current ones, xml2rfc will fill 
+        in the current day for you. If only the current year is specified, xml2rfc will fill 
+   in the current day and month for you. If the year is not the current one, it is 
+   necessary to specify at least a month (xml2rfc assumes day="1" if not specified for the 
+   purpose of calculating the expiry date).  With drafts it is normally sufficient to 
+   specify just the year. -->
+
+   <!-- Meta-data Declarations -->
+
+   <area>General</area>
+
+   <workgroup>Playground Experiment Director</workgroup>
+
+   <!-- WG name at the upperleft corner of the doc,
+        IETF is fine for individual submissions.  
+   If this element is not present, the default is "Network Working Group",
+        which is used by the RFC Editor as a nod to the history of the IETF. -->
+
+   <keyword>PRFC</keyword>
+
+   <!-- Keywords will be incorporated into HTML output
+        files in a meta tag but they have no effect on text or nroff
+        output. If you submit your draft to the RFC Editor, the
+        keywords will be used for the search engine. -->
+
+   <abstract>
+     <t>Post-Interstellar Mining Protocol Layer Security (PLS) is a proposed transport layer security
+       protocol that provides key authentication and confidentiality on the Playground environment.
+       PLS is a simplified, TLS-like protocol. PLS simplifies the protocol by using a simpler ciphersuite for encryption.</t>
+   </abstract>
+ </front>
+
+ <middle>
+   <section title="Preface">
+     <t>This document describes Network Security Spring 2019
+     Transport Layer Security Protocol. It draws heavily from the Transport Layer Security 1.3 Protocol RFC. </t>
+
+     <section title="Requirements Language">
+       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <xref
+       target="RFC8446">RFC 8446</xref>.</t>
+     </section>
+   </section>
+   <section title="Motivation">
+     <t>For applications running in the Playground environment to reliably 
+      communicate, there should be a secure way for two entities to send and receive data without
+      fear of a third-party intercepting their communication. The PLS protocol will have the following requirements met:
+      <list style="numbers">
+        <t>Confidentiality: Any data sent using PLS will only be visible to the sender and receiver.</t>
+        <t>Integrity: If data is modified using PLS, it will be detected.</t>
+        <t>Authentication: Both the client and the server will be authenticated using certificates.</t>
+      </list>
+    </t>
+     
+     <t>This protocol is closely related to the TLS 1.3. Specifically, our protocol follows the same handshake agreement with the addition of the client verification.</t>
+     
+     <t>The handshake is where the client and server will negotiate protocol versions, which algorithms will be used, and what the shared secret key will be moving forward.</t>
+
+     <t>There are two main phases of the PLS handshake: key exchange and authentication. For key exchange, the client will send its hello followed by ciphersuites, suggested protocols that they want to use and a shared secret key. The server will send their hello message, their certificate, the ciphersuite that will be used, and a server finished message. For authentication, the client verifies the certificates with the appropriate certificate authority and generates keys with the keyshare. After this, the client will send their finished message.</t>
+  
+   </section>
+   
+   <section title="Handshake">
+   <t>
+    <figure align="center">
+      <preamble>The following artwork demonstrates the PLS Handshake:</preamble>
+      <artwork align="center"><![CDATA[
+PLS Client                                                                       PLS Server
+
++-+-+-+-+-+-+-+-+-+-+                                  
+|    Client Hello   |
++     Session Key   +
+|    Ciphersuites   |
++     Certificate   +                        
+|-+-+-+-+-+-+-+-+-+-| -------------------------------------------> ------------------------
+                                                                   |       Server         |
+                                                                   |    Authenticates     |
+                                                                   |     Certificate      |
+                                                                   ------------------------
+                                                                              |
+                                                                              |
+                                                                              |
+                                                                              v
+                                                              +-+-+-+-+-+-+-+-+-+-+-+-+-+-+                          
+                                                              |        Server Hello       |
+                                                              +         CipherSuite       +
+                                                              |         Certificate       |
+--------------------- <-------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|       Client      |                                                     
+|    Authenticates  |                                                     
+|     Certificate   |                                                                                                         
+---------------------   
+          |
+          |
+          |
+          V                                                  
++-+-+-+-+-+-+-+-+-+-+-+
+|  Change CipherSpec  |
++    Premaster Secret + 
+|   Client Finished   |
++-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------> +-+-+-+-+-+-+-+-+-+-+-+-+  
+          |                                                       |    Change CipherSpec  |
+          |                                                       +     Server Finished   +
+          |             <---------------------------------------- |-+-+-+-+-+-+-+-+-+-+-+-|
+          |                                                                   |
+          |                                                                   |
+          |             -----------------------------------------             |
+          |---------->  |           Key Generation              | <-----------| 
+                        -----------------------------------------
+                                            |
+                                            |
+                                            |
+                                            |
+                                            V                                                                     
+------------------------------------- Encrypted Data --------------------------------------
+                       
+      ]]>
+       </artwork>
+      <postamble>
+        PLS Handshake Diagram
+      </postamble>
+  </figure>
+	   </t>
+     <section title = "Handshake Description">
+       <t>Client Hello:</t>
+       			<t><list style="empty">
+							<t> When the client wants to connect to a specific server, it will send a hello message. This hello message is a random message. Along with the hello, the client will send the ciphersuites it supports and a certificate with their public key. The client will sign the certificate with a hash of their private key. This way, the server can verify using the client's public key.</t>
+            </list></t>
+      <t>Server Authenticates Client Certificate: </t>
+            <t><list style="empty">
+              <t>The server will use a trusted certificate authority (CA) to verify the client's certificate.</t>
+            </list></t>
+       <t>Server Hello: </t>
+       			<t><list style="empty">
+							<t>The server will respond with a hello message, which is also random. With the hello message, the server will select a ciphersuite and send their certificate.</t>
+            </list></t>
+       <t>Client Authenticates Server Certificate:</t>
+       			<t><list style="empty">
+							<t>When the client receives the server's certificate, it will verify it using a certificate authority (CA). The CA is a trusted source that knows which certificates are valid and which are not.</t>
+            </list></t>
+        <t>Client Finished: </t>
+            <t><list style="empty">
+              <t>The client will send a finished message to let the server know that they are done with verification. The client will also send the cipher spec change request to let the server know to switch to symmetric encryption. </t>
+            </list></t>
+          <t>Server Finished: </t>
+            <t><list style="empty">
+              <t>The server will respond with a finished message along with the client's cipher spec change. This will signal to the client that the server is done verifying and that the server knows to use the shared key.</t>
+            </list></t>
+     </section>
+     
+     <section title = "Packet Description">
+      <figure>
+          <artwork><![CDATA[
+        from playground.network.packet import PacketType
+        from playground.network.packet.fieldtypes 
+                              import UINT32, STRING, BUFFER, BOOLEAN
+        class PLSPacket(PacketType):
+            DEFINITION_IDENTIFIER = "PLS.Packet"
+            DEFINITION_VERSION = "1.0"
+            FIELDS = [
+              ("Type", STRING), 
+              ("Session Key", STRING)
+              ("Random", UINT32){OPTIONAL},
+              ("CipherSuite", BUFFER), 
+              ("Certificate", BUFFER){OPTIONAL}, 
+              ("Encrypted Data", BUFFER)
+              ("Signature", STRING)
+            ]
+                  ]]>
+          </artwork>
+      </figure>
+
+      <t>As shown in the figure above, the PLS packet will have the following fields:
+        <list>
+          <t>Type: 
+            <list style="empty"> <t>The type can be one of five options: Hello, Finished, Data, Close, Retry. Hello is the first type that will initiate the PLS handshake. Finished is used by each side to let the other know that their side is finished with negotiating the protocol, ciphersuite, shared key, and with verifying the certificates. Data is used to let each side know that there is data coming through. Close will alert the other side to stop sending any data. Retry is for error handling. If the client or server cannot verify the certificate, then they will send a retry packet.
+            </t></list></t>
+          <t> Random: 
+            <list style="empty"> <t>The random is a 32 bit randomly generated number that is sent during the hello message.
+            </t></list></t>
+          <t> Session Key: 
+            <list style="empty"> <t>The session key is generated by the client. This key will be used to determine the current session. It is initially encrypted using the client's private key and sent to the server. When the server sends the session key back, they will encrypt it using their private key. If a retry packet is sent at any time, the session key will be changed. 
+            </t></list></t>
+          <t>CipherSuite:
+          <list style="empty"><t> The ciphersuite is a list of all modes of encryption that are supported. For PLS, there will only be two supported cipher suites:
+            <list style = "empty"><t>PLS_RSA_RSA_AES_128_GCM_SHA256</t>
+            <t>PLS_DHE_RSA_AES_128_GCM_SHA256</t></list>
+
+            Where PLS is the protocol, RSA/Diffie Helman Exchange is the key exchange algorithm, followed by the authentication algorithm (RSA for both). Next is the data encryption algorithm (AES 128 GCM for both), and lastly, the hashing algorithm (SHA 256 for both)</t></list></t>
+          <t>Certificate:
+          <list style="empty"><t> The certificate field is for each side to send their signed certificate. This field is optional after the handshake. </t></list></t>
+          <t> Encrypted Data:
+          <list style="empty"><t>This field is the encrypted data that we want to send between the client and the server.</t></list></t>
+          <t> Signature:
+          <list style="empty"><t>After the handshake, each packet of data will be signed by the sender using the sender's private key.</t></list></t>
+        </list>
+      </t>
+       
+     </section>
+     
+   </section>
+   <section title="Certificate">
+     <t>
+      Certificates provide information as to whether the client and server are who they are claiming to be. For PLS, the certificates will be a simpler version of the X.509 certificate as shown below: 
+
+      <figure>
+          <artwork><![CDATA[
+
+
+-+-+-+-+-+-+-+-+-+-+-+-+-                
+|     PLS Certificate   |                 
++-+-+-+-+-+-+-+-+-+-+-+-+      
+| Version Number        |
++ Issuer Name           +
+| Subject Name          |               
++ Public Key            +
+| Public Key Algorithm  |
++ Certificate Signature +
+|+-+-+-+-+-+-+-+-+-+-+-+|
+
+
+                  ]]>
+          </artwork>
+      </figure>
+    </t>
+    <t>For PLS, there will be one Intermediary CA for each address block. For example, there will be Intermediary CA's for 20191.1, 20191.2, 20191.3, 20191.4,, 20191.5, and 20191.6. The Intermediary CA will reference the root certificate as the issuer. Each Root CA will have signed the Intermediary CA. The Root CA should have certificates that are self signed. </t>
+   </section>
+   
+<section title="Key Derivation">
+    <t>The pre master key sent by the client is a concatenation of the client's hello random and the server's hello random. It is encrypted using the server's public key. After the client sends the pre master key, both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.</t>
+    
+
+</section>
+<section title="CipherSuite and Algorithm Specification">
+    <t>As mentioned, PLS will support two ciphersuites: 
+
+    <list style="empty"> 
+      <t>1. PLS_RSA_RSA_AES_128_GCM_SHA256</t>
+
+      <t>2. PLS_DHE_RSA_AES_128_GCM_SHA256</t>
+    </list> </t>
+
+    <t>In both ciphersuites, PLS is the only protocol accepted. For key exchange, there is the option of either RSA or Diffie-Hellman Exchange. RSA is the only algorithm available for authentication. For encryption and message integrity, both ciphersuites will use AES_128_GCM. Lastly, both algorithms will use SHA256 for hashing.</t>
+
+    <t></t>
+
+    <t></t>
+</section>
+<section title="Error Handling">
+    <t>PLS will handle errors by one side sending a Retry packet to the other side if one of the following errors occur: 
+    <list style="empty">
+
+    <t>1. The subject name on the certificate does not match the name of who sent it.</t>
+
+    <t>2. The signature on the certificate cannot be verified.</t>
+
+    <t>3. The Intermediary CA cannot verify the certificate.</t>
+
+    <t>4. The Root CA cannot verify the certificate.</t>
+    </list></t>
+    <t>If the error is not corrected after the second attempt, a close packet will be sent, and a connection will not be made.</t>
+</section>
+<section title="PLS Shutdown">
+    <t>Either side has the option to close the connection. If one side send the other a packet of type 'Close,' then no more data will be sent on the channel.</t>
+
+</section>
+<section title="Security Considerations">
+    <t>There are only two security considerations:
+      <list style ="empty">
+        <t>1. Keys will not be reused.</t>
+        <t>2. PLS is the only protocol that the server will support.</t>
+      </list></t>
+
+</section>
+
+   <section title="PRFC Revision Process">
+   <t>Once a PRFC is officially published by the PETF, it cannot be modified further
+   for any reason. A new PRFC must be submitted that identifies the errors and 
+   proposes to "update" or "supercede" the previous document.</t>
+   
+   <t>A PRFC MUST use the "update" reference if the changes do not result in an
+   incompatible protocol and the old protocol is not shown to be insecure. 
+   Changes to PRFC's that are "updates" include:</t>
+   
+   <t><list style="numbers">
+    <t>Corrections to spelling, grammar, and other wording in the document</t>
+    <t>Additional details about operations and operational considerations</t>
+    <t>Additional parameters or interactions to the existing protocol</t>
+   </list></t>
+   
+   <t>A PRFC MUST use the "supercede" reference if the changes result in an incompatible
+   protocol OR if the previous protocol is demonstrated to be insecure.</t>
+   
+   <t>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.</t>
+   
+   <t>A PRFC submitted without PETF approval MUST be revised only by the same PLAYGROUND
+   group that submitted the original.</t>
+   </section>
+   
+       <section title="Copyright Information">
+    <t>The PLAYGROUND experiment is still new and has not yet developed
+    a policy that has been reviewed by legal counsel. However, at present,
+    the following text MUST be used in the PRFC's.</t>
+    
+    <t>The copyright notice on the front page of the PRFC should read:
+    "Copyright (c) 2017 SETH JAMES NIELSON.  All rights reserved.</t>
+
+   <t>This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions."</t>
+   
+   <t>Student authors MUST grant copyrights to SETH JAMES NIELSON. However,
+   they may also retain copyrights for themselves and add their names to the
+   copyright notice accordingly.</t>
+   
+   <t> The final page of the PRFC MUST include a section entitled 
+   "Full Copyright Statement" that reads:</t>
+   
+   <t>"Copyright (C) Seth James Nielson (2017).  All Rights Reserved.</t>
+
+   <t>This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.</t>
+
+   <t>The limited permissions granted above are perpetual and will not be
+   revoked by SETH JAMES NIELSON or his successors or assigns.</t>
+
+   <t>This document and the information contained herein is provided on an
+   "AS IS" basis and SETH JAMES NIELSON and associated academic
+   institutions DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE."</t>
+   
+   <t>After the "Full Copyright Statement" the PRFC MUST include a section
+   entitled "Intellectual Property" that reads:</t>
+
+   <t>The PLAYGROUND framework and student submissions for PLAYGROUND are
+   intended to be free of any intellectual property conflicts.  All
+   submitting parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the PLAYGROUND project.  Specifically, any
+   submission can be used in future educational settings including
+   subsequent PLAYGROUND experiments.</t>
+
+   <t>Any interested party is invited to bring to the experiment director's
+   attention any copyrights, patents or patent applications, or other
+   proprietary rights which may cover technology that may be currently
+   in use without permission.</t>
+
+   <t>It should be noted that these statements have not been reviewed by
+   legal counsel.  Moreover, the academic institutions at which
+   PLAYGROUND experiments take place may have additional or even
+   conflicting copyright and intellectual property rules.  Accordingly,
+   concerned parties may need to contact their own lawyer and/or
+   resources at their institution to understand the rights and
+   limitations associated with code donated to a PLAYGROUND experiment."</t>
+   
+   <t>As with the initial copyright notice, the Copyright assignment to
+   Seth James Nielson can be agumented the the names of the authors.</t>
+    </section>
+ </middle>
+
+ <!--  *****BACK MATTER ***** -->
+
+ <back>
+   <!-- References split into informative and normative -->
+
+   <!-- There are 2 ways to insert reference entries from the citation libraries:
+    1. define an ENTITY at the top, and use "ampersand character"RFC2629; here (as shown)
+    2. simply use a PI "less than character"?rfc include="reference.RFC.2119.xml"?> here
+       (for I-Ds: include="reference.I-D.narten-iana-considerations-rfc2434bis.xml")
+    Both are cited textually in the same manner: by using xref elements.
+    If you use the PI option, xml2rfc will, by default, try to find included files in the same
+    directory as the including file. You can also define the XML_LIBRARY environment variable
+    with a value containing a set of directories to search.  These can be either in the local
+    filing system or remote ones accessed by http (http://domain/dir/... ).-->
+   
+   <references title="Normative References">
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.0793.xml"?-->
+     <!--?rfc include="http://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"?-->
+     &RFC8446;
+     
+   </references>
+
+
+   <!-- Change Log
+v00 2006-03-15  EBD   Initial version
+v01 2006-04-03  EBD   Moved PI location back to position 1 -
+                     v3.1 of XMLmind is better with them at this location.
+v02 2007-03-07  AH    removed extraneous nested_list attribute,
+                     other minor corrections
+v03 2007-03-09  EBD   Added comments on null IANA sections and fixed heading capitalization.
+                     Modified comments around figure to reflect non-implementation of
+                     figure indent control.  Put in reference using anchor="DOMINATION".
+                     Fixed up the date specification comments to reflect current truth.
+v04 2007-03-09 AH     Major changes: shortened discussion of PIs,
+                     added discussion of rfc include.
+v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and alternative 
+                     images. Removed meta-characters from comments (causes problems).
+v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
+                     year only, to be consistent with the comments. Updated the 
+                     IANA guidelines reference from the I-D to the finished RFC.  
+                     
+SETH NIELSON:
+  Altered for PLAYGROUND AND PRFC's
+  2016-09-21 SJN PRFC 1
+  Updated for Fall 2017
+  2017-10-1
+  -->
+ </back>
+</rfc>
