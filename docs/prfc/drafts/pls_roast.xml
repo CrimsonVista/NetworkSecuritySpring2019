@@ -147,7 +147,7 @@
      
      <t>The handshake is where the client and server will negotiate protocol versions, which algorithms will be used, and what the shared secret key will be moving forward.</t>
 
-     <t>There are two main phases of the PLS handshake: key exchange and authentication. For key exchange, the client will send its hello followed by ciphersuites, suggested protocols that they want to use and a shared secret key. The server will send their hello message, their certificate, the ciphersuite that will be used, and a server finished message. For authentication, the client verifies the certificates with the appropriate certificate authority and generates keys with the keyshare. After this, the client will send their finished message.</t>
+     <t>There are two main phases of the PLS handshake: key transport and authentication. For key transport, the client will send its hello and certificate. The server will send their hello message and their certificate.  For authentication, the client and server verify the certificates with the appropriate certificate authority and generate keys with the premaster secret. After this, a change cipher spec message will be sent to the server to let the server know to use the generated keys for bulk transfer. Then the client will send their finished message, and the server will send their finished message after confirming the cipher spec change.</t>
   
    </section>
    
@@ -160,10 +160,8 @@ PLS Client                                                                      
 
 +-+-+-+-+-+-+-+-+-+-+                                  
 |    Client Hello   |
-+     Session Key   +
-|    Ciphersuites   |
-+     Certificate   +                        
-|-+-+-+-+-+-+-+-+-+-| -------------------------------------------> ------------------------
+|     Certificate   |                        
++-+-+-+-+-+-+-+-+-+-+ -------------------------------------------> ------------------------
                                                                    |       Server         |
                                                                    |    Authenticates     |
                                                                    |     Certificate      |
@@ -174,25 +172,34 @@ PLS Client                                                                      
                                                                               v
                                                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+                          
                                                               |        Server Hello       |
-                                                              +         CipherSuite       +
                                                               |         Certificate       |
 --------------------- <-------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |       Client      |                                                     
 |    Authenticates  |                                                     
-|     Certificate   |                                                                                                         
+|     Certificate   |                                                                                            
 ---------------------   
           |
           |
           |
           V                                                  
 +-+-+-+-+-+-+-+-+-+-+-+
-|  Change CipherSpec  |
-+    Premaster Secret + 
-|   Client Finished   |
+|     Session Key     |
 +-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------> +-+-+-+-+-+-+-+-+-+-+-+-+  
-          |                                                       |    Change CipherSpec  |
-          |                                                       +     Server Finished   +
-          |             <---------------------------------------- |-+-+-+-+-+-+-+-+-+-+-+-|
+                                                                  |     Session Key       |
++-+-+-+-+-+-+-+-+-+-+-+ <---------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+
+|  Premaster Secret   |         
++  Change Cipher Spec +
+|  Client Finished    |
++-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------> +-+-+-+-+-+-+-+-+-+-+-+-+
+          |                                                       |   Change Cipher Spec  |
+          |                                                       +    Server Finished    +
+          |             <---------------------------------------- |+-+-+-+-+-+-+-+-+-+-+-+|
+          |                                                                   |
+          |                                                                   | 
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
           |                                                                   |
           |                                                                   |
           |             -----------------------------------------             |
@@ -215,7 +222,7 @@ PLS Client                                                                      
      <section title = "Handshake Description">
        <t>Client Hello:</t>
        			<t><list style="empty">
-							<t> When the client wants to connect to a specific server, it will send a hello message. This hello message is a random message. Along with the hello, the client will send the ciphersuites it supports and a certificate with their public key. The client will sign the certificate with a hash of their private key. This way, the server can verify using the client's public key.</t>
+							<t> When the client wants to connect to a specific server, it will send a hello message. This hello message is a random message. Along with the hello, the client will send the ciphersuites it supports and a certificate with their public key.</t>
             </list></t>
       <t>Server Authenticates Client Certificate: </t>
             <t><list style="empty">
@@ -223,15 +230,20 @@ PLS Client                                                                      
             </list></t>
        <t>Server Hello: </t>
        			<t><list style="empty">
-							<t>The server will respond with a hello message, which is also random. With the hello message, the server will select a ciphersuite and send their certificate.</t>
+							<t>The server will respond with a hello message, which is also random. With the hello message, the server will send their certificate.</t>
             </list></t>
        <t>Client Authenticates Server Certificate:</t>
        			<t><list style="empty">
 							<t>When the client receives the server's certificate, it will verify it using a certificate authority (CA). The CA is a trusted source that knows which certificates are valid and which are not.</t>
             </list></t>
+        <t>Session Keys: </t>
+            <t><list style="empty">
+              <t>The session key will be sent to the server, encrypted under the server's public key. The server will send it back encrypted under the client's public key. This session key will establish trust between the client and server, and it will be used for the premaster secret that is sent afterwards. </t>
+            </list></t>
+
         <t>Client Finished: </t>
             <t><list style="empty">
-              <t>The client will send a finished message to let the server know that they are done with verification. The client will also send the cipher spec change request to let the server know to switch to symmetric encryption. </t>
+              <t>The client will send a finished message to let the server know that they are done with verification. The client will also send the premaster secret and a cipher spec change request to let the server know to switch to symmetric encryption. </t>
             </list></t>
           <t>Server Finished: </t>
             <t><list style="empty">
@@ -252,10 +264,9 @@ PLS Client                                                                      
               ("Type", STRING), 
               ("Session Key", STRING)
               ("Random", UINT32){OPTIONAL},
-              ("CipherSuite", BUFFER), 
               ("Certificate", BUFFER){OPTIONAL}, 
               ("Encrypted Data", BUFFER)
-              ("Signature", STRING)
+              ("Signature", STRING {OPTIONAL})
             ]
                   ]]>
           </artwork>
@@ -264,20 +275,14 @@ PLS Client                                                                      
       <t>As shown in the figure above, the PLS packet will have the following fields:
         <list>
           <t>Type: 
-            <list style="empty"> <t>The type can be one of five options: Hello, Finished, Data, Close, Retry. Hello is the first type that will initiate the PLS handshake. Finished is used by each side to let the other know that their side is finished with negotiating the protocol, ciphersuite, shared key, and with verifying the certificates. Data is used to let each side know that there is data coming through. Close will alert the other side to stop sending any data. Retry is for error handling. If the client or server cannot verify the certificate, then they will send a retry packet.
+            <list style="empty"> <t>The type can be one of four options: Hello, Finished, Data, and Close. Hello is the first type that will initiate the PLS handshake. Finished is used by each side to let the other know that their side is finished with negotiating the protocol, ciphersuite, shared key, and with verifying the certificates. Data is used to let each side know that there is data coming through. Close will alert the other side to stop sending any data.
             </t></list></t>
           <t> Random: 
             <list style="empty"> <t>The random is a 32 bit randomly generated number that is sent during the hello message.
             </t></list></t>
           <t> Session Key: 
-            <list style="empty"> <t>The session key is generated by the client. This key will be used to determine the current session. It is initially encrypted using the client's private key and sent to the server. When the server sends the session key back, they will encrypt it using their private key. If a retry packet is sent at any time, the session key will be changed. 
+            <list style="empty"> <t>The session key is generated by the client. This key will be used to determine the current session. It is initially encrypted using the client's private key and sent to the server. When the server sends the session key back, they will encrypt it using their private key. 
             </t></list></t>
-          <t>CipherSuite:
-          <list style="empty"><t> The ciphersuite is a list of all modes of encryption that are supported. For PLS, there will only be two supported cipher suites:
-            <list style = "empty"><t>PLS_RSA_RSA_AES_128_GCM_SHA256</t>
-            <t>PLS_DHE_RSA_AES_128_GCM_SHA256</t></list>
-
-            Where PLS is the protocol, RSA/Diffie Helman Exchange is the key exchange algorithm, followed by the authentication algorithm (RSA for both). Next is the data encryption algorithm (AES 128 GCM for both), and lastly, the hashing algorithm (SHA 256 for both)</t></list></t>
           <t>Certificate:
           <list style="empty"><t> The certificate field is for each side to send their signed certificate. This field is optional after the handshake. </t></list></t>
           <t> Encrypted Data:
@@ -318,27 +323,26 @@ PLS Client                                                                      
    </section>
    
 <section title="Key Derivation">
-    <t>The pre master key sent by the client is a concatenation of the client's hello random and the server's hello random. It is encrypted using the server's public key. After the client sends the pre master key, both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.</t>
+    <t>The pre master key sent by the client is a concatenation of the client's hello random, the server's hello random, and the session key. It is encrypted using RSA of key size 2048 and OAEP padding with the server's public key. After the client sends the pre master key, both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.</t>
     
 
 </section>
-<section title="CipherSuite and Algorithm Specification">
-    <t>As mentioned, PLS will support two ciphersuites: 
+<section title="Algorithms">
+            <t>For PLS, there will only be one supported cipher suite: PLS_RSA_AES_256_GCM_SHA256.
+            
+            <list style = "empty"> <t>1. PLS is the protocol.</t>
+            <t>2. RSA is the encryption algorithm for key transport and authentication. </t>
 
-    <list style="empty"> 
-      <t>1. PLS_RSA_RSA_AES_128_GCM_SHA256</t>
+            <t>3. For bulk data transfer, the encryption algorithm PLS uses is AES 256 GCM.</t>
 
-      <t>2. PLS_DHE_RSA_AES_128_GCM_SHA256</t>
-    </list> </t>
+            <t>4. SHA_256 will be the hashing algorithm used for the key derivation function.</t>
 
-    <t>In both ciphersuites, PLS is the only protocol accepted. For key exchange, there is the option of either RSA or Diffie-Hellman Exchange. RSA is the only algorithm available for authentication. For encryption and message integrity, both ciphersuites will use AES_128_GCM. Lastly, both algorithms will use SHA256 for hashing.</t>
-
-    <t></t>
-
-    <t></t>
+            <t>NOTE: With AES 256 GCM, GCM has to have a unique IV for each iteration. A simple solution to this can be to increment the IV each time data is sent.</t>
+          </list></t>
 </section>
+
 <section title="Error Handling">
-    <t>PLS will handle errors by one side sending a Retry packet to the other side if one of the following errors occur: 
+    <t>PLS will drop packets that have the following errors: 
     <list style="empty">
 
     <t>1. The subject name on the certificate does not match the name of who sent it.</t>
@@ -358,8 +362,9 @@ PLS Client                                                                      
 <section title="Security Considerations">
     <t>There are only two security considerations:
       <list style ="empty">
-        <t>1. Keys will not be reused.</t>
+        <t>1. Only one ciphersuite is used.</t>
         <t>2. PLS is the only protocol that the server will support.</t>
+        <t>3. Keys will not be reused after a session ends.</t>
       </list></t>
 
 </section>
