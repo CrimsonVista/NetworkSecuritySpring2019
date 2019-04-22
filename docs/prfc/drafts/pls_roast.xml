@@ -170,26 +170,25 @@ PLS Client                                                                      
                                                                               |
                                                                               |
                                                                               v
-                                                              +-+-+-+-+-+-+-+-+-+-+-+-+-+-+                          
+                                                              +-+-+-+-+-+-+-+-+-+-+-+-+-+-+      
                                                               |        Server Hello       |
                                                               |         Certificate       |
 --------------------- <-------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |       Client      |                                                     
 |    Authenticates  |                                                     
-|     Certificate   |                                                                                            
+|     Certificate   |                                                                                   
 ---------------------   
           |
           |
           |
           V                                                  
 +-+-+-+-+-+-+-+-+-+-+-+
-|     Session Key     |
+|  Premaster Secret   |
 +-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------> +-+-+-+-+-+-+-+-+-+-+-+-+  
-                                                                  |     Session Key       |
-+-+-+-+-+-+-+-+-+-+-+-+ <---------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+
-|  Premaster Secret   |         
-+  Change Cipher Spec +
-|  Client Finished    |
+                                                                  |    Premaster Secret   |
++-+-+-+-+-+-+-+-+-+-+-+ <---------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+         
+| Change Cipher Spec  |
+|   Client Finished   |
 +-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------> +-+-+-+-+-+-+-+-+-+-+-+-+
           |                                                       |   Change Cipher Spec  |
           |                                                       +    Server Finished    +
@@ -203,7 +202,7 @@ PLS Client                                                                      
           |                                                                   |
           |                                                                   |
           |             -----------------------------------------             |
-          |---------->  |           Key Generation              | <-----------| 
+          |---------->  |  Key Generation (Using Master Secret) | <-----------| 
                         -----------------------------------------
                                             |
                                             |
@@ -236,18 +235,18 @@ PLS Client                                                                      
        			<t><list style="empty">
 							<t>When the client receives the server's certificate, it will verify it using a certificate authority (CA). The CA is a trusted source that knows which certificates are valid and which are not.</t>
             </list></t>
-        <t>Session Keys: </t>
+        <t>Premaster Secret: </t>
             <t><list style="empty">
-              <t>The session key will be sent to the server, encrypted under the server's public key. The server will send it back encrypted under the client's public key. This session key will establish trust between the client and server, and it will be used for the premaster secret that is sent afterwards. </t>
+              <t>The premaster secret will be sent to the server, encrypted under the server's public key. The server will send it back encrypted under the client's public key. This premaster secret will establish trust between the client and server, and it will be used for the premaster secret that is sent afterwards. </t>
             </list></t>
 
         <t>Client Finished: </t>
             <t><list style="empty">
-              <t>The client will send a finished message to let the server know that they are done with verification. The client will also send the premaster secret and a cipher spec change request to let the server know to switch to symmetric encryption. </t>
+              <t>The client will send a finished message to let the server know that they are done with verification. The client will also scipher spec change request to let the server know to switch to symmetric encryption. </t>
             </list></t>
           <t>Server Finished: </t>
             <t><list style="empty">
-              <t>The server will respond with a finished message along with the client's cipher spec change. This will signal to the client that the server is done verifying and that the server knows to use the shared key.</t>
+              <t>The server will respond with a finished message along with the client's cipher spec change. This will signal to the client that the server is done verifying and that the server knows to use the derived shared keys.</t>
             </list></t>
      </section>
      
@@ -262,11 +261,10 @@ PLS Client                                                                      
             DEFINITION_VERSION = "1.0"
             FIELDS = [
               ("Type", STRING), 
-              ("Session Key", STRING)
+              ("Premaster_Secret", UINT32) {OPTIONAL}
               ("Random", UINT32){OPTIONAL},
               ("Certificate", LIST(BUFFER)){OPTIONAL}, 
-              ("Encrypted Data", BUFFER)
-              ("Signature", STRING {OPTIONAL})
+              ("Encrypted_Data", BUFFER)
             ]
                   ]]>
           </artwork>
@@ -275,20 +273,18 @@ PLS Client                                                                      
       <t>As shown in the figure above, the PLS packet will have the following fields:
         <list>
           <t>Type: 
-            <list style="empty"> <t>The type can be one of four options: Hello, Finished, Data, and Close. Hello is the first type that will initiate the PLS handshake. Finished is used by each side to let the other know that their side is finished with negotiating the protocol, ciphersuite, shared key, and with verifying the certificates. Data is used to let each side know that there is data coming through. Close will alert the other side to stop sending any data.
+            <list style="empty"> <t>The type can be one of five options: Hello, KeyTransport, Finished, Data, and Close. Hello is the first type that will initiate the PLS handshake. Finished is used by each side to let the other know that their side is finished with negotiating the protocol, ciphersuite, shared key, and with verifying the certificates. Data is used to let each side know that there is data coming through. Close will alert the other side to stop sending any data.
             </t></list></t>
           <t> Random: 
             <list style="empty"> <t>The random is a 32 bit randomly generated number that is sent during the hello message.
             </t></list></t>
-          <t> Session Key: 
-            <list style="empty"> <t>The session key is generated by the client. This key will be used in creating the premaster secret. It is initially encrypted using the server's public key and sent to the server. When the server sends the session key back, they will encrypt it using the client's public key. 
+          <t> Premaster Secret: 
+            <list style="empty"> <t>The premaster secret is a 32 bit randomly generated by the client. This key will be used in creating the master secret. It is initially encrypted using the server's public key and sent to the server. When the server sends the premaster secret back, they will encrypt it using the client's public key. 
             </t></list></t>
           <t>Certificate:
-          <list style="empty"><t> The certificate field is for each side to send their signed certificate chain. which is made up of the root certificate and the intermediary certificate. This field is optional after the handshake. </t></list></t>
+          <list style="empty"><t> The certificate field is for each side to send their signed certificate chain. which is made up of the root certificate, the intermediary certificate, and the individual certificate. This field is optional after the handshake. </t></list></t>
           <t> Encrypted Data:
           <list style="empty"><t>This field is the encrypted data that we want to send between the client and the server.</t></list></t>
-          <t> Signature:
-          <list style="empty"><t>After the handshake, each packet of data will be signed by the sender using the sender's private key. This field is optional.</t></list></t>
         </list>
       </t>
        
@@ -297,21 +293,25 @@ PLS Client                                                                      
    </section>
    <section title="Certificate">
      <t>
-      Certificates provide information as to whether the client and server are who they are claiming to be. For PLS, the certificates will be a simpler version of the X.509 certificate as shown below: 
+      Certificates provide information as to whether the client and server are who they are claiming to be. For PLS, we will use the X.509 certificate as shown below: 
 
       <figure>
           <artwork><![CDATA[
 
 
 -+-+-+-+-+-+-+-+-+-+-+-+-                
-|     PLS Certificate   |                 
+| PLS.509 Certificate   |                 
 +-+-+-+-+-+-+-+-+-+-+-+-+      
-| Version Number        |
-+ Issuer Name           +
-| Subject Name          |               
-+ Public Key            +
-| Public Key Algorithm  |
+|     Version Number    |
++     Serial Number     +
+|     Validity Period   | 
++       Issuer Name     +
+|      Subject Name     |               
++       Public Key      +
+|  Public Key Algorithm |
 + Certificate Signature +
+|    Issuer Unique ID   | 
++   Subject Unique ID   + 
 |+-+-+-+-+-+-+-+-+-+-+-+|
 
 
@@ -319,11 +319,11 @@ PLS Client                                                                      
           </artwork>
       </figure>
     </t>
-    <t>For PLS, there will be one Intermediary CA for each address block. For example, there will be Intermediary CA's for 20191.1, 20191.2, 20191.3, 20191.4,, 20191.5, and 20191.6. The Intermediary CA will reference the root certificate as the issuer. Each Root CA will have signed the Intermediary CA. The Root CA should have certificates that are self signed. </t>
+    <t>For PLS, there will be certificates for each individual, that will lead to an intermediary CA (ICA). The individual certificates are self signed, meaning that the issuer and subject name will be the same. The intermediary CA will lead to the Root CA (the bank owner). This is called a certificate chain. There will be one Intermediary CA for each address block. For example, there will be Intermediary CA's for 20191.1, 20191.2, 20191.3, 20191.4, 20191.5, and 20191.6. On the Intermediary certificate, the issuer name is the ICA and the subject name will be the individual's name. ACertificates can be created using openssl. Certificates will be transported in in a serialized PEM format.</t>
    </section>
    
 <section title="Key Derivation">
-    <t>The pre master key sent by the client is a concatenation of the client's hello random, the server's hello random, and the session key. It is encrypted using RSA of key size 2048 and OAEP padding with the server's public key. After the client sends the pre master key, both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.</t>
+    <t>The master key is a concatenation of the client's hello random, the server's hello random, and the premaster secret. It is encrypted using RSA of key size 2048 and OAEP padding with the server's public key. Both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.</t>
     
 
 </section>
@@ -333,16 +333,18 @@ PLS Client                                                                      
             <list style = "empty"> <t>1. PLS is the protocol.</t>
             <t>2. RSA is the encryption algorithm for key transport and authentication. </t>
 
-            <t>3. For bulk data transfer, the encryption algorithm PLS uses is AES 256 GCM.</t>
+            <t>3. For bulk data transfer, the encryption algorithm PLS uses is AES 256 GCM. ****Please see note below.****</t>
 
             <t>4. SHA_256 will be the hashing algorithm used for the key derivation function.</t>
 
-            <t>NOTE: With AES 256 GCM, GCM has to have a unique IV for each iteration. A simple solution to this can be to increment the IV each time data is sent.</t>
+            <t>****NOTE: For AES 256 GCM - We will use Authenticated Encryption with Associated Data (AEAD). This provides integrity for the data. We will use the default 16-bit tag that is appended at the end of the data.</t>
+
+             
           </list></t>
 </section>
 
 <section title="Error Handling">
-    <t>PLS will drop packets that have the following errors: 
+    <t>PLS will assume that a connection is made over a reliable transport. Otherwise, it will drop packets that have the following errors: 
     <list style="empty">
 
     <t>1. The subject name on the certificate does not match the name of who sent it.</t>
@@ -364,7 +366,7 @@ PLS Client                                                                      
       <list style ="empty">
         <t>1. Only one ciphersuite is used.</t>
         <t>2. PLS is the only protocol that the server will support.</t>
-        <t>3. Keys will not be reused after a session ends.</t>
+        <t>3. Keys will not be reused during a session.</t>
       </list></t>
 
 </section>
@@ -507,7 +509,10 @@ v05 2007-03-10 EBD    Added preamble to C program example to tell about ABNF and
                      images. Removed meta-characters from comments (causes problems).
 v06 2010-04-01 TT     Changed ipr attribute values to latest ones. Changed date to
                      year only, to be consistent with the comments. Updated the 
-                     IANA guidelines reference from the I-D to the finished RFC.  
+                     IANA guidelines reference from the I-D to the finished RFC. 
+v07 2019-04-21       Changed the handshake diagram.
+v08 2019-04-22       Changed the handshake diagram, updated the certifcates, added more detail about 
+                     how certificates are sent, added more detail about AEAD, removed signature field. 
                      
 SETH NIELSON:
   Altered for PLAYGROUND AND PRFC's
