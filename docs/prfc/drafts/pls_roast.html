@@ -1,0 +1,754 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Post-Interstellar Mining Protocol Layer Security (PLS) Request For Comments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Post-Interstellar Mining Protocol Layer Security (PLS) Request For Comments">
+<meta name="keywords" content="PRFC">
+<meta name="generator" content="xml2rfc v1.35dev (http://xml2rfc.ietf.org/)">
+<style type='text/css'><!--
+        body {
+                font-family: verdana, charcoal, helvetica, arial, sans-serif;
+                font-size: small; color: #000; background-color: #FFF;
+                margin: 2em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-weight: bold; font-style: normal;
+        }
+        h1 { color: #900; background-color: transparent; text-align: right; }
+        h3 { color: #333; background-color: transparent; }
+
+        td.RFCbug {
+                font-size: x-small; text-decoration: none;
+                width: 30px; height: 30px; padding-top: 2px;
+                text-align: justify; vertical-align: middle;
+                background-color: #000;
+        }
+        td.RFCbug span.RFC {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: bold; color: #666;
+        }
+        td.RFCbug span.hotText {
+                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: normal; text-align: center; color: #FFF;
+        }
+
+        table.TOCbug { width: 30px; height: 15px; }
+        td.TOCbug {
+                text-align: center; width: 30px; height: 15px;
+                color: #FFF; background-color: #900;
+        }
+        td.TOCbug a {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+                font-weight: bold; font-size: x-small; text-decoration: none;
+                color: #FFF; background-color: transparent;
+        }
+
+        td.header {
+                font-family: arial, helvetica, sans-serif; font-size: x-small;
+                vertical-align: top; width: 33%;
+                color: #FFF; background-color: #666;
+        }
+        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
+        td.author-text { font-size: x-small; }
+
+        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+        a.info {
+                /* This is the key. */
+                position: relative;
+                z-index: 24;
+                text-decoration: none;
+        }
+        a.info:hover {
+                z-index: 25;
+                color: #FFF; background-color: #900;
+        }
+        a.info span { display: none; }
+        a.info:hover span.info {
+                /* The span will display just on :hover state. */
+                display: block;
+                position: absolute;
+                font-size: smaller;
+                top: 2em; left: -5em; width: 15em;
+                padding: 2px; border: 1px solid #333;
+                color: #900; background-color: #EEE;
+                text-align: left;
+        }
+
+        a { font-weight: bold; }
+        a:link    { color: #900; background-color: transparent; }
+        a:visited { color: #633; background-color: transparent; }
+        a:active  { color: #633; background-color: transparent; }
+
+        p { margin-left: 2em; margin-right: 2em; }
+        p.copyright { font-size: x-small; }
+        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
+        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
+        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+
+        ol.text { margin-left: 2em; margin-right: 2em; }
+        ul.text { margin-left: 2em; margin-right: 2em; }
+        li      { margin-left: 3em; }
+
+        /* RFC-2629 <spanx>s and <artwork>s. */
+        em     { font-style: italic; }
+        strong { font-weight: bold; }
+        dfn    { font-weight: bold; font-style: normal; }
+        cite   { font-weight: normal; font-style: normal; }
+        tt     { color: #036; }
+        tt, pre, pre dfn, pre em, pre cite, pre span {
+                font-family: "Courier New", Courier, monospace; font-size: small;
+        }
+        pre {
+                text-align: left; padding: 4px;
+                color: #000; background-color: #CCC;
+        }
+        pre dfn  { color: #900; }
+        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
+        pre .key { color: #33C; font-weight: bold; }
+        pre .id  { color: #900; }
+        pre .str { color: #000; background-color: #CFF; }
+        pre .val { color: #066; }
+        pre .rep { color: #909; }
+        pre .oth { color: #000; background-color: #FCF; }
+        pre .err { background-color: #FCC; }
+
+        /* RFC-2629 <texttable>s. */
+        table.all, table.full, table.headers, table.none {
+                font-size: small; text-align: center; border-width: 2px;
+                vertical-align: top; border-collapse: collapse;
+        }
+        table.all, table.full { border-style: solid; border-color: black; }
+        table.headers, table.none { border-style: none; }
+        th {
+                font-weight: bold; border-color: black;
+                border-width: 2px 2px 3px 2px;
+        }
+        table.all th, table.full th { border-style: solid; }
+        table.headers th { border-style: none none solid none; }
+        table.none th { border-style: none; }
+        table.all td {
+                border-style: solid; border-color: #333;
+                border-width: 1px 2px;
+        }
+        table.full td, table.headers td, table.none td { border-style: none; }
+
+        hr { height: 1px; }
+        hr.insert {
+                width: 80%; border-style: none; border-width: 0;
+                color: #CCC; background-color: #CCC;
+        }
+--></style>
+</head>
+<body>
+
+<table border="0" cellpadding="0" cellspacing="2" width="30" align="right">
+    <tr>
+        <td class="RFCbug">
+                <span class="RFC">&nbsp;RFC&nbsp;</span><br /><span class="hotText">&nbsp;1&nbsp;</span>
+        </td>
+    </tr>
+    <tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a><br /></td></tr>
+</table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">Network Working Group</td><td class="header">R. , Ed.</td></tr>
+<tr><td class="header">Request for Comments: 1</td><td class="header">JHU Network Security Spring 2019</td></tr>
+<tr><td class="header">Category: Standards Track</td><td class="header">April 2019</td></tr>
+</table></td></tr></table>
+<h1><br />Post-Interstellar Mining Protocol Layer Security (PLS) Request For Comments</h1>
+
+<h3>Abstract</h3>
+
+<p>Post-Interstellar Mining Protocol Layer Security (PLS) is a proposed transport layer security
+       protocol that provides key authentication and confidentiality on the Playground environment.
+       PLS is a simplified, TLS-like protocol. PLS simplifies the protocol by using a simpler ciphersuite for encryption.
+</p>
+<h3>Status of this Memo</h3>
+<p>
+This document specifies a Playgrounds standards track protocol for the Playground
+Experiment, and requests discussion and suggestions for improvements.
+Distribution of this memo is unlimited.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright (c) 2019 SETH JAMES NIELSON. All rights reserved.</p>
+<p>
+This document is used solely for educational purposes. Any citations
+within this document are also for educational purposes and also for
+technical reference. If any of these cited elements are protected
+under copyright, their inclusion here falls under Fair Use provisions.</p>
+<a name="toc"></a><hr />
+
+<table border="0" cellpadding="0" cellspacing="2" width="30" align="right">
+    <tr>
+        <td class="RFCbug">
+                <span class="RFC">&nbsp;RFC&nbsp;</span><br /><span class="hotText">&nbsp;1&nbsp;</span>
+        </td>
+    </tr>
+    <tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a><br /></td></tr>
+</table>
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#anchor1">1.</a>&nbsp;
+Preface<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor2">1.1.</a>&nbsp;
+Requirements Language<br />
+<a href="#anchor3">2.</a>&nbsp;
+Motivation<br />
+<a href="#anchor4">3.</a>&nbsp;
+Handshake<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor5">3.1.</a>&nbsp;
+Handshake Description<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#anchor6">3.2.</a>&nbsp;
+Packet Description<br />
+<a href="#anchor7">4.</a>&nbsp;
+Certificate<br />
+<a href="#anchor8">5.</a>&nbsp;
+Key Derivation<br />
+<a href="#anchor9">6.</a>&nbsp;
+Algorithms<br />
+<a href="#anchor10">7.</a>&nbsp;
+Error Handling<br />
+<a href="#anchor11">8.</a>&nbsp;
+PLS Shutdown<br />
+<a href="#anchor12">9.</a>&nbsp;
+Security Considerations<br />
+<a href="#anchor13">10.</a>&nbsp;
+PRFC Revision Process<br />
+<a href="#anchor14">11.</a>&nbsp;
+Copyright Information<br />
+<a href="#rfc.references1">12.</a>&nbsp;
+Normative References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Author's Address<br />
+<a href="#rfc.copyright">&#167;</a>&nbsp;
+Intellectual Property and Copyright Statements<br />
+</p>
+<br clear="all" />
+
+<a name="anchor1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;
+Preface</h3>
+
+<p>This document describes Network Security Spring 2019
+     Transport Layer Security Protocol. It draws heavily from the Transport Layer Security 1.3 Protocol RFC. 
+</p>
+<a name="anchor2"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1.1"></a><h3>1.1.&nbsp;
+Requirements Language</h3>
+
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+       document are to be interpreted as described in <a class='info' href='#RFC8446'>RFC 8446<span> (</span><span class='info'>Rescorla, E., &ldquo;The Transport Layer Security (TLS) Protocol Version 1.3,&rdquo; August&nbsp;2018.</span><span>)</span></a> [RFC8446].
+</p>
+<a name="anchor3"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;
+Motivation</h3>
+
+<p>For applications running in the Playground environment to reliably 
+      communicate, there should be a secure way for two entities to send and receive data without
+      fear of a third-party intercepting their communication. The PLS protocol will have the following requirements met:
+      </p>
+<ol class="text">
+<li>Confidentiality: Any data sent using PLS will only be visible to the sender and receiver.
+</li>
+<li>Integrity: If data is modified using PLS, it will be detected.
+</li>
+<li>Authentication: Both the client and the server will be authenticated using certificates.
+</li>
+</ol><p>
+    
+</p>
+<p>This protocol is closely related to the TLS 1.3. Specifically, our protocol follows the same handshake agreement with the addition of the client verification.
+</p>
+<p>The handshake is where the client and server will negotiate protocol versions, which algorithms will be used, and what the shared secret key will be moving forward.
+</p>
+<p>There are two main phases of the PLS handshake: key transport and authentication. For key transport, the client will send its hello and certificate. The server will send their hello message and their certificate.  For authentication, the client and server verify the certificates with the appropriate certificate authority and generate keys with the premaster secret. After this, a change cipher spec message will be sent to the server to let the server know to use the generated keys for bulk transfer. Then the client will send their finished message, and the server will send their finished message after confirming the cipher spec change.
+</p>
+<a name="anchor4"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;
+Handshake</h3>
+
+<p>
+    
+<p style='text-align: center'>The following artwork demonstrates the PLS Handshake:
+</p><div style='display: table; width: 0; margin-left: auto; margin-right: auto'><pre>
+PLS Client                                                                       PLS Server
+
++-+-+-+-+-+-+-+-+-+-+
+|    Client Hello   |
+|     Certificate   |
++-+-+-+-+-+-+-+-+-+-+ -------------------------------------------&gt; ------------------------
+                                                                   |       Server         |
+                                                                   |    Authenticates     |
+                                                                   |     Certificate      |
+                                                                   ------------------------
+                                                                              |
+                                                                              |
+                                                                              |
+                                                                              v
+                                                              +-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                                                              |        Server Hello       |
+                                                              |         Certificate       |
+--------------------- &lt;-------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|       Client      |
+|    Authenticates  |
+|     Certificate   |
+---------------------
+          |
+          |
+          |
+          V
++-+-+-+-+-+-+-+-+-+-+-+
+|  Premaster Secret   |
++-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------&gt; +-+-+-+-+-+-+-+-+-+-+-+-+
+                                                                  |    Premaster Secret   |
++-+-+-+-+-+-+-+-+-+-+-+ &lt;---------------------------------------- +-+-+-+-+-+-+-+-+-+-+-+-+
+| Change Cipher Spec  |
+|   Client Finished   |
++-+-+-+-+-+-+-+-+-+-+-+ ----------------------------------------&gt; +-+-+-+-+-+-+-+-+-+-+-+-+
+          |                                                       |   Change Cipher Spec  |
+          |                                                       +    Server Finished    +
+          |             &lt;---------------------------------------- |+-+-+-+-+-+-+-+-+-+-+-+|
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |                                                                   |
+          |             -----------------------------------------             |
+          |----------&gt;  |  Key Generation (Using Master Secret) | &lt;-----------|
+                        -----------------------------------------
+                                            |
+                                            |
+                                            |
+                                            |
+                                            V
+------------------------------------- Encrypted Data --------------------------------------
+
+
+</pre></div>
+<p style='text-align: center'>
+        PLS Handshake Diagram
+      
+</p>
+	   
+
+<a name="anchor5"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
+Handshake Description</h3>
+
+<p>Client Hello:
+</p>
+<p></p>
+<blockquote class="text">
+<p> When the client wants to connect to a specific server, it will send a hello message. This hello message is a random message. Along with the hello, the client will send the ciphersuites it supports and a certificate with their public key.
+</p>
+</blockquote>
+
+<p>Server Authenticates Client Certificate: 
+</p>
+<p></p>
+<blockquote class="text">
+<p>The server will use a trusted certificate authority (CA) to verify the client's certificate.
+</p>
+</blockquote>
+
+<p>Server Hello: 
+</p>
+<p></p>
+<blockquote class="text">
+<p>The server will respond with a hello message, which is also random. With the hello message, the server will send their certificate.
+</p>
+</blockquote>
+
+<p>Client Authenticates Server Certificate:
+</p>
+<p></p>
+<blockquote class="text">
+<p>When the client receives the server's certificate, it will verify it using a certificate authority (CA). The CA is a trusted source that knows which certificates are valid and which are not.
+</p>
+</blockquote>
+
+<p>Premaster Secret: 
+</p>
+<p></p>
+<blockquote class="text">
+<p>The premaster secret will be sent to the server, encrypted under the server's public key. The server will send it back encrypted under the client's public key. This premaster secret will establish trust between the client and server, and it will be used for the premaster secret that is sent afterwards. 
+</p>
+</blockquote>
+
+<p>Client Finished: 
+</p>
+<p></p>
+<blockquote class="text">
+<p>The client will send a finished message to let the server know that they are done with verification. The client will also scipher spec change request to let the server know to switch to symmetric encryption. 
+</p>
+</blockquote>
+
+<p>Server Finished: 
+</p>
+<p></p>
+<blockquote class="text">
+<p>The server will respond with a finished message along with the client's cipher spec change. This will signal to the client that the server is done verifying and that the server knows to use the derived shared keys.
+</p>
+</blockquote>
+
+<a name="anchor6"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
+Packet Description</h3>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+        from playground.network.packet import PacketType
+        from playground.network.packet.fieldtypes
+                              import UINT32, STRING, BUFFER, BOOLEAN
+        class PLSPacket(PacketType):
+            DEFINITION_IDENTIFIER = "PLS.Packet"
+            DEFINITION_VERSION = "1.0"
+            FIELDS = [
+              ("Type", STRING),
+              ("Premaster_Secret", UINT32) {OPTIONAL}
+              ("Random", UINT32){OPTIONAL},
+              ("Certificate", LIST(BUFFER)){OPTIONAL},
+              ("Encrypted_Data", BUFFER)
+            ]
+
+</pre></div>
+<p>As shown in the figure above, the PLS packet will have the following fields:
+        </p>
+<blockquote class="text">
+<p>Type: 
+            </p>
+<blockquote class="text">
+<p>The type can be one of five options: Hello, KeyTransport, Finished, Data, and Close. Hello is the first type that will initiate the PLS handshake. Finished is used by each side to let the other know that their side is finished with negotiating the protocol, ciphersuite, shared key, and with verifying the certificates. Data is used to let each side know that there is data coming through. Close will alert the other side to stop sending any data.
+            
+</p>
+</blockquote>
+
+<p> Random: 
+            </p>
+<blockquote class="text">
+<p>The random is a 32 bit randomly generated number that is sent during the hello message.
+            
+</p>
+</blockquote>
+
+<p> Premaster Secret: 
+            </p>
+<blockquote class="text">
+<p>The premaster secret is a 32 bit randomly generated by the client. This key will be used in creating the master secret. It is initially encrypted using the server's public key and sent to the server. When the server sends the premaster secret back, they will encrypt it using the client's public key. 
+            
+</p>
+</blockquote>
+
+<p>Certificate:
+          </p>
+<blockquote class="text">
+<p> The certificate field is for each side to send their signed certificate chain. which is made up of the root certificate, the intermediary certificate, and the individual certificate. This field is optional after the handshake. 
+</p>
+</blockquote>
+
+<p> Encrypted Data:
+          </p>
+<blockquote class="text">
+<p>This field is the encrypted data that we want to send between the client and the server.
+</p>
+</blockquote>
+
+</blockquote><p>
+      
+</p>
+<a name="anchor7"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;
+Certificate</h3>
+
+<p>
+      Certificates provide information as to whether the client and server are who they are claiming to be. For PLS, we will use the X.509 certificate as shown below: 
+
+      </p>
+<div style='display: table; width: 0; margin-left: 3em; margin-right: auto'><pre>
+
+
+-+-+-+-+-+-+-+-+-+-+-+-+-
+| PLS.509 Certificate   |
++-+-+-+-+-+-+-+-+-+-+-+-+
+|     Version Number    |
++     Serial Number     +
+|     Validity Period   |
++       Issuer Name     +
+|      Subject Name     |
++       Public Key      +
+|  Public Key Algorithm |
++ Certificate Signature +
+|    Issuer Unique ID   |
++   Subject Unique ID   +
+|+-+-+-+-+-+-+-+-+-+-+-+|
+
+
+
+</pre></div><p>
+
+    
+</p>
+<p>For PLS, there will be certificates for each individual, that will lead to an intermediary CA (ICA). The individual certificates are self signed, meaning that the issuer and subject name will be the same. The intermediary CA will lead to the Root CA (the bank owner). This is called a certificate chain. There will be one Intermediary CA for each address block. For example, there will be Intermediary CA's for 20191.1, 20191.2, 20191.3, 20191.4, 20191.5, and 20191.6. On the Intermediary certificate, the issuer name is the ICA and the subject name will be the individual's name. ACertificates can be created using openssl. Certificates will be transported in in a serialized PEM format.
+</p>
+<a name="anchor8"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.5"></a><h3>5.&nbsp;
+Key Derivation</h3>
+
+<p>The master key is a concatenation of the client's hello random, the server's hello random, and the premaster secret. It is encrypted using RSA of key size 2048 and OAEP padding with the server's public key. Both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.
+</p>
+<a name="anchor9"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.6"></a><h3>6.&nbsp;
+Algorithms</h3>
+
+<p>For PLS, there will only be one supported cipher suite: PLS_RSA_AES_256_GCM_SHA256.
+            
+            </p>
+<blockquote class="text">
+<p>1. PLS is the protocol.
+</p>
+<p>2. RSA is the encryption algorithm for key transport and authentication. 
+</p>
+<p>3. For bulk data transfer, the encryption algorithm PLS uses is AES 256 GCM. ****Please see note below.****
+</p>
+<p>4. SHA_256 will be the hashing algorithm used for the key derivation function.
+</p>
+<p>****NOTE: For AES 256 GCM - We will use Authenticated Encryption with Associated Data (AEAD). This provides integrity for the data. We will use the default 16-bit tag that is appended at the end of the data.
+</p>
+</blockquote>
+
+<a name="anchor10"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.7"></a><h3>7.&nbsp;
+Error Handling</h3>
+
+<p>PLS will assume that a connection is made over a reliable transport. Otherwise, it will drop packets that have the following errors: 
+    </p>
+<blockquote class="text">
+<p>1. The subject name on the certificate does not match the name of who sent it.
+</p>
+<p>2. The signature on the certificate cannot be verified.
+</p>
+<p>3. The Intermediary CA cannot verify the certificate.
+</p>
+<p>4. The Root CA cannot verify the certificate.
+</p>
+</blockquote>
+
+<p>If the error is not corrected after the second attempt, a close packet will be sent, and a connection will not be made.
+</p>
+<a name="anchor11"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.8"></a><h3>8.&nbsp;
+PLS Shutdown</h3>
+
+<p>Either side has the option to close the connection. If one side send the other a packet of type 'Close,' then no more data will be sent on the channel.
+</p>
+<a name="anchor12"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.9"></a><h3>9.&nbsp;
+Security Considerations</h3>
+
+<p>There are only two security considerations:
+      </p>
+<blockquote class="text">
+<p>1. Only one ciphersuite is used.
+</p>
+<p>2. PLS is the only protocol that the server will support.
+</p>
+<p>3. Keys will not be reused during a session.
+</p>
+</blockquote>
+
+<a name="anchor13"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.10"></a><h3>10.&nbsp;
+PRFC Revision Process</h3>
+
+<p>Once a PRFC is officially published by the PETF, it cannot be modified further
+   for any reason. A new PRFC must be submitted that identifies the errors and 
+   proposes to "update" or "supercede" the previous document.
+</p>
+<p>A PRFC MUST use the "update" reference if the changes do not result in an
+   incompatible protocol and the old protocol is not shown to be insecure. 
+   Changes to PRFC's that are "updates" include:
+</p>
+<p></p>
+<ol class="text">
+<li>Corrections to spelling, grammar, and other wording in the document
+</li>
+<li>Additional details about operations and operational considerations
+</li>
+<li>Additional parameters or interactions to the existing protocol
+</li>
+</ol>
+
+<p>A PRFC MUST use the "supercede" reference if the changes result in an incompatible
+   protocol OR if the previous protocol is demonstrated to be insecure.
+</p>
+<p>Approval from the PETF MUST be obtained if approval was required for the original
+   PRFC.
+</p>
+<p>A PRFC submitted without PETF approval MUST be revised only by the same PLAYGROUND
+   group that submitted the original.
+</p>
+<a name="anchor14"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.11"></a><h3>11.&nbsp;
+Copyright Information</h3>
+
+<p>The PLAYGROUND experiment is still new and has not yet developed
+    a policy that has been reviewed by legal counsel. However, at present,
+    the following text MUST be used in the PRFC's.
+</p>
+<p>The copyright notice on the front page of the PRFC should read:
+    "Copyright (c) 2017 SETH JAMES NIELSON.  All rights reserved.
+</p>
+<p>This document is used solely for educational purposes.  Any citations
+   within this document are also for educational purposes and also for
+   technical reference.  If any of these cited elements are protected
+   under copyright, their inclusion here falls under Fair Use
+   provisions."
+</p>
+<p>Student authors MUST grant copyrights to SETH JAMES NIELSON. However,
+   they may also retain copyrights for themselves and add their names to the
+   copyright notice accordingly.
+</p>
+<p> The final page of the PRFC MUST include a section entitled 
+   "Full Copyright Statement" that reads:
+</p>
+<p>"Copyright (C) Seth James Nielson (2017).  All Rights Reserved.
+</p>
+<p>This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the PLAYGROUND experiment or
+   other associated organizations, except by explicit permission.
+</p>
+<p>The limited permissions granted above are perpetual and will not be
+   revoked by SETH JAMES NIELSON or his successors or assigns.
+</p>
+<p>This document and the information contained herein is provided on an
+   "AS IS" basis and SETH JAMES NIELSON and associated academic
+   institutions DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE."
+</p>
+<p>After the "Full Copyright Statement" the PRFC MUST include a section
+   entitled "Intellectual Property" that reads:
+</p>
+<p>The PLAYGROUND framework and student submissions for PLAYGROUND are
+   intended to be free of any intellectual property conflicts.  All
+   submitting parties, especially students, are not allowed to submit
+   source code, specifications, or other components that are known to be
+   protected by copyright, patents, or other IP mechanisms.  Students
+   submitting creative content grant shared rights and ownership of
+   their content to the PLAYGROUND project.  Specifically, any
+   submission can be used in future educational settings including
+   subsequent PLAYGROUND experiments.
+</p>
+<p>Any interested party is invited to bring to the experiment director's
+   attention any copyrights, patents or patent applications, or other
+   proprietary rights which may cover technology that may be currently
+   in use without permission.
+</p>
+<p>It should be noted that these statements have not been reviewed by
+   legal counsel.  Moreover, the academic institutions at which
+   PLAYGROUND experiments take place may have additional or even
+   conflicting copyright and intellectual property rules.  Accordingly,
+   concerned parties may need to contact their own lawyer and/or
+   resources at their institution to understand the rights and
+   limitations associated with code donated to a PLAYGROUND experiment."
+</p>
+<p>As with the initial copyright notice, the Copyright assignment to
+   Seth James Nielson can be agumented the the names of the authors.
+</p>
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>12.&nbsp;Normative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC8446">[RFC8446]</a></td>
+<td class="author-text">Rescorla, E., &ldquo;<a href="https://www.rfc-editor.org/info/rfc8446">The Transport Layer Security (TLS) Protocol Version 1.3</a>,&rdquo; RFC&nbsp;8446, DOI&nbsp;10.17487/RFC8446, August&nbsp;2018.</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Roast My Professor (editor)</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">JHU Network Security Spring 2019</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">JHU 160 Malone Hall/3400 North Charles St.</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Baltimore, MD  21218</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">USA</td></tr>
+</table>
+<a name="rfc.copyright"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Full Copyright Statement</h3>
+<p class='copyright'>
+Copyright &copy; Seth James Nielson (2019). All Rights Reserved.</p>
+<p class='copyright'>
+This document and translations of it may be copied and furnished to
+others, and derivative works that comment on or otherwise explain it
+or assist in its implementation may be prepared, copied, published and
+distributed, in whole or in part, without restriction of any kind,
+provided that the above copyright notice and this paragraph are
+included on all such copies and derivative works. However, this
+document itself may not be modified in any way, such as by removing
+the copyright notice or references to the PLAYGROUND experiment or other
+associated organizations, except by explicit permission.</p>
+<p class='copyright'>
+The limited permissions granted above are perpetual and will not be
+revoked by SETH JAMES NIELSON or his successors or assigns.</p>
+<p class='copyright'>
+This document and the information contained herein is provided on an
+&ldquo;AS IS&rdquo; basis and SETH JAMES NIELSON and associated academic institutions
+DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
+<h3>Intellectual Property</h3>
+<p class='copyright'>
+The PLAYGROUND framework and student submissions for
+PLAYGROUND are intended to be free of any intellectual
+property conflicts. All submitting parties, especially students,
+are not allowed to submit source code, specifications, or 
+other components that are known to be protected by copyright,
+patents, or other IP mechanisms. Students submitting creative
+content grant shared rights and ownership of their content to
+the PLAYGROUND project. Specifically, any submission can be
+used in future educational settings including subsequent PLAYGROUND
+experiments.</p>
+<p class='copyright'>
+Any interested party is invited to bring to the experiment director's
+attention any copyrights, patents or patent applications, or
+other proprietary rights which may cover technology that may be
+currently in use without permission.</p>
+<p class='copyright'>
+It should be noted that these statements have not been reviewed
+by legal counsel. Moreover, the academic institutions at
+which PLAYGROUND experiments take place may have additional 
+or even conflicting copyright and intellectual property rules.
+Accordingly, concerned parties may need to contact their own lawyer
+and/or resources at their institution to understand the rights and
+limitations associated with code donated to a PLAYGROUND experiment.</p>
+</body></html>
