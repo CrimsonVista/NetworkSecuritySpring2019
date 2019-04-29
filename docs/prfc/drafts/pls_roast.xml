@@ -261,8 +261,8 @@ PLS Client                                                                      
             DEFINITION_VERSION = "1.0"
             FIELDS = [
               ("Type", STRING), 
-              ("Premaster_Secret", UINT32) {OPTIONAL}
-              ("Random", UINT32){OPTIONAL},
+              ("Premaster_Secret", BUFFER) {OPTIONAL}
+              ("Random", BUFFER){OPTIONAL},
               ("Certificate", LIST(BUFFER)){OPTIONAL}, 
               ("Encrypted_Data", BUFFER)
             ]
