@@ -261,10 +261,10 @@ PLS Client                                                                      
             DEFINITION_VERSION = "1.0"
             FIELDS = [
               ("Type", STRING), 
-              ("Premaster_Secret", BUFFER) {OPTIONAL}
-              ("Random", BUFFER){OPTIONAL},
-              ("Certificate", LIST(BUFFER)){OPTIONAL}, 
-              ("Encrypted_Data", BUFFER)
+              ("Premaster_Secret", BUFFER({Optional:True})
+              ("Random", BUFFER({Optional:True}),
+              ("Certificate", LIST(BUFFER, {Optional:True})), 
+              ("Encrypted_Data", BUFFER({Optional:True}))
             ]
                   ]]>
           </artwork>
@@ -324,8 +324,26 @@ PLS Client                                                                      
    
 <section title="Key Derivation">
     <t>The master key is a concatenation of the client's hello random, the server's hello random, and the premaster secret. It is encrypted using RSA of key size 2048 and OAEP padding with the server's public key. Both sides will take that key and use HKDF with SHA256 as the hashing function to derive the IV, read and write keys. Since this is symmetric encryption, the read key for the client will be the write key for the server, and the write key for the client will be the read key for the server.</t>
+    <figure>
+          <artwork><![CDATA[
+        master_key = client_random + server_random + Premaster_Secret
+        hkdf = HKDF(
+          algorithm=hashes.SHA256(),
+          length=48,
+          salt=b'',
+          info=None,
+          backend=default_backend()
+        )
+        key = hkdf.derive(master_secret)
+        client_write_key = key[0:16]
+        client_read_key = key[16:32]
+        client_iv = key[32:40]
+        server_iv = key[40:48]
+        ]]>
+          </artwork>
+      </figure>
     
-
+      <t> The IV required for AESGCM is 12 bytes. From the key derivation function, 8 bytes are derived for each IV. The last 4 bits will be a counter that is incremented every time an encrypted packet is sent and received. The counters will start at 0 and increment by 1 from the rightmost. In practice, the counters will start at 0000. When a packet is received/sent, the counter will increment to 0001.  This is called 'Big Endian.'</t>
 </section>
 <section title="Algorithms">
             <t>For PLS, there will only be one supported cipher suite: PLS_RSA_AES_256_GCM_SHA256.
